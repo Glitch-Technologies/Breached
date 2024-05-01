@@ -1,0 +1,5 @@
+# Put locally tracked files you don't want appearing upstream here please.
+# Categories are appreciated
+
+# Visual Studio
+.vscode/
