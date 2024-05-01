@@ -7,3 +7,5 @@ This project was created for a STEM Community Challenge event (2024). It was co-
 If you want to try our game for yourself, just [head to its official landing page](http://glitchtech.top/breached).
 
 Our source code is written in javascript, HTML, and CSS. No compilation required. Designed for Chrome 124.0.6367.118. Feel free to open issues about support for non-chromium browsers, but understand they are not the launchtime priority for this project. Tested on the Windows Surface Pro and a cheap Acer Chromebook, please open an issue if your display is not working.
+
+Special thanks to Isaiah Ramsey for helping us bring this idea to life. :-)
