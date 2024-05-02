@@ -1,8 +1,18 @@
 {
     "1": {
-        "question": "this is a question"
+        "image": "assets/infographics/pet2001-8.gif",
+        "context": "some text about how to solve the issue",
+        "question": "this is a question, testing your skills on solving the problem and what it is"
     },
     "2": {
+        "image": "assets/infographics/pet2001-8.gif",
+        "context": "some different text about how to solve the issue and what it is",
         "question": "this is another question"
+    }
+    ,
+    "3": {
+        "image": "assets/infographics/pet2001-8.gif",
+        "context": "some different-er text about how to solve the issue and what it is",
+        "question": "this is another different question"
     }
 }
