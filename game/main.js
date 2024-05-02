@@ -1,8 +1,5 @@
 // Create a canvas element
 const canvas = document.getElementById('canvas');
-canvas.width = 400;
-canvas.height = 400;
-canvas.height = 400;
 document.body.appendChild(canvas);
 
 let ctx = canvas.getContext('2d'), x = canvas.width / 2, y = canvas.height / 2, rotation = 0;
