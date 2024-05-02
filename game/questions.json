@@ -1,5 +1,5 @@
-{
-    "1": {
+[
+    {
         "image": "assets/infographics/pet2001-8.gif",
         "context": "Your email has been hacked!\n\nYou need to change your password. It should be stronger this time so you don't get hacked again.",
         "question": "Which of the following is a good password",
@@ -7,19 +7,20 @@
         "correct answer index": 1,
         "answer explanation": "'password123' and 'ralph' are too easy to guess, someone could guess those passwords too easily."
     },
-    "2": {
+    {
         "image": "assets/infographics/pet2001-8.gif",
         "context": "some different text about how to solve the issue and what it is",
         "question": "this is another question",
         "answers": ["answer 1", "answer 2"],
-        "correct answer": 1
-    }
-    ,
-    "3": {
+        "correct answer": 1,
+        "answer explanation": ""
+    },
+    {
         "image": "assets/infographics/pet2001-8.gif",
         "context": "some different-er text about how to solve the issue and what it is",
         "question": "this is another different question",
         "answers": ["answer 1", "answer 2"],
-        "correct answer": 1
+        "correct answer": 1,
+        "answer explanation": ""
     }
-}
+]
