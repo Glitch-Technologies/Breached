@@ -9,6 +9,8 @@ let ctx = canvas.getContext('2d'), x = canvas.width / 2, y = canvas.height / 2, 
 
 // Bad implementation of image drawing to canvas
 // Must be async
+
+/*
 async function draw() {
     const img = new Image();
     img.src = "file.png";
@@ -18,38 +20,19 @@ async function draw() {
         renderMap(0,w,h,ctx,0,0);            
     }
 }
+*/
 
-// Function to draw the cube
-function drawCube() {
-    // Clear the canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Save the current transformation matrix
-    ctx.save();
-
-    // Translate to the center of the canvas
-    ctx.translate(x, y);
-
-    // Rotate the cube
-    ctx.rotate(rotation);
-
-   // Draw the cube
-    ctx.fillStyle = 'red';
-    ctx.fillRect(-50, -50, 100, 100);
-
-    // Restore the transformation matrix
-    ctx.restore();
+function drawFrame() {
+    //Frame by frame draw goes here
 }
 
-// Function to update the rotation of the cube
-function updateRotation() {
-    rotation += 0.01;
+function updateLoop() {
+    //Frame by frame updates go here
 }
 
-// Function to animate the cube
 function animate() {
-    updateRotation();
-    drawCube();
+    updateLoop();
+    drawFrame();
     requestAnimationFrame(animate);
 }
 
