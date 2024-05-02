@@ -2,22 +2,32 @@
 const canvas = document.getElementById('canvas');
 document.body.appendChild(canvas);
 
-let ctx = canvas.getContext('2d'), x = canvas.width / 2, y = canvas.height / 2, rotation = 0;
+let ctx = canvas.getContext('2d');
 
-// Bad implementation of image drawing to canvas
-// Must be async
+// Make canvas fullscreen
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-/*
-async function draw() {
-    const img = new Image();
-    img.src = "file.png";
 
-    img.onload = () => {
-        ctx.drawImage(img, 0, 0, w, h);
-        renderMap(0,w,h,ctx,0,0);            
-    }
+function initMainWindow() {
+    // Set the canvas background color to Cisco blue
+    canvas.style.backgroundColor = "rgb(0, 112, 184)";
+    // Draw the text "Breached!" in the top middle of the canvas
+    ctx.font = "48px Arial";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.fillText("Breached!", canvas.width / 2, 50);
+
+
 }
-*/
+
+async function loadImage(name) {
+    const img = new Image(); // Create new img element
+    img.src = ; // Set source path
+}
+
+
+
 
 function drawFrame() {
     //Frame by frame draw goes here
@@ -33,5 +43,12 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-// Start the animation
-animate();
+// All execution code should be wrapped!!!
+function main() {
+    initMainWindow();
+    // Generate the main playing screen
+    animate();
+    // Start the animation
+}
+
+main();
