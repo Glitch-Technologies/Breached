@@ -21,6 +21,10 @@ function initMainWindow() {
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
     ctx.fillText("Breached!", canvas.width / 2, 50);
+    //player = loadLocalImage("player");
+    player = loadSourceImage("../assets/player")
+    // Draw the player in the middle of the canvas
+    
 
 
 }
@@ -30,7 +34,13 @@ async function loadLocalImage(filename) {
     img.src = imagedir[filename]; // Set source contents
 }
 
-
+function loadSourceImage(url) {
+    const img = new Image();
+    img.addEventListener("load", () => {
+        ctx.drawImage(img, 0,0);
+      });
+    img.src = url;
+}
 
 
 function drawFrame() {
