@@ -16,3 +16,5 @@
 1. Work on your own branches
 2. Ask all team leads before pushing upstream to deployment
 3. Don't ever take feedback or advice from Zygaross
+4. Game files should go under `game/`. The main index.html is reserved for the launch page.
+5. Permitted filetypes are .html, .css, .js, .json, .txt, .png, .jpeg, .ogg.
