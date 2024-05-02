@@ -54,6 +54,7 @@ async function loadImage(local = true, identifier) {
         img.onload = () => {
             //loadedImages.push({identifier: img});
             loadedImages[identifier] = img;
+            ctx.drawImage(loadedImages[identifier],0,0);
             //ctx.drawImage(img, 0, 0);
             debug(JSON.stringify(loadedImages));
 
@@ -61,28 +62,6 @@ async function loadImage(local = true, identifier) {
         img.src = url;
     }
 }
-
-async function loadLocalImage(identifier) {
-    const img = new Image(); // Create new img element
-    img.src = imagedir[identifier]; // Set source contents
-    img.onload = () => {
-        ctx.drawImage(img, 0,0);
-        loadedImages.push(identifier);
-    }
-    
-}
-
-function loadSourceImage(url) {
-    const img = new Image();
-    const identifier = url.substring(url.lastIndexOf('/') + 1).split('.')[0];
-
-    img.addEventListener("load", () => {
-        loadedImages.push(identifier);
-        ctx.drawImage(img, 0, 0);
-    });
-    img.src = url;
-}
-
 
 function drawFrame() {
     //Frame by frame draw goes here
