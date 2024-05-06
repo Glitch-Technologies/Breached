@@ -38,11 +38,26 @@ async function scoreQuestion(question_index, answer_index) {
     const response = await fetch("questions.json");
     const json = await response.json();
     console.log(json);
+    var score_change = 0;
     if (answer_index == json[question_index].correct_answer_index) {
-        return json[question_index].point_value;
+        score_change = json[question_index].point_value;
     } else {
-        return 0;
+        score_change = 0;
     }
+    
+    updateGraph(score_change, 5)
+    return score_change
+}
+
+async function updateGraph(score_change, threshold) {
+    var image;
+    if (score_change > 5) {
+        image = "up_arrow.png"
+    } else {
+        image = "down_arrow.png"
+    }
+
+    // draw(image, 50, 50)
 }
 
 // Start the animation
