@@ -1,0 +1,29 @@
+[
+    {
+        "image": "assets/infographics/pet2001-8.gif",
+        "context": "Your email has been hacked!\n\nYou need to change your password. It should be stronger this time so you don't get hacked again.",
+        "question": "Which of the following is a good password",
+        "answers": ["password123", "782PswdG00d)", "ralph"],
+        "correct_answer_index": 1,
+        "answer_explanation": "'password123' and 'ralph' are too easy to guess, someone could guess those passwords too easily.",
+        "point_value": 10
+    },
+    {
+        "image": "assets/infographics/pet2001-8.gif",
+        "context": "some different text about how to solve the issue and what it is",
+        "question": "this is another question",
+        "answers": ["answer 1", "answer 2"],
+        "correct_answer_index": 1,
+        "answer_explanation": "an explanation of the answer",
+        "point_value": 10
+    },
+    {
+        "image": "assets/infographics/pet2001-8.gif",
+        "context": "some different-er text about how to solve the issue and what it is",
+        "question": "this is another different question",
+        "answers": ["answer 1", "answer 2"],
+        "correct_answer_index": 1,
+        "answer_explanation": "an explanation of the answer",
+        "point_value": 10
+    }
+]
