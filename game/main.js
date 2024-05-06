@@ -36,10 +36,8 @@ async function initMainWindow() {
     ctx.textAlign = "center";
     ctx.fillText("Breached!", canvas.width / 2, 50);
     //player = loadImage(true, "player");
-    ctx.drawImage(loadedImages["player"], 0, 0);
-    while (Object.keys(loadedImages).length < remoteImages.length) {
-        await new Promise((resolve) => setTimeout(resolve, 100)); // Wait for 100 milliseconds
-    }
+    simpleDrawImage("player", 0, 0);
+
     //player = loadSourceImage("../assets/player.png")
     // Draw the player in the middle of the canvas
 }
@@ -71,7 +69,7 @@ async function loadImage(local = true, identifier) {
         img.onload = () => {
             //loadedImages.push({identifier: img});
             loadedImages[identifier] = img;
-            ctx.drawImage(loadedImages[identifier], 0, 0);
+            //ctx.drawImage(loadedImages[identifier], 0, 0);
             //ctx.drawImage(img, 0, 0);
             debug(JSON.stringify(loadedImages));
         };
