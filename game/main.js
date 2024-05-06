@@ -45,6 +45,16 @@ async function initMainWindow() {
     
 }
 
+async function simpleDrawImage(identifier, x, y) {
+    const img = new Image();
+    const url = "../assets/"+identifier+".png";
+    img.onload = () => {
+        loadedImages[identifier] = img;
+        ctx.drawImage(loadedImages[identifier],x,y);
+    }
+    img.src = url;
+}
+
 async function loadImage(local = true, identifier) {
     const img = new Image();
     if (local) {
