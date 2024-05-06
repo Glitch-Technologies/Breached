@@ -15,8 +15,10 @@ loadedImages = {};
 remoteImages = ["player", "breached", "down_arrow", "up_arrow"];
 
 async function loadAssets() {
+    const empty_image = new Image();
     for (var i=0; i<remoteImages.length; i++) {
         await loadImage(false, remoteImages[i]);
+        //loadedImages[remoteImages[i]] = empty_image;
     }
 }
 
@@ -35,6 +37,9 @@ async function initMainWindow() {
     ctx.fillText("Breached!", canvas.width / 2, 50);
     //player = loadImage(true, "player");
     ctx.drawImage(loadedImages["player"],0,0);
+    while (Object.keys(loadedImages).length < remoteImages.length) {
+        await new Promise(resolve => setTimeout(resolve, 100)); // Wait for 100 milliseconds
+    }
     //player = loadSourceImage("../assets/player.png")
     // Draw the player in the middle of the canvas
     
