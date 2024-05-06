@@ -91,6 +91,18 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
+async function scoreQuestion(question_index, answer_index) {
+    // update the player's score based on their answer to the question
+    const response = await fetch("questions.json");
+    const json = await response.json();
+    console.log(json);
+    if (answer_index == json[question_index].correct_answer_index) {
+        return json[question_index].point_value;
+    } else {
+        return 0;
+    }
+}
+
 // All execution code should be wrapped!!!
 async function main() {
     await loadAssets();
@@ -101,3 +113,6 @@ async function main() {
 }
 
 main();
+
+// Start the animation
+animate();
