@@ -33,10 +33,16 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-// update the player's score based on their answer to the question
 function scoreQuestion(question_index, answer_index) {
-    
+    // update the player's score based on their answer to the question
 }
 
 // Start the animation
 animate();
+
+/*
+// If you have a JSON file
+fetch('/path/to/your/json/file.json')
+    .then(response => response.json())
+    .then(data => console.log(data));
+*/
