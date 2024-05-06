@@ -36,7 +36,12 @@ async function initMainWindow() {
     ctx.textAlign = "center";
     ctx.fillText("Breached!", canvas.width / 2, 50);
     //player = loadImage(true, "player");
-    simpleDrawImage("player", 0, 0);
+    simpleDrawImage("player", 50, (canvas.height / 4)/*Todo: subtract half of player sprite height*/);
+
+    
+    // Graph Region
+    ctx.fillStyle = "white";
+    ctx.fillRect((canvas.width/2-250), (canvas.height/2-250), 500, 500);
 
     //player = loadSourceImage("../assets/player.png")
     // Draw the player in the middle of the canvas
