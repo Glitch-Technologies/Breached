@@ -3,3 +3,9 @@
 
 # Visual Studio
 .vscode/
+
+# Replit
+.replit
+package-lock.json
+package.json
+replit.nix
