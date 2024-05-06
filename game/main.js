@@ -77,14 +77,25 @@ async function loadImage(local = true, identifier) {
     if (local) {
         img.src = imagedir[identifier]; // Set source contents
         img.onload = () => {
+<<<<<<< HEAD
+            //ctx.drawImage(img, 0,0);
+            loadedImages.push({identifier: img});
+
+        }
+=======
             ctx.drawImage(img, 0, 0);
             loadedImages.push({ identifier: img });
         };
+>>>>>>> 9b364536b26497654885c9334bf5a4d0f89fb921
     } else {
         const url = "../assets/" + identifier + ".png";
         img.onload = () => {
             loadedImages[identifier] = img;
+<<<<<<< HEAD
+            //ctx.drawImage(loadedImages[identifier],0,0);
+=======
             //ctx.drawImage(loadedImages[identifier], 0, 0);
+>>>>>>> 9b364536b26497654885c9334bf5a4d0f89fb921
             //ctx.drawImage(img, 0, 0);
             debug(JSON.stringify(loadedImages));
         };
