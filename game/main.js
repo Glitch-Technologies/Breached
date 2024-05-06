@@ -108,6 +108,7 @@ async function scoreQuestion(question_index, answer_index) {
     }
 }
 
+
 // All execution code should be wrapped!!!
 async function main() {
     await loadAssets();
@@ -119,5 +120,7 @@ async function main() {
 
 main();
 
-// Start the animation
-animate();
+
+
+
+
