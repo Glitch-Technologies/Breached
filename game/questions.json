@@ -5,7 +5,8 @@
         "question": "Which of the following is a good password",
         "answers": ["password123", "782PswdG00d)", "ralph"],
         "correct answer index": 1,
-        "answer explanation": "'password123' and 'ralph' are too easy to guess, someone could guess those passwords too easily."
+        "answer explanation": "'password123' and 'ralph' are too easy to guess, someone could guess those passwords too easily.",
+        "point_value": 10
     },
     {
         "image": "assets/infographics/pet2001-8.gif",
@@ -13,7 +14,8 @@
         "question": "this is another question",
         "answers": ["answer 1", "answer 2"],
         "correct answer": 1,
-        "answer explanation": ""
+        "answer explanation": "an explanation of the answer",
+        "point_value": 10
     },
     {
         "image": "assets/infographics/pet2001-8.gif",
@@ -21,6 +23,7 @@
         "question": "this is another different question",
         "answers": ["answer 1", "answer 2"],
         "correct answer": 1,
-        "answer explanation": ""
+        "answer explanation": "an explanation of the answer",
+        "point_value": 10
     }
 ]

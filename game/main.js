@@ -33,8 +33,9 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
+// update the player's score based on their answer to the question
 function scoreQuestion(question_index, answer_index) {
-    // update the player's score based on their answer to the question
+    
 }
 
 // Start the animation
