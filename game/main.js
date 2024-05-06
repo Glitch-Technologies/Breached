@@ -35,7 +35,7 @@ function animate() {
 
 async function scoreQuestion(question_index, answer_index) {
     // update the player's score based on their answer to the question
-    const response = await fetch("test.json");
+    const response = await fetch("questions.json");
     const json = await response.json();
     console.log(json);
     if (answer_index == json[question_index].correct_answer_index) {
