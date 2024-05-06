@@ -9,5 +9,11 @@
 package-lock.json
 package.json
 replit.nix
+
+# Replit
+.replit
+package-lock.json
+package.json
+replit.nix
 .upm/
 node_modules/
