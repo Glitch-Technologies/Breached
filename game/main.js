@@ -22,10 +22,21 @@ async function loadAssets() {
     }
 }
 
-function debug(text) {
+function debug(text, json=false) {
     let debugText = document.getElementById('debug');
+    debugText.style.visibility = "visible";
+    
     debugText.innerHTML = text;
 }
+
+function wait(ms) {
+    var start = Date.now(),
+    now = start;
+    while (now - start < ms) {
+        now = Date.now();
+    }
+}
+
 
 async function initMainWindow() {
     // Set the canvas background color to Cisco blue
@@ -36,10 +47,14 @@ async function initMainWindow() {
     ctx.textAlign = "center";
     ctx.fillText("Breached!", canvas.width / 2, 50);
     //player = loadImage(true, "player");
+
+    //while (Object.keys(loadedImages).length < remoteImages.length) {
+    
+    wait(3000);
+    const loader = document.getElementById('loader');
+    loader.remove();
+    
     ctx.drawImage(loadedImages["player"],0,0);
-    while (Object.keys(loadedImages).length < remoteImages.length) {
-        await new Promise(resolve => setTimeout(resolve, 100)); // Wait for 100 milliseconds
-    }
     //player = loadSourceImage("../assets/player.png")
     // Draw the player in the middle of the canvas
     
@@ -50,16 +65,15 @@ async function loadImage(local = true, identifier) {
     if (local) {
         img.src = imagedir[identifier]; // Set source contents
         img.onload = () => {
-            ctx.drawImage(img, 0,0);
+            //ctx.drawImage(img, 0,0);
             loadedImages.push({identifier: img});
 
         }
     } else {
         const url = "../assets/"+identifier+".png";
         img.onload = () => {
-            //loadedImages.push({identifier: img});
             loadedImages[identifier] = img;
-            ctx.drawImage(loadedImages[identifier],0,0);
+            //ctx.drawImage(loadedImages[identifier],0,0);
             //ctx.drawImage(img, 0, 0);
             debug(JSON.stringify(loadedImages));
 
