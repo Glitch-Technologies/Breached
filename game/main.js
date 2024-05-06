@@ -3,6 +3,9 @@ const canvas = document.getElementById("canvas");
 document.body.appendChild(canvas);
 
 let ctx = canvas.getContext("2d");
+let ctxLeft = canvas.offsetLeft + ctx.clientLeft
+let ctxTop = canvas.offsetTop + ctx.clientTop
+let elements = [];
 
 // Make canvas fullscreen
 canvas.width = window.innerWidth;
@@ -13,6 +16,21 @@ imagedir = {
 };
 loadedImages = {};
 remoteImages = ["player", "breached", "down_arrow", "up_arrow"];
+
+canvas.addEventListener('click', function(event) {
+    alert('clicked');
+    var x = event.pageX - ctxLeft,
+        y = event.pageY - ctxTop;
+
+    // Collision detection between clicked offset and element.
+    elements.forEach(function(element) {
+        if (y > element.top && y < element.top + element.height 
+            && x > element.left && x < element.left + element.width) {
+            alert('clicked an element');
+        }
+    });
+
+}, false);
 
 async function loadAssets() {
     const empty_image = new Image();
@@ -26,6 +44,8 @@ function debug(text) {
     let debugText = document.getElementById("debug");
     debugText.innerHTML = text;
 }
+
+
 
 async function initMainWindow() {
     // Set the canvas background color to Cisco blue
@@ -41,7 +61,23 @@ async function initMainWindow() {
     
     // Graph Region
     ctx.fillStyle = "white";
+
+    elements.push({
+        width: 500,
+        height: 500,
+        top: (canvas.height/2-250),
+        left: (canvas.width/2-250)
+    });
+
     ctx.fillRect((canvas.width/2-250), (canvas.height/2-250), 500, 500);
+
+    //Event interface Region
+    ctx.fillStyle = "black";
+    ctx.fillRect((canvas.width/2+300), (canvas.height/2+150), 300, 50);
+    ctx.fillRect((canvas.width/2+300), (canvas.height/2+200), 50, 50);
+    ctx.fillRect((canvas.width/2+550), (canvas.height/2+200), 50, 50);
+    simpleDrawImage("ibm5150", (canvas.width/2+375), (canvas.height/2+25));
+
 
     //player = loadSourceImage("../assets/player.png")
     // Draw the player in the middle of the canvas
@@ -55,6 +91,7 @@ async function simpleDrawImage(identifier, x, y) {
         const url = "../assets/" + identifier + ".png";
         img.onload = () => {
             loadedImages[identifier] = img;
+            elements.push(img);
             ctx.drawImage(loadedImages[identifier], x, y);
         };
         img.src = url;
@@ -74,6 +111,7 @@ async function loadImage(local = true, identifier) {
         img.onload = () => {
             //loadedImages.push({identifier: img});
             loadedImages[identifier] = img;
+            elements.push(img);
             //ctx.drawImage(loadedImages[identifier], 0, 0);
             //ctx.drawImage(img, 0, 0);
             debug(JSON.stringify(loadedImages));
