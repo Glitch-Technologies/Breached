@@ -112,7 +112,7 @@ function waitMainCallback(routine) {
         main();
 
     } else {
-        wait(100, waitMainCallback, routine);
+        wait(10000, waitMainCallback, routine);
     }
 
 }
