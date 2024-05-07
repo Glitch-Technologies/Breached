@@ -196,7 +196,7 @@ function main() {
 }
 
 loadAssets();
-wait(100, waitMainCallback());
+wait(5000, waitMainCallback());
 
 
 
