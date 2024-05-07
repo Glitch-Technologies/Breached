@@ -19,26 +19,51 @@ p {
     /* visibility: hidden; */
 }
 
+.holder {
+    width: 100%;
+    height: 100%;
+    position: relative;   
+    z-index: 3;
+}
+
+.iframe {
+    width: 100%;
+    height: 100%;
+  }
+
 .loader {
+    position: absolute;
+    top: 40%;
+    left: 45%;
+    transform: translate(-50%, -50%);
     border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #63686c; /* grey */
+    border-top: 16px solid #2895ee; /* blue */
     border-radius: 50%;
     width: 120px;
     height: 120px;
     animation: spin 2s linear infinite;
-    position: absolute;
-    top: 45%;
-    left: 45%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
 }
 
-#canvas {
+.loader-text {
     position: absolute;
-    top: 50%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
-    
+    color: #fff;
+    font-size: 24px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.fun-facts {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 18px;
+    margin-top: 20px;
+    text-align: center;
 }
 
 @keyframes spin {
