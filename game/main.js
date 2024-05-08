@@ -86,7 +86,7 @@ function initMainWindow() {
         left: (canvas.width/2-250)
     });
 
-    ctx.fillRect((canvas.width/2-250), (canvas.height/2-250), 500, 500);
+    ctx.fillRect((canvas.width/2-250), (canvas.height/2-250), 350, 350);
 
     //Event interface Region
     ctx.fillStyle = "black";
@@ -187,18 +187,19 @@ async function scoreQuestion(question_index, answer_index) {
     }
 }
 
-async function updateGraph(score_change, threshold) {
+function updateGraph(score_change, threshold) {
+    // threshold controls the score difference necessary for the arrow to be green
     var image;
-    if (score_change > 5) {
+    if (score_change >= 5) {
         image = "up_arrow";
     } else {
         image = "down_arrow";
     }
 
-    var top = canvas.height/2-250;
-    var left = canvas.width/2-250;
+    var x = (canvas.width/2-250);
+    var y = (canvas.height/2-250);
 
-    simpleDrawImage(loadedImages[image], top, left)
+    ctx.drawImage(loadedImages[image], x, y)
 }
 
 // All execution code should be wrapped!!!
@@ -211,7 +212,6 @@ function main() {
 
 loadAssets();
 wait(100, waitMainCallback());
-
 
 
 
