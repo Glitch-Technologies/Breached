@@ -71,10 +71,7 @@ canvas.addEventListener('click', function(event) {
         console.log(mouseX);
         console.log(element.left);
         if (mouseX >= element.left && mouseX <= element.left + element.width && mouseY >= element.top && mouseY <= element.top + element.height) {
-        //if (mouseX >= element.left) {
-            // Handle the click event for the specific element
-            // Example: elementClicked(element);
-            alert("clicked an element");
+            openPopup(); //Will open popup when center graph is clicked [NOT FINAL]
         }
     });
 });
