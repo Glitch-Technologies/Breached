@@ -2,7 +2,7 @@
 const canvas = document.getElementById("canvas");
 document.body.appendChild(canvas);
 
-let ctx = canvas.getContext("2d");
+let ctx = canvas.getbackground("2d");
 let ctxLeft = canvas.offsetLeft + ctx.clientLeft
 let ctxTop = canvas.offsetTop + ctx.clientTop
 
@@ -21,8 +21,9 @@ imagedir = {
 
 questions = [
     {
+        "topic": "Your email has been hacked!",
         "image": "assets/infographics/pet2001-8.gif",
-        "context": "Your email has been hacked!\n\nYou need to change your password. It should be stronger this time so you don't get hacked again.",
+        "background": "You need to change your password. It should be stronger this time so you don't get hacked again.",
         "question": "Which of the following is a good password",
         "answers": ["password123", "782PswdG00d)", "ralph"],
         "correct_answer_index": 1,
@@ -30,8 +31,9 @@ questions = [
         "point_value": 10
     },
     {
+        "topic": "another topic",
         "image": "assets/infographics/pet2001-8.gif",
-        "context": "some different text about how to solve the issue and what it is",
+        "background": "some different text about how to solve the issue and what it is",
         "question": "this is another question",
         "answers": ["answer 1", "answer 2"],
         "correct_answer_index": 1,
@@ -39,10 +41,11 @@ questions = [
         "point_value": 10
     },
     {
+        "topic": "another differet-er topic",
         "image": "assets/infographics/pet2001-8.gif",
-        "context": "some different-er text about how to solve the issue and what it is",
+        "background": "some different-er text about how to solve the issue and what it is",
         "question": "this is another different question",
-        "answers": ["answer 1", "answer 2"],
+        "answers": ["answer 1", "answer 2", "answer 3", "answer 4"],
         "correct_answer_index": 1,
         "answer_explanation": "an explanation of the answer",
         "point_value": 10
@@ -276,6 +279,18 @@ function updateGraph(score_change, threshold) {
     var y = (canvas.height/2-250);
 
     ctx.drawImage(loadedImages[image], x, y)
+}
+
+function fillPopup(question_index) {
+    document.getElementById("topic").innerHTML
+    document.getElementById("background").innerHTML = questions[question_index].background
+    document.getElementById("image").src = questions[question_index].image
+    document.getElementById("question").src = questions[question_index].question
+    var answer_id;
+    for (var answer_index=0; answer_index<questions[question_index.answers].length; answer_index++) {
+        answer_id = "answer" + (answer_index + 1)
+        document.getElementById(answer_id).innerHTML = questions[question_index].answers[answer_index]
+    }
 }
 
 // All execution code should be wrapped!!!
