@@ -2,7 +2,7 @@
 const canvas = document.getElementById("canvas");
 document.body.appendChild(canvas);
 
-let ctx = canvas.getbackground("2d");
+let ctx = canvas.getContext("2d");
 let ctxLeft = canvas.offsetLeft + ctx.clientLeft
 let ctxTop = canvas.offsetTop + ctx.clientTop
 
@@ -22,7 +22,7 @@ imagedir = {
 questions = [
     {
         "topic": "Your email has been hacked!",
-        "image": "assets/infographics/pet2001-8.gif",
+        "image": "assets/up_arrow.png",
         "image_alt_text": "oops, the image didn't load",
         "background": "You need to change your password. It should be stronger this time so you don't get hacked again.",
         "question": "Which of the following is a good password",
@@ -33,7 +33,7 @@ questions = [
     },
     {
         "topic": "another topic",
-        "image": "assets/infographics/pet2001-8.gif",
+        "image": "assets/up_arrow.png",
         "image_alt_text": "oops, the image didn't load",
         "background": "some different text about how to solve the issue and what it is",
         "question": "this is another question",
@@ -44,7 +44,7 @@ questions = [
     },
     {
         "topic": "another differet-er topic",
-        "image": "assets/infographics/pet2001-8.gif",
+        "image": "assets/up_arrow.png",
         "image_alt_text": "oops, the image didn't load",
         "background": "some different-er text about how to solve the issue and what it is",
         "question": "this is another different question",
@@ -289,9 +289,9 @@ function fillPopup(question_index) {
     document.getElementById("background").innerHTML = questions[question_index].background
     document.getElementById("image").src = questions[question_index].image
     document.getElementById("image").image_alt_text = questions[question_index].image_alt_text
-    document.getElementById("question").src = questions[question_index].question
+    document.getElementById("question").innerHTML = questions[question_index].question
     var answer_id;
-    for (var answer_index=0; answer_index<questions[question_index.answers].length; answer_index++) {
+    for (var answer_index=0; answer_index<questions[question_index].answers.length; answer_index++) {
         answer_id = "answer" + (answer_index + 1)
         document.getElementById(answer_id).innerHTML = questions[question_index].answers[answer_index]
     }
@@ -301,6 +301,7 @@ function fillPopup(question_index) {
 function main() {
     initMainWindow(); // Generate the main playing screen
     animate(); // Start the animation
+    fillPopup(0);
 }
 
 loadAssets();
