@@ -86,13 +86,13 @@ function initMainWindow() {
     ctx.fillStyle = "white";
 
     elements.push({
-        width: 500,
-        height: 500,
+        width: 350,
+        height: 350,
         top: (canvas.height/2-250),
         left: (canvas.width/2-250)
     });
 
-    ctx.fillRect((canvas.width/2-250), (canvas.height/2-250), 500, 500);
+    ctx.fillRect((canvas.width/2-250), (canvas.height/2-250), 350, 350);
 
     //Event interface Region
     ctx.fillStyle = "black";
@@ -193,6 +193,21 @@ async function scoreQuestion(question_index, answer_index) {
     }
 }
 
+function updateGraph(score_change, threshold) {
+    // threshold controls the score difference necessary for the arrow to be green
+    var image;
+    if (score_change >= 5) {
+        image = "up_arrow";
+    } else {
+        image = "down_arrow";
+    }
+
+    var x = (canvas.width/2-250);
+    var y = (canvas.height/2-250);
+
+    ctx.drawImage(loadedImages[image], x, y)
+}
+
 // All execution code should be wrapped!!!
 function main() {
     initMainWindow();
@@ -203,7 +218,6 @@ function main() {
 
 loadAssets();
 wait(100, waitMainCallback());
-
 
 
 
