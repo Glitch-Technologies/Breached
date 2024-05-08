@@ -19,6 +19,38 @@ imagedir = {
     player: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWQAAAG0CAMAAAAy+609AAAABlBMVEX///8AAABVwtN+AAACxUlEQVR4nO3QgXECAQwDQei/6dTgwRYKv1uBdK8XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBI7099+8B/IHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB1RG/njU9cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR34C0QOEDlA5ACRA0QOEDlAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+xvsxRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA74YmQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe6A+EyUugAvDvrwAAAB10RVh0U29mdHdhcmUAQGx1bmFwYWludC9wbmctY29kZWP1QxkeAAAAAElFTkSuQmCC",
 };
 
+questions = [
+    {
+        "image": "assets/infographics/pet2001-8.gif",
+        "context": "Your email has been hacked!\n\nYou need to change your password. It should be stronger this time so you don't get hacked again.",
+        "question": "Which of the following is a good password",
+        "answers": ["password123", "782PswdG00d)", "ralph"],
+        "correct_answer_index": 1,
+        "answer_explanation": "'password123' and 'ralph' are too easy to guess, someone could guess those passwords too easily.",
+        "point_value": 10
+    },
+    {
+        "image": "assets/infographics/pet2001-8.gif",
+        "context": "some different text about how to solve the issue and what it is",
+        "question": "this is another question",
+        "answers": ["answer 1", "answer 2"],
+        "correct_answer_index": 1,
+        "answer_explanation": "an explanation of the answer",
+        "point_value": 10
+    },
+    {
+        "image": "assets/infographics/pet2001-8.gif",
+        "context": "some different-er text about how to solve the issue and what it is",
+        "question": "this is another different question",
+        "answers": ["answer 1", "answer 2"],
+        "correct_answer_index": 1,
+        "answer_explanation": "an explanation of the answer",
+        "point_value": 10
+    }
+]
+
+scores = new Array(questions.length);
+
 /* To load an image, put the filename into the remoteImages array. You can then reference
 *  the image inside of the main control loops with loadedImages["imagename"]. Do not include
 *  the file extension. Only PNGs are supported at this time.
@@ -210,16 +242,25 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-async function scoreQuestion(question_index, answer_index) {
+function scoreQuestion(question_index, answer_index) {
     // update the player's score based on their answer to the question
-    const response = await fetch("questions.json");
-    const json = await response.json();
-    console.log(json);
-    if (answer_index == json[question_index].correct_answer_index) {
-        return json[question_index].point_value;
+    var score_delta;
+    if (answer_index == questions[question_index].correct_answer_index) {
+        score_delta = questions[question_index].point_value
     } else {
-        return 0;
+        score_delta = 0
     }
+
+    scores.splice(question_index, 1, score_delta)
+    return score_delta
+}
+
+function finalScore() {
+    var score;
+    
+    score = scores.reduce((a, b) => a + b, 0);
+
+    return score;
 }
 
 function updateGraph(score_change, threshold) {
@@ -239,10 +280,8 @@ function updateGraph(score_change, threshold) {
 
 // All execution code should be wrapped!!!
 function main() {
-    initMainWindow();
-    // Generate the main playing screen
-    animate();
-    // Start the animation
+    initMainWindow(); // Generate the main playing screen
+    animate(); // Start the animation
 }
 
 loadAssets();
