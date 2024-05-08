@@ -31,6 +31,10 @@ myButton.addEventListener(
     }
 );
 
+function openPopup() {
+    myPopup.classList.add("show");
+}
+
 closePopup.addEventListener(
     "click",
     function () {
