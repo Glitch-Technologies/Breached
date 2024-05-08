@@ -80,8 +80,8 @@ function initMainWindow() {
     ctx.fillStyle = "white";
 
     elements.push({
-        width: 500,
-        height: 500,
+        width: 350,
+        height: 350,
         top: (canvas.height/2-250),
         left: (canvas.width/2-250)
     });
@@ -185,6 +185,20 @@ async function scoreQuestion(question_index, answer_index) {
     } else {
         return 0;
     }
+}
+
+async function updateGraph(score_change, threshold) {
+    var image;
+    if (score_change > 5) {
+        image = "up_arrow.png";
+    } else {
+        image = "down_arrow.png";
+    }
+
+    var top = canvas.height/2-250;
+    var left = canvas.width/2-250;
+
+    simpleDrawImage(image)
 }
 
 // All execution code should be wrapped!!!
