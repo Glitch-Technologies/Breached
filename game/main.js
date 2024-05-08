@@ -226,6 +226,14 @@ function scoreQuestion(question_index, answer_index) {
     return score_delta
 }
 
+function finalScore() {
+    var score;
+    
+    score = scores.reduce((a, b) => a + b, 0);
+
+    return score;
+}
+
 function updateGraph(score_change, threshold) {
     // threshold controls the score difference necessary for the arrow to be green
     var image;
