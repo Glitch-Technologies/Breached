@@ -11,6 +11,9 @@ let elements = [];
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+// Global tracking for mouse position
+let mouseX, mouseY;
+
 imagedir = {
     player: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWQAAAG0CAMAAAAy+609AAAABlBMVEX///8AAABVwtN+AAACxUlEQVR4nO3QgXECAQwDQei/6dTgwRYKv1uBdK8XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBI7099+8B/IHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB1RG/njU9cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR34C0QOEDlA5ACRA0QOEDlAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+xvsxRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA74YmQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe6A+EyUugAvDvrwAAAB10RVh0U29mdHdhcmUAQGx1bmFwYWludC9wbmctY29kZWP1QxkeAAAAAElFTkSuQmCC",
 };
@@ -18,12 +21,41 @@ loadedImages = {};
 remoteImages = ["player", "ibm5150", "down_arrow", "up_arrow"];
 
 canvas.addEventListener('mousemove', function(event) {
-    var x = event.pageX - ctxLeft;
-    var y = event.pageY - ctxTop;
-    // Do something with the mouse position
-    //debug('Mouse position: ' + x.toString() + ' ' + y.toString());
+    const mouseX = event.clientX - canvas.offsetLeft;
+    const mouseY = event.clientY - canvas.offsetTop;
+    const position = `x: ${mouseX}, y: ${mouseY}`;
+    debug(position);
 });
 
+myButton.addEventListener(
+    "click",
+    function () {
+        console.log("Opening popup");
+        myPopup.classList.add("show");
+    }
+);
+
+closePopup.addEventListener(
+    "click",
+    function () {
+        myPopup.classList.remove(
+            "show"
+        );
+    }
+);
+/*
+// Controls if user can click out of the window to close the popup. PO wants to enforce disabled.
+window.addEventListener(
+    "click",
+    function (event) {
+        if (event.target == myPopup) {
+            myPopup.classList.remove(
+                 "show"
+            );
+        }
+    }
+);
+*/
 /*
 canvas.addEventListener('click', function(event) {
     alert('clicked');
