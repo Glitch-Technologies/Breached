@@ -5,11 +5,15 @@ document.body.appendChild(canvas);
 let ctx = canvas.getContext("2d");
 let ctxLeft = canvas.offsetLeft + ctx.clientLeft
 let ctxTop = canvas.offsetTop + ctx.clientTop
-let elements = [];
 
 // Make canvas fullscreen
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
+// Global tracking for mouse position and clickable elements
+let mouseX, mouseY;
+let elements = [];
+
 
 imagedir = {
     player: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWQAAAG0CAMAAAAy+609AAAABlBMVEX///8AAABVwtN+AAACxUlEQVR4nO3QgXECAQwDQei/6dTgwRYKv1uBdK8XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBI7099+8B/IHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB1RG/njU9cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR34C0QOEDlA5ACRA0QOEDlAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+xvsxRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA74YmQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe6A+EyUugAvDvrwAAAB10RVh0U29mdHdhcmUAQGx1bmFwYWludC9wbmctY29kZWP1QxkeAAAAAElFTkSuQmCC",
@@ -55,28 +59,53 @@ scores = new Array(questions.length);
 loadedImages = {};
 remoteImages = ["player", "ibm5150", "down_arrow", "up_arrow"];
 
+
+
+
+function openPopup() {
+    questionPopup.classList.add("show");
+}
+
+closePopup.addEventListener(
+    "click",
+    function () {
+        questionPopup.classList.remove(
+            "show"
+        );
+    }
+);
+/*
+// Controls if user can click out of the window to close the popup. PO wants to enforce disabled.
+window.addEventListener(
+    "click",
+    function (event) {
+        if (event.target == questionPopup) {
+            questionPopup.classList.remove(
+                 "show"
+            );
+        }
+    }
+);
+*/
+
 canvas.addEventListener('mousemove', function(event) {
-    var x = event.pageX - ctxLeft;
-    var y = event.pageY - ctxTop;
-    // Do something with the mouse position
-    //debug('Mouse position: ' + x.toString() + ' ' + y.toString());
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+    const position = `x: ${mouseX}, y: ${mouseY}`;
+    debug(position);
 });
 
-/*
 canvas.addEventListener('click', function(event) {
-    alert('clicked');
-    var x = event.pageX - ctxLeft,
-        y = event.pageY - ctxTop;
-
-    // Collision detection between clicked offset and element.
+    // Iterate through all elements to see if the click event was on one of them
     elements.forEach(function(element) {
-        if (y > element.top && y < element.top + element.height 
-            && x > element.left && x < element.left + element.width) {
-            alert('clicked an element');
+        console.log(element);
+        console.log(mouseX);
+        console.log(element.left);
+        if (mouseX >= element.left && mouseX <= element.left + element.width && mouseY >= element.top && mouseY <= element.top + element.height) {
+            openPopup(); //Will open popup when center graph is clicked [NOT FINAL]
         }
     });
-
-}, false);*/
+});
 
 async function loadAssets() {
     const empty_image = new Image(); //Deprecated, just hold execution until drawing it complete to save cycles later.
@@ -187,15 +216,15 @@ async function loadImage(local = true, identifier) {
         img.src = imagedir[identifier]; // Set source contents
         img.onload = () => {
             ctx.drawImage(img, 0, 0);
-            loadedImages.push({ identifier: img });
+            loadedImages.push({ identifier: img });            
         };
     } else {
         const url = "../assets/" + identifier + ".png";
         img.onload = () => {
             loadedImages[identifier] = img;
-            elements.push(img);
+            //elements.push(img);
         };
-        img.src = url;
+        img.src = url; 
     }
 }
 
