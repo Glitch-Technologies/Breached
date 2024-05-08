@@ -190,15 +190,15 @@ async function scoreQuestion(question_index, answer_index) {
 async function updateGraph(score_change, threshold) {
     var image;
     if (score_change > 5) {
-        image = "up_arrow.png";
+        image = "up_arrow";
     } else {
-        image = "down_arrow.png";
+        image = "down_arrow";
     }
 
     var top = canvas.height/2-250;
     var left = canvas.width/2-250;
 
-    simpleDrawImage(image)
+    simpleDrawImage(loadedImages[image], top, left)
 }
 
 // All execution code should be wrapped!!!
