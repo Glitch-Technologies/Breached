@@ -23,6 +23,7 @@ questions = [
     {
         "topic": "Your email has been hacked!",
         "image": "assets/infographics/pet2001-8.gif",
+        "image_alt_text": "oops, the image didn't load",
         "background": "You need to change your password. It should be stronger this time so you don't get hacked again.",
         "question": "Which of the following is a good password",
         "answers": ["password123", "782PswdG00d)", "ralph"],
@@ -33,6 +34,7 @@ questions = [
     {
         "topic": "another topic",
         "image": "assets/infographics/pet2001-8.gif",
+        "image_alt_text": "oops, the image didn't load",
         "background": "some different text about how to solve the issue and what it is",
         "question": "this is another question",
         "answers": ["answer 1", "answer 2"],
@@ -43,6 +45,7 @@ questions = [
     {
         "topic": "another differet-er topic",
         "image": "assets/infographics/pet2001-8.gif",
+        "image_alt_text": "oops, the image didn't load",
         "background": "some different-er text about how to solve the issue and what it is",
         "question": "this is another different question",
         "answers": ["answer 1", "answer 2", "answer 3", "answer 4"],
@@ -285,6 +288,7 @@ function fillPopup(question_index) {
     document.getElementById("topic").innerHTML
     document.getElementById("background").innerHTML = questions[question_index].background
     document.getElementById("image").src = questions[question_index].image
+    document.getElementById("image").image_alt_text = questions[question_index].image_alt_text
     document.getElementById("question").src = questions[question_index].question
     var answer_id;
     for (var answer_index=0; answer_index<questions[question_index.answers].length; answer_index++) {
