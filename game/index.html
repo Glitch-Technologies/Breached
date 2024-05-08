@@ -6,28 +6,60 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body topmargin="0" leftmargin="0">
-    <p id="debug">Debug Region</p>
+    <p id="debug" class="debug">Debug Region</p>
         <div id="questionPopup" class="popup">
             <div class="popup-content">
-                <h1 style="color: green">
-                    Sample Question
+                <h1 id="topic">
+                    Sample Topic
                 </h1>
-                <p>Sample Background</p>
-                <button id="choice1">
-                    Choice 1
-                </button>
-                <button id="choice2">
-                    Choice 2
-                </button>
-                <button id="choice3">
-                    Choice 3
-                </button>
-                <button id="choice4">
-                    Choice 4
-                </button>
+                <table width="100%" border="1">
+                    <tr>
+                        <td width="60%">
+                            <p id="background">
+                                Sample Background
+                            </p>
+                        </td>
+                        <td width="40%">
+                            <img src="" alt="Sample Image" id="image">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" >
+                            <p id="question">
+                                Sample Question
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+                <table width="100%" border="1">
+                    <tr>
+                        <td width="50%">
+                            <button id="answer1">
+                                Choice 1
+                            </button>
+                        </td>
+                        <td width="50%">
+                            <button id="answer2">
+                                Choice 2
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%">
+                            <button id="answer3">
+                                Choice 3
+                            </button>
+                        </td>
+                        <td width="50%">
+                            <button id="answer4">
+                                Choice 4
+                            </button>
+                        </td>
+                    </tr>
+                </table>
                 <br>
                 <button id="closePopup">
-                    Submit
+                    <b>Submit</b>
                 </button>
             </div>
         </div>
