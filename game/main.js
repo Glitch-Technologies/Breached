@@ -245,13 +245,6 @@ function updateGraph(score_change, threshold) {
 function main() {
     initMainWindow(); // Generate the main playing screen
     animate(); // Start the animation
-
-    // testing
-    var output = scoreQuestion(0, 1);
-    scoreQuestion(1, 2);
-    scoreQuestion(2, 1);
-    ctx.font = "50px Arial";
-    ctx.fillText(scores, 200, 50);
 }
 
 loadAssets();
