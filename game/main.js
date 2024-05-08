@@ -23,22 +23,15 @@ remoteImages = ["player", "ibm5150", "down_arrow", "up_arrow"];
 
 
 
-myButton.addEventListener(
-    "click",
-    function () {
-        console.log("Opening popup");
-        myPopup.classList.add("show");
-    }
-);
 
 function openPopup() {
-    myPopup.classList.add("show");
+    questionPopup.classList.add("show");
 }
 
 closePopup.addEventListener(
     "click",
     function () {
-        myPopup.classList.remove(
+        questionPopup.classList.remove(
             "show"
         );
     }
@@ -48,8 +41,8 @@ closePopup.addEventListener(
 window.addEventListener(
     "click",
     function (event) {
-        if (event.target == myPopup) {
-            myPopup.classList.remove(
+        if (event.target == questionPopup) {
+            questionPopup.classList.remove(
                  "show"
             );
         }
