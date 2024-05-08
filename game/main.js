@@ -213,13 +213,17 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-async function scoreQuestion(question_index, answer_index) {
+function scoreQuestion(question_index, answer_index) {
     // update the player's score based on their answer to the question
+    var score_delta;
     if (answer_index == questions[question_index].correct_answer_index) {
-        return questions[question_index].point_value;
+        score_delta = questions[question_index].point_value
     } else {
-        return 0;
+        score_delta = 0
     }
+
+    scores.splice(question_index, 1, score_delta)
+    return score_delta
 }
 
 function updateGraph(score_change, threshold) {
@@ -239,10 +243,15 @@ function updateGraph(score_change, threshold) {
 
 // All execution code should be wrapped!!!
 function main() {
-    initMainWindow();
-    // Generate the main playing screen
-    animate();
-    // Start the animation
+    initMainWindow(); // Generate the main playing screen
+    animate(); // Start the animation
+
+    // testing
+    var output = scoreQuestion(0, 1);
+    scoreQuestion(1, 2);
+    scoreQuestion(2, 1);
+    ctx.font = "50px Arial";
+    ctx.fillText(scores, 200, 50);
 }
 
 loadAssets();
