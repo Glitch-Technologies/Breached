@@ -69,7 +69,7 @@ const events = {
             "answer_explanation": "an explanation of the answer",
             "point_value": 10
         }
-    ], 
+    ],
     "non_questions": [
         {
             "topic": "Your company had a data breach!",
@@ -109,7 +109,7 @@ function openPopup() {
 
 closePopup.addEventListener(
     "click",
-    function () {
+    function() {
         questionPopup.classList.remove(
             "show"
         );
@@ -144,9 +144,12 @@ canvas.addEventListener('click', function(event) {
         console.log(element.left);
         if (mouseX >= element.left && mouseX <= element.left + element.width && mouseY >= element.top && mouseY <= element.top + element.height) {
             if (alert == true && element.type == "alert") {
-                openPopup(); 
-            } else if (element.type == "tutorial") {
-                //Do something
+                openPopup();
+            }
+            if (element.type == "tutorial") {
+                elements.splice(elements.indexOf(element), 1);
+                tutorial(tutorial_flag);
+                
             }
         }
     });
@@ -160,17 +163,17 @@ async function loadAssets() {
 }
 
 // Internal use only.
-function debug(text, json=false) {
+function debug(text, json = false) {
     let debugText = document.getElementById('debug');
     debugText.style.visibility = "visible";
-    
+
     debugText.innerHTML = text;
 }
 
 // Synchronous execution halting. No idea what the use case is, but when I remove it, my computer turns into a pocketwatch.
 function halt(ms) {
     var start = Date.now(),
-    oldNow = start;
+        oldNow = start;
     while (oldNow - start < ms) {
         oldNow = Date.now();
     }
@@ -179,6 +182,7 @@ function halt(ms) {
 
 function initMainWindow() {
     // Set the canvas background color to Cisco blue
+    ctx.fillStyle = "";
     canvas.style.backgroundColor = "rgb(0, 112, 184)";
     // Draw the text "Breached!" in the top middle of the canvas
     ctx.font = "48px Arial";
@@ -187,27 +191,35 @@ function initMainWindow() {
     ctx.fillText("Breached!", canvas.width / 2, 50);
     ctx.drawImage(loadedImages["player"], 50, (canvas.height / 4)/*Todo: subtract half of player sprite height*/);
 
-    
+
     // Graph Region
     ctx.fillStyle = "white";
 
-    ctx.fillRect((canvas.width/2-250), (canvas.height/2-250), 350, 350);
+    ctx.fillRect((canvas.width / 2 - 250), (canvas.height / 2 - 250), 350, 350);
 
     // Event interface Region
     ctx.fillStyle = "black";
-    ctx.fillRect((canvas.width/2+300), (canvas.height/2+150), 300, 50);
-    ctx.fillRect((canvas.width/2+300), (canvas.height/2+200), 50, 50);
-    ctx.fillRect((canvas.width/2+550), (canvas.height/2+200), 50, 50);
-    ctx.drawImage(loadedImages["ibm5150"], (canvas.width/2+350), (canvas.height/2-50), 200, 200);
+    ctx.fillRect((canvas.width / 2 + 300), (canvas.height / 2 + 150), 300, 50);
+    ctx.fillRect((canvas.width / 2 + 300), (canvas.height / 2 + 200), 50, 50);
+    ctx.fillRect((canvas.width / 2 + 550), (canvas.height / 2 + 200), 50, 50);
+    ctx.drawImage(loadedImages["ibm5150"], (canvas.width / 2 + 350), (canvas.height / 2 - 50), 200, 200);
     // Create rendering and interaction region for event text
-    ctx.fillRect((canvas.width/2+400), (canvas.height/2-25), 100, 50);
-    elements.push({
-        width: 100,
-        height: 50,
-        top: (canvas.height/2-25),
-        left: (canvas.width/2+400),
-        type: "alert"
+    ctx.fillRect((canvas.width / 2 + 400), (canvas.height / 2 - 25), 100, 50);
+    let alertExists = false;
+    elements.forEach(function(element) {
+        if (element.type === "alert") {
+            alertExists = true
+        }
     });
+    if (!alertExists) {
+        elements.push({
+            width: 100,
+            height: 50,
+            top: (canvas.height / 2 - 25),
+            left: (canvas.width / 2 + 400),
+            type: "alert"
+        });
+    }
     drawAlert();
 
 }
@@ -289,26 +301,26 @@ function drawClock(color) {
 }
 
 function drawAlert() {
-    ctx.fillRect((canvas.width/2+400), (canvas.height/2-25), 100, 50);
+    ctx.fillRect((canvas.width / 2 + 400), (canvas.height / 2 - 25), 100, 50);
     ctx.font = "28px Courier New";
     ctx.fillStyle = "red";
     ctx.textAlign = "left";
-    ctx.fillText("BREACH", (canvas.width/2+400), (canvas.height/2+10));
+    ctx.fillText("BREACH", (canvas.width / 2 + 400), (canvas.height / 2 + 10));
     alert = true;
 }
 function drawSafe() {
-    ctx.fillRect((canvas.width/2+400), (canvas.height/2-25), 100, 50);
+    ctx.fillRect((canvas.width / 2 + 400), (canvas.height / 2 - 25), 100, 50);
     ctx.font = "28px Courier New";
     ctx.fillStyle = "lime";
     ctx.textAlign = "left";
-    ctx.fillText(" SAFE", (canvas.width/2+400), (canvas.height/2+10));
+    ctx.fillText(" SAFE", (canvas.width / 2 + 400), (canvas.height / 2 + 10));
     alert = false;
 }
 
 //Sketchy
 function waitMainCallback(routine) {
     if (Object.keys(loadedImages).length > 3) {
-        
+
         console.log("Done waiting");
 
         const loader = document.getElementById("loader");
@@ -356,7 +368,7 @@ async function loadImage(local = true, identifier) {
         img.src = imagedir[identifier]; // Set source contents
         img.onload = () => {
             ctx.drawImage(img, 0, 0);
-            loadedImages.push({ identifier: img });            
+            loadedImages.push({ identifier: img });
         };
     } else {
         const url = "../assets/" + identifier + ".png";
@@ -364,7 +376,7 @@ async function loadImage(local = true, identifier) {
             loadedImages[identifier] = img;
             //elements.push(img);
         };
-        img.src = url; 
+        img.src = url;
     }
 }
 
@@ -372,7 +384,7 @@ function drawFrame() {
     //Frame by frame draw goes here
     //debug(color);
     if (flash) {
-        drawClock(color); 
+        drawClock(color);
     } else {
         drawClock("white");
     }
@@ -403,7 +415,7 @@ function scoreQuestion(question_index, answer_index) {
 
 function finalScore() {
     var score;
-    
+
     score = scores.reduce((a, b) => a + b, 0);
 
     return score;
@@ -418,8 +430,8 @@ function updateGraph(score_delta) {
         image = "down_arrow";
     }
 
-    var x = (canvas.width/2-250);
-    var y = (canvas.height/2-250);
+    var x = (canvas.width / 2 - 250);
+    var y = (canvas.height / 2 - 250);
 
     ctx.drawImage(loadedImages[image], x, y)
 }
@@ -453,7 +465,7 @@ function checkAnswer(question_index, answer_index) {
     updateGraph(score_delta);
     scores.push(score_delta);
     debug("score_delta: " + score_delta);
-    
+
     // TODO: make the code belowdo something to show change in score maybe a popup
     // the thing should show the "answer_explanation"
     if (selected_answer == events.questions[question_index].correct_answer_index) { // if answer is correct
@@ -482,7 +494,7 @@ function fillQuestion(question_index) {
 
     // setting button attrubutes
     var answer_id;
-    for (var answer_index=0; answer_index<events.questions[question_index].answers.length; answer_index++) {
+    for (var answer_index = 0; answer_index < events.questions[question_index].answers.length; answer_index++) {
         answer_id = "answer" + (answer_index + 1);
         document.getElementById(answer_id).innerHTML = events.questions[question_index].answers[answer_index];
         document.getElementById(answer_id).style.display = "block";
@@ -490,7 +502,7 @@ function fillQuestion(question_index) {
         // adding button functionality
         document.getElementById(answer_id).addEventListener(
             "click",
-            function () {
+            function() {
                 selected_answer = parseInt(this.id.slice(6)) - 1;
                 debug("selected_answer: " + selected_answer);
             }
@@ -502,16 +514,9 @@ function fillNonQuestion(event_index) {
     // TODO
 }
 
-function tutorial(tutorial_flag) {
-    //Placeholder routine for tutorial. Will be replaced with actual tutorial.
-    redrawMainWindow();
-    if (!tutorial_skip) {
-        tutorialBox(ctx, 0, 0, 100, 100, "This is a tutorial box. Click to close.");
-        tutorial_flag+=1;
-    }
-}
-
 function redrawMainWindow() {
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     initMainWindow();
     drawClock();
 }
@@ -535,6 +540,8 @@ function tutorialBox(ctx, x, y, width, height, text) {
         height: height,
         type: "tutorial"
     });
+    tutorial_flag += 1;
+    
 }
 
 function drawBoxWithText(ctx, x, y, width, height, text) {
@@ -567,15 +574,24 @@ function drawBoxWithText(ctx, x, y, width, height, text) {
 // All execution code should be wrapped!!!
 function main() {
     initMainWindow(); // Generate the main playing screen
-    asyncTasks(); // Run background processes
     //Todo: Ask initial difficulty question here
     //fillNonQuestion(0);
-    tutorial(0);
-    // while (tutorial_skip == false && tutorial_flag < 1) {
-    //     halt(100); //Don't start gameplay loops until the tutorial is complete.
-    // }
-    animate(); // Start the animation
-    fillQuestion(0);
+    tutorial(tutorial_flag);
+}
+
+// Hacky way to lock out gameplay until post tutorial
+function tutorial(tutorial_flag) {
+    // Clear the entire canvas
+    redrawMainWindow();
+    if (tutorial_flag > 0) {
+        redrawMainWindow();
+        animate(); // Start the animation
+        asyncTasks(); // Run background processes
+    } else {
+        debug(`f: ${tutorial_flag}`);
+        tutorialBox(ctx, 0, 0, 100, 100, "This is a tutorial box. Click to close.");
+    }
+
 }
 
 loadAssets();
