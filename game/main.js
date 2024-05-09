@@ -97,7 +97,7 @@ canvas.addEventListener('mousemove', function(event) {
     mouseX = event.clientX;
     mouseY = event.clientY;
     const position = `x: ${mouseX}, y: ${mouseY}`;
-    debug(position);
+    //debug(position);
 });
 
 canvas.addEventListener('click', function(event) {
@@ -168,7 +168,7 @@ function initMainWindow() {
     ctx.drawImage(loadedImages["ibm5150"], (canvas.width/2+375), (canvas.height/2+25));
 }
 
-function drawClock() {
+function drawClock(color) {
     // Get the current time
     const hours = now.getHours();
     const minutes = now.getMinutes();
@@ -185,7 +185,7 @@ function drawClock() {
     // Draw the clock face
     ctx.beginPath();
     ctx.arc(canvas.width - 140, 140, 80, 0, 2 * Math.PI); // Changed position to move 100 px to the left and 100 px down
-    ctx.fillStyle = "white"; // Added white fill color
+    ctx.fillStyle = color; // Added white fill color
     ctx.fill();
     ctx.lineWidth = 2;
     ctx.strokeStyle = "black";
@@ -225,6 +225,7 @@ function drawClock() {
     ctx.stroke();
 
     // Draw the second hand
+    /* Removed. Too distracting to users.
     const secondHandLength = 72; // Changed length to 72
     const secondHandX = canvas.width - 140 + secondHandLength * Math.sin(secondAngle);
     const secondHandY = 140 - secondHandLength * Math.cos(secondAngle);
@@ -234,6 +235,7 @@ function drawClock() {
     ctx.lineWidth = 1; // Changed width to 1
     ctx.strokeStyle = "red";
     ctx.stroke();
+    */
 
     // Draw the center point
     ctx.beginPath();
@@ -250,7 +252,7 @@ function waitMainCallback(routine) {
 
         const loader = document.getElementById("loader");
         loader.style.display = "none";
-        debug(JSON.stringify(loadedImages));
+        //debug(JSON.stringify(loadedImages));
 
         // This is the true start. Only executes after pre-loading finishes.
         main();
@@ -307,10 +309,11 @@ async function loadImage(local = true, identifier) {
 
 function drawFrame() {
     //Frame by frame draw goes here
+    //debug(color);
     if (flash) {
-        drawClock(now, color); 
+        drawClock(color); 
     } else {
-        drawClock(now, "white");
+        drawClock("white");
     }
 }
 
@@ -360,9 +363,10 @@ function updateGraph(score_change, threshold) {
     ctx.drawImage(loadedImages[image], x, y)
 }
 
-// All execution code should be wrapped!!!
-function main() {
-    initMainWindow(); // Generate the main playing screen
+// Place tasks that should be executed after a set delay or at set intervals here
+// Will be called after initilization of Main Screen
+// Do not include rendering tasks in here, please use proper animation requests
+function asyncTasks() {
     setInterval(() => {
         now.setMilliseconds(now.getMilliseconds() + 1440);
         drawClock(now);
@@ -376,6 +380,15 @@ function main() {
             }
         }
     }, 1000);
+    setTimeout(() => {
+        flash = true;
+    }, 4 * 60 * 1000);
+}
+
+// All execution code should be wrapped!!!
+function main() {
+    initMainWindow(); // Generate the main playing screen
+    asyncTasks(); // Run background processes
     animate(); // Start the animation
 }
 
