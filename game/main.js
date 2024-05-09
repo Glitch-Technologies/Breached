@@ -109,7 +109,9 @@ canvas.addEventListener('click', function(event) {
         console.log(mouseX);
         console.log(element.left);
         if (mouseX >= element.left && mouseX <= element.left + element.width && mouseY >= element.top && mouseY <= element.top + element.height) {
-            openPopup(); //Will open popup when center graph is clicked [NOT FINAL]
+            if (alert == true) {
+                openPopup(); 
+            }
         }
     });
 });
@@ -179,6 +181,7 @@ function drawAlert() {
     ctx.fillStyle = "red";
     ctx.textAlign = "left";
     ctx.fillText("BREACH", (canvas.width/2+400), (canvas.height/2+10));
+    alert = true;
 }
 function drawSafe() {
     ctx.fillRect((canvas.width/2+400), (canvas.height/2-25), 100, 50);
@@ -186,6 +189,7 @@ function drawSafe() {
     ctx.fillStyle = "lime";
     ctx.textAlign = "left";
     ctx.fillText(" SAFE", (canvas.width/2+400), (canvas.height/2+10));
+    alert = false;
 }
 
 //Sketchy
