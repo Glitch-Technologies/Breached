@@ -13,6 +13,7 @@ canvas.height = window.innerHeight;
 // Global tracking for mouse position and clickable elements
 let mouseX, mouseY;
 let elements = [];
+let alerts = false;
 
 
 imagedir = {
@@ -21,8 +22,10 @@ imagedir = {
 
 questions = [
     {
-        "image": "assets/infographics/pet2001-8.gif",
-        "context": "Your email has been hacked!\n\nYou need to change your password. It should be stronger this time so you don't get hacked again.",
+        "topic": "Your email has been hacked!",
+        "image": "../assets/up_arrow.png",
+        "image_alt_text": "oops, the image didn't load",
+        "background": "You need to change your password. It should be stronger this time so you don't get hacked again.",
         "question": "Which of the following is a good password",
         "answers": ["password123", "782PswdG00d)", "ralph"],
         "correct_answer_index": 1,
@@ -30,8 +33,10 @@ questions = [
         "point_value": 10
     },
     {
-        "image": "assets/infographics/pet2001-8.gif",
-        "context": "some different text about how to solve the issue and what it is",
+        "topic": "another topic",
+        "image": "../assets/up_arrow.png",
+        "image_alt_text": "oops, the image didn't load",
+        "background": "some different text about how to solve the issue and what it is",
         "question": "this is another question",
         "answers": ["answer 1", "answer 2"],
         "correct_answer_index": 1,
@@ -39,10 +44,12 @@ questions = [
         "point_value": 10
     },
     {
-        "image": "assets/infographics/pet2001-8.gif",
-        "context": "some different-er text about how to solve the issue and what it is",
+        "topic": "another differet-er topic",
+        "image": "../assets/up_arrow.png",
+        "image_alt_text": "oops, the image didn't load",
+        "background": "some different-er text about how to solve the issue and what it is",
         "question": "this is another different question",
-        "answers": ["answer 1", "answer 2"],
+        "answers": ["answer 1", "answer 2", "answer 3", "answer 4"],
         "correct_answer_index": 1,
         "answer_explanation": "an explanation of the answer",
         "point_value": 10
@@ -102,7 +109,9 @@ canvas.addEventListener('click', function(event) {
         console.log(mouseX);
         console.log(element.left);
         if (mouseX >= element.left && mouseX <= element.left + element.width && mouseY >= element.top && mouseY <= element.top + element.height) {
-            openPopup(); //Will open popup when center graph is clicked [NOT FINAL]
+            if (alert == true) {
+                openPopup(); 
+            }
         }
     });
 });
@@ -146,23 +155,41 @@ function initMainWindow() {
     // Graph Region
     ctx.fillStyle = "white";
 
-    elements.push({
-        width: 350,
-        height: 350,
-        top: (canvas.height/2-250),
-        left: (canvas.width/2-250)
-    });
-
     ctx.fillRect((canvas.width/2-250), (canvas.height/2-250), 350, 350);
 
-    //Event interface Region
+    // Event interface Region
     ctx.fillStyle = "black";
     ctx.fillRect((canvas.width/2+300), (canvas.height/2+150), 300, 50);
     ctx.fillRect((canvas.width/2+300), (canvas.height/2+200), 50, 50);
     ctx.fillRect((canvas.width/2+550), (canvas.height/2+200), 50, 50);
-    ctx.drawImage(loadedImages["ibm5150"], (canvas.width/2+375), (canvas.height/2+25));
+    ctx.drawImage(loadedImages["ibm5150"], (canvas.width/2+350), (canvas.height/2-50), 200, 200);
+    // Create rendering and interaction region for event text
+    ctx.fillRect((canvas.width/2+400), (canvas.height/2-25), 100, 50);
+    elements.push({
+        width: 100,
+        height: 50,
+        top: (canvas.height/2-25),
+        left: (canvas.width/2+400)
+    });
+    drawAlert();
 
+}
 
+function drawAlert() {
+    ctx.fillRect((canvas.width/2+400), (canvas.height/2-25), 100, 50);
+    ctx.font = "28px Courier New";
+    ctx.fillStyle = "red";
+    ctx.textAlign = "left";
+    ctx.fillText("BREACH", (canvas.width/2+400), (canvas.height/2+10));
+    alert = true;
+}
+function drawSafe() {
+    ctx.fillRect((canvas.width/2+400), (canvas.height/2-25), 100, 50);
+    ctx.font = "28px Courier New";
+    ctx.fillStyle = "lime";
+    ctx.textAlign = "left";
+    ctx.fillText(" SAFE", (canvas.width/2+400), (canvas.height/2+10));
+    alert = false;
 }
 
 //Sketchy
@@ -278,10 +305,24 @@ function updateGraph(score_change, threshold) {
     ctx.drawImage(loadedImages[image], x, y)
 }
 
+function fillPopup(question_index) {
+    document.getElementById("topic").innerHTML
+    document.getElementById("background").innerHTML = questions[question_index].background
+    document.getElementById("image").src = questions[question_index].image
+    document.getElementById("image").image_alt_text = questions[question_index].image_alt_text
+    document.getElementById("question").innerHTML = questions[question_index].question
+    var answer_id;
+    for (var answer_index=0; answer_index<questions[question_index].answers.length; answer_index++) {
+        answer_id = "answer" + (answer_index + 1)
+        document.getElementById(answer_id).innerHTML = questions[question_index].answers[answer_index]
+    }
+}
+
 // All execution code should be wrapped!!!
 function main() {
     initMainWindow(); // Generate the main playing screen
     animate(); // Start the animation
+    fillPopup(0);
 }
 
 loadAssets();
