@@ -285,6 +285,11 @@ function updateGraph(score_change, threshold) {
 }
 
 function fillPopup(question_index) {
+    document.getElementById("answer1").style.display = "none";
+    document.getElementById("answer2").style.display = "none";
+    document.getElementById("answer3").style.display = "none";
+    document.getElementById("answer4").style.display = "none";
+
     document.getElementById("topic").innerHTML
     document.getElementById("background").innerHTML = questions[question_index].background
     document.getElementById("image").src = questions[question_index].image
@@ -294,6 +299,8 @@ function fillPopup(question_index) {
     for (var answer_index=0; answer_index<questions[question_index].answers.length; answer_index++) {
         answer_id = "answer" + (answer_index + 1)
         document.getElementById(answer_id).innerHTML = questions[question_index].answers[answer_index]
+        document.getElementById(answer_id).style.display = "block";
+
     }
 }
 

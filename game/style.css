@@ -114,6 +114,8 @@ h1 {
     text-align: center;
     margin: 0 auto; /* Add this line to center the button */
     font-family: inherit; /* Add this line to use the same font as the text */
+    display: none;
+    /* visibility: hidden; */
 }
 
 .popup-content button:hover {
