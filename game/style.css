@@ -102,7 +102,23 @@ h1 {
     border: 1px solid #888888;
     width: 50%;
 }
-.popup-content button {
+.answerButton {
+    background: none;
+    border: none;
+    padding: 10px 20px; /* Increase the padding to increase the hitbox */
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    display: block;
+    transition: 0.3s;
+    text-align: center;
+    margin: 0 auto; /* Add this line to center the button */
+    font-family: inherit; /* Add this line to use the same font as the text */
+    display: none;
+    /* visibility: hidden; */
+}
+
+.closeButton {
     background: none;
     border: none;
     padding: 10px 20px; /* Increase the padding to increase the hitbox */

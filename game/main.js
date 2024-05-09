@@ -15,6 +15,9 @@ let mouseX, mouseY;
 let elements = [];
 let alerts = false;
 
+var selected_answer;
+var current_question;
+
 
 imagedir = {
     player: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWQAAAG0CAMAAAAy+609AAAABlBMVEX///8AAABVwtN+AAACxUlEQVR4nO3QgXECAQwDQei/6dTgwRYKv1uBdK8XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBI7099+8B/IHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB1RG/njU9cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR34C0QOEDlA5ACRA0QOEDlAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+xvsxRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA74YmQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe6A+EyUugAvDvrwAAAB10RVh0U29mdHdhcmUAQGx1bmFwYWludC9wbmctY29kZWP1QxkeAAAAAElFTkSuQmCC",
@@ -79,6 +82,7 @@ closePopup.addEventListener(
         questionPopup.classList.remove(
             "show"
         );
+        checkAnswer(current_question, selected_answer)
     }
 );
 /*
@@ -99,7 +103,6 @@ canvas.addEventListener('mousemove', function(event) {
     mouseX = event.clientX;
     mouseY = event.clientY;
     const position = `x: ${mouseX}, y: ${mouseY}`;
-    debug(position);
 });
 
 canvas.addEventListener('click', function(event) {
@@ -273,9 +276,9 @@ function scoreQuestion(question_index, answer_index) {
     // update the player's score based on their answer to the question
     var score_delta;
     if (answer_index == questions[question_index].correct_answer_index) {
-        score_delta = questions[question_index].point_value
+        score_delta = questions[question_index].point_value;
     } else {
-        score_delta = 0
+        score_delta = 0;
     }
 
     scores.splice(question_index, 1, score_delta)
@@ -290,10 +293,10 @@ function finalScore() {
     return score;
 }
 
-function updateGraph(score_change, threshold) {
+function updateGraph(score_delta) {
     // threshold controls the score difference necessary for the arrow to be green
     var image;
-    if (score_change >= 5) {
+    if (score_delta > 0) {
         image = "up_arrow";
     } else {
         image = "down_arrow";
@@ -305,16 +308,52 @@ function updateGraph(score_change, threshold) {
     ctx.drawImage(loadedImages[image], x, y)
 }
 
+// when an answer is selected
+function checkAnswer(question_index, answer_index) {
+    // updating score
+    var score_delta = scoreQuestion(question_index, answer_index);
+    updateGraph(score_delta);
+    scores.push(score_delta);
+    debug("score_delta: " + score_delta);
+    
+    // TODO: make the code belowdo something to show change in score maybe a popup
+    // the thing should show the "answer_explanation"
+    if (selected_answer == questions[question_index].correct_answer_index) { // if answer is correct
+
+    } else {
+
+    }
+}
+
 function fillPopup(question_index) {
-    document.getElementById("topic").innerHTML
-    document.getElementById("background").innerHTML = questions[question_index].background
-    document.getElementById("image").src = questions[question_index].image
-    document.getElementById("image").image_alt_text = questions[question_index].image_alt_text
-    document.getElementById("question").innerHTML = questions[question_index].question
+    current_question = question_index;
+    // hiding buttons
+    document.getElementById("answer1").style.display = "none";
+    document.getElementById("answer2").style.display = "none";
+    document.getElementById("answer3").style.display = "none";
+    document.getElementById("answer4").style.display = "none";
+
+    // setting element attributes (like adding text)
+    document.getElementById("topic").innerHTML;
+    document.getElementById("background").innerHTML = questions[question_index].background;
+    document.getElementById("image").src = questions[question_index].image;
+    document.getElementById("image").image_alt_text = questions[question_index].image_alt_text;
+    document.getElementById("question").innerHTML = questions[question_index].question;
+    // setting button attrubutes
     var answer_id;
     for (var answer_index=0; answer_index<questions[question_index].answers.length; answer_index++) {
-        answer_id = "answer" + (answer_index + 1)
-        document.getElementById(answer_id).innerHTML = questions[question_index].answers[answer_index]
+        answer_id = "answer" + (answer_index + 1);
+        document.getElementById(answer_id).innerHTML = questions[question_index].answers[answer_index];
+        document.getElementById(answer_id).style.display = "block";
+
+        // adding button functionality
+        document.getElementById(answer_id).addEventListener(
+            "click",
+            function () {
+                selected_answer = parseInt(this.id.slice(6)) - 1;
+                debug("selected_answer: " + selected_answer);
+            }
+        );
     }
 }
 
