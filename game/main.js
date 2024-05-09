@@ -17,6 +17,7 @@ let alerts = false;
 
 var selected_answer;
 var current_question;
+var current_non_question;
 
 // Global clock controls initilization
 let now = new Date();
@@ -69,7 +70,8 @@ const events = {
         {
             "topic": "Your company had a data breach!",
             "image": "../assets/down_arrow.png",
-            "text": "Breaches like this happen all the time, and once they happen there's pretty much nothing you can do. Companies pay millions a year to recover data stolen by hackers.",
+            "image_alt_text": "oops, the image didn't load",
+            "background": "Breaches like this happen all the time, and once they happen there's pretty much nothing you can do. Companies pay millions a year to recover data stolen by hackers.",
             "point_value": -10
         }
     ]
@@ -108,7 +110,11 @@ closePopup.addEventListener(
         questionPopup.classList.remove(
             "show"
         );
-        checkAnswer(current_question, selected_answer)
+        if (current_question != -1) { // if on a question
+            checkAnswer(current_question, selected_answer)
+        } else if (current_non_question != -1) { // if on non-question
+            scoreNonQuestion(current_non_question);
+        }
     }
 );
 /*
@@ -455,8 +461,16 @@ function checkAnswer(question_index, answer_index) {
     }
 }
 
+function scoreNonQuestion(event_index) {
+    var score_delta = events.non_questions[event_index].point_value;
+    updateGraph(score_delta);
+    scores.push(score_delta);
+    debug("score_delta: " + score_delta);
+}
+
 function fillQuestion(question_index) {
     current_question = question_index;
+    current_non_question = -1;
     // hiding buttons
     document.getElementById("answer1").style.display = "none";
     document.getElementById("answer2").style.display = "none";
@@ -491,7 +505,22 @@ function fillQuestion(question_index) {
 }
 
 function fillNonQuestion(event_index) {
-    // TODO
+    current_question = -1;
+    current_non_question = event_index;
+    // hiding buttons
+    document.getElementById("answer1").style.display = "none";
+    document.getElementById("answer2").style.display = "none";
+    document.getElementById("answer3").style.display = "none";
+    document.getElementById("answer4").style.display = "none";
+
+    // setting element attributes (like adding text)
+    document.getElementById("topic").innerHTML = events.non_questions[event_index].topic;
+    document.getElementById("background").innerHTML = events.non_questions[event_index].background;
+    document.getElementById("question").innerHTML = "";
+    document.getElementById("image").src = events.non_questions[event_index].image;
+    document.getElementById("image").image_alt_text = events.non_questions[event_index].image_alt_text;
+
+    document.getElementById("closePopup").innerHTML = "close"
 }
 
 // All execution code should be wrapped!!!
@@ -499,7 +528,7 @@ function main() {
     initMainWindow(); // Generate the main playing screen
     asyncTasks(); // Run background processes
     animate(); // Start the animation
-    fillQuestion(0);
+    fillNonQuestion(0);
 }
 
 loadAssets();
