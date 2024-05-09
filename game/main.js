@@ -18,6 +18,11 @@ let alerts = false;
 var selected_answer;
 var current_question;
 
+// Global clock controls initilization
+let now = new Date();
+now.setHours(6, 0, 0, 0);
+let flash = false;
+let color = "white";
 
 imagedir = {
     player: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWQAAAG0CAMAAAAy+609AAAABlBMVEX///8AAABVwtN+AAACxUlEQVR4nO3QgXECAQwDQei/6dTgwRYKv1uBdK8XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBI7099+8B/IHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB1RG/njU9cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR34C0QOEDlA5ACRA0QOEDlAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+xvsxRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA74YmQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe6A+EyUugAvDvrwAAAB10RVh0U29mdHdhcmUAQGx1bmFwYWludC9wbmctY29kZWP1QxkeAAAAAElFTkSuQmCC",
@@ -104,6 +109,7 @@ canvas.addEventListener('mousemove', function(event) {
     mouseX = event.clientX;
     mouseY = event.clientY;
     const position = `x: ${mouseX}, y: ${mouseY}`;
+    //debug(position);
 });
 
 canvas.addEventListener('click', function(event) {
@@ -179,6 +185,82 @@ function initMainWindow() {
 
 }
 
+function drawClock(color) {
+    // Get the current time
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
+
+    // Calculate the total number of seconds since the start of the day
+    const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
+
+    // Calculate the angle for each hand based on the total seconds
+    const hourAngle = (totalSeconds / (12 * 60 * 60)) * (2 * Math.PI);
+    const minuteAngle = (totalSeconds / (60 * 60)) * (2 * Math.PI);
+    const secondAngle = (totalSeconds / 60) * (2 * Math.PI);
+
+    // Draw the clock face
+    ctx.beginPath();
+    ctx.arc(canvas.width - 140, 140, 80, 0, 2 * Math.PI); // Changed position to move 100 px to the left and 100 px down
+    ctx.fillStyle = color; // Added white fill color
+    ctx.fill();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+
+    // Draw the hour numbers
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    for (let i = 1; i <= 12; i++) {
+        const angle = (i / 12) * (2 * Math.PI);
+        const x = canvas.width - 140 + 70 * Math.sin(angle);
+        const y = 145 - 70 * Math.cos(angle);
+        ctx.fillText(i.toString(), x, y);
+    }
+
+    // Draw the hour hand
+    const hourHandLength = 40; // Changed length to 40
+    const hourHandX = canvas.width - 140 + hourHandLength * Math.sin(hourAngle);
+    const hourHandY = 140 - hourHandLength * Math.cos(hourAngle);
+    ctx.beginPath();
+    ctx.moveTo(canvas.width - 140, 140);
+    ctx.lineTo(hourHandX, hourHandY);
+    ctx.lineWidth = 1; // Changed width to 1
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+
+    // Draw the minute hand
+    const minuteHandLength = 60; // Changed length to 60
+    const minuteHandX = canvas.width - 140 + minuteHandLength * Math.sin(minuteAngle);
+    const minuteHandY = 140 - minuteHandLength * Math.cos(minuteAngle);
+    ctx.beginPath();
+    ctx.moveTo(canvas.width - 140, 140);
+    ctx.lineTo(minuteHandX, minuteHandY);
+    ctx.lineWidth = 1; // Changed width to 1
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+
+    // Draw the second hand
+    /* Removed. Too distracting to users.
+    const secondHandLength = 72; // Changed length to 72
+    const secondHandX = canvas.width - 140 + secondHandLength * Math.sin(secondAngle);
+    const secondHandY = 140 - secondHandLength * Math.cos(secondAngle);
+    ctx.beginPath();
+    ctx.moveTo(canvas.width - 140, 140);
+    ctx.lineTo(secondHandX, secondHandY);
+    ctx.lineWidth = 1; // Changed width to 1
+    ctx.strokeStyle = "red";
+    ctx.stroke();
+    */
+
+    // Draw the center point
+    ctx.beginPath();
+    ctx.arc(canvas.width - 140, 140, 4, 0, 2 * Math.PI); // Changed radius to 4
+    ctx.fillStyle = "black";
+    ctx.fill();
+}
+
 function drawAlert() {
     ctx.fillRect((canvas.width/2+400), (canvas.height/2-25), 100, 50);
     ctx.font = "28px Courier New";
@@ -204,7 +286,7 @@ function waitMainCallback(routine) {
 
         const loader = document.getElementById("loader");
         loader.style.display = "none";
-        debug(JSON.stringify(loadedImages));
+        //debug(JSON.stringify(loadedImages));
 
         // This is the true start. Only executes after pre-loading finishes.
         main();
@@ -261,6 +343,12 @@ async function loadImage(local = true, identifier) {
 
 function drawFrame() {
     //Frame by frame draw goes here
+    //debug(color);
+    if (flash) {
+        drawClock(color); 
+    } else {
+        drawClock("white");
+    }
 }
 
 function updateLoop() {
@@ -307,6 +395,28 @@ function updateGraph(score_delta) {
     var y = (canvas.height/2-250);
 
     ctx.drawImage(loadedImages[image], x, y)
+}
+
+// Place tasks that should be executed after a set delay or at set intervals here
+// Will be called after initilization of Main Screen
+// Do not include rendering tasks in here, please use proper animation requests
+function asyncTasks() {
+    setInterval(() => {
+        now.setMilliseconds(now.getMilliseconds() + 1440);
+        drawClock(now);
+    }, 10);
+    setInterval(() => {
+        if (flash) {
+            if (color == "white") {
+                color = "red";
+            } else {
+                color = "white";
+            }
+        }
+    }, 1000);
+    setTimeout(() => {
+        flash = true;
+    }, 4 * 60 * 1000);
 }
 
 // when an answer is selected
@@ -361,6 +471,7 @@ function fillPopup(question_index) {
 // All execution code should be wrapped!!!
 function main() {
     initMainWindow(); // Generate the main playing screen
+    asyncTasks(); // Run background processes
     animate(); // Start the animation
     fillPopup(0);
 }
