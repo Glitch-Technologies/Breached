@@ -23,6 +23,11 @@ let now = new Date();
 now.setHours(6, 0, 0, 0);
 let flash = false;
 let color = "white";
+let oldNow;
+
+// Tutorial controls
+let tutorial_flag = 0;
+let tutorial_skip = false;
 
 imagedir = {
     player: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWQAAAG0CAMAAAAy+609AAAABlBMVEX///8AAABVwtN+AAACxUlEQVR4nO3QgXECAQwDQei/6dTgwRYKv1uBdK8XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBI7099+8B/IHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB1RG/njU9cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR34C0QOEDlA5ACRA0QOEDlAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+xvsxRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA74YmQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe6A+EyUugAvDvrwAAAB10RVh0U29mdHdhcmUAQGx1bmFwYWludC9wbmctY29kZWP1QxkeAAAAAElFTkSuQmCC",
@@ -140,6 +145,8 @@ canvas.addEventListener('click', function(event) {
         if (mouseX >= element.left && mouseX <= element.left + element.width && mouseY >= element.top && mouseY <= element.top + element.height) {
             if (alert == true && element.type == "alert") {
                 openPopup(); 
+            } else if (element.type == "tutorial") {
+                //Do something
             }
         }
     });
@@ -163,9 +170,9 @@ function debug(text, json=false) {
 // Synchronous execution halting. No idea what the use case is, but when I remove it, my computer turns into a pocketwatch.
 function halt(ms) {
     var start = Date.now(),
-    now = start;
-    while (now - start < ms) {
-        now = Date.now();
+    oldNow = start;
+    while (oldNow - start < ms) {
+        oldNow = Date.now();
     }
 }
 
@@ -495,9 +502,13 @@ function fillNonQuestion(event_index) {
     // TODO
 }
 
-function tutorial() {
+function tutorial(tutorial_flag) {
     //Placeholder routine for tutorial. Will be replaced with actual tutorial.
-    tutorialBox(ctx, 0, 0, 100, 100, "This is a tutorial box. Click to close.");
+    redrawMainWindow();
+    if (!tutorial_skip) {
+        tutorialBox(ctx, 0, 0, 100, 100, "This is a tutorial box. Click to close.");
+        tutorial_flag+=1;
+    }
 }
 
 function redrawMainWindow() {
@@ -522,6 +533,7 @@ function tutorialBox(ctx, x, y, width, height, text) {
         top: y,
         width: width,
         height: height,
+        type: "tutorial"
     });
 }
 
@@ -558,7 +570,10 @@ function main() {
     asyncTasks(); // Run background processes
     //Todo: Ask initial difficulty question here
     //fillNonQuestion(0);
-    tutorial();
+    tutorial(0);
+    // while (tutorial_skip == false && tutorial_flag < 1) {
+    //     halt(100); //Don't start gameplay loops until the tutorial is complete.
+    // }
     animate(); // Start the animation
     fillQuestion(0);
 }
