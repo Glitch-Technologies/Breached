@@ -14,6 +14,9 @@ canvas.height = window.innerHeight;
 let mouseX, mouseY;
 let elements = [];
 
+var selected_answer;
+var current_question;
+
 
 imagedir = {
     player: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWQAAAG0CAMAAAAy+609AAAABlBMVEX///8AAABVwtN+AAACxUlEQVR4nO3QgXECAQwDQei/6dTgwRYKv1uBdK8XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBI7099+8B/IHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB1RG/njU9cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR34C0QOEDlA5ACRA0QOEDlAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+xvsxRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA74YmQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe6A+EyUugAvDvrwAAAB10RVh0U29mdHdhcmUAQGx1bmFwYWludC9wbmctY29kZWP1QxkeAAAAAElFTkSuQmCC",
@@ -78,6 +81,7 @@ closePopup.addEventListener(
         questionPopup.classList.remove(
             "show"
         );
+        checkAnswer(current_question, selected_answer)
     }
 );
 /*
@@ -284,6 +288,13 @@ function updateGraph(score_change, threshold) {
     ctx.drawImage(loadedImages[image], x, y)
 }
 
+// when an answer is selected
+function checkAnswer(question_index) {
+    if (selected_answer == questions[question_index].correct_answer_index) {
+        // TODO: make this function do something to change user score, maybe a popup
+    }
+}
+
 function fillPopup(question_index) {
     // hiding buttons
     document.getElementById("answer1").style.display = "none";
@@ -304,6 +315,14 @@ function fillPopup(question_index) {
         document.getElementById(answer_id).innerHTML = questions[question_index].answers[answer_index]
         document.getElementById(answer_id).style.display = "block";
 
+        // adding button functionality
+        document.getElementById(answer_id).addEventListener(
+            "click",
+            function () {
+                selected_answer = this.id.slice(6)
+                debug(selected_answer)
+            }
+        );
     }
 }
 
