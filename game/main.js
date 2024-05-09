@@ -29,7 +29,7 @@ imagedir = {
 };
 
 // TODO: fix/add questions
-events = {
+const events = {
     "questions": [
         {
             "topic": "Your email has been hacked!",
@@ -75,7 +75,17 @@ events = {
     ]
 }
 
-scores = new Array(events.questions.length);
+// time is in seconds
+const difficulties = {
+    "easy": {
+        "time": 300
+    },
+    "hard": {
+        time: 150
+    }
+};
+
+var scores = new Array(events.questions.length);
 
 /* To load an image, put the filename into the remoteImages array. You can then reference
 *  the image inside of the main control loops with loadedImages["imagename"]. Do not include
