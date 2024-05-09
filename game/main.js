@@ -455,7 +455,7 @@ function checkAnswer(question_index, answer_index) {
     }
 }
 
-function fillPopup(question_index) {
+function fillQuestion(question_index) {
     current_question = question_index;
     // hiding buttons
     document.getElementById("answer1").style.display = "none";
@@ -469,6 +469,9 @@ function fillPopup(question_index) {
     document.getElementById("image").src = events.questions[question_index].image;
     document.getElementById("image").image_alt_text = events.questions[question_index].image_alt_text;
     document.getElementById("question").innerHTML = events.questions[question_index].question;
+
+    console.log()
+
     // setting button attrubutes
     var answer_id;
     for (var answer_index=0; answer_index<events.questions[question_index].answers.length; answer_index++) {
@@ -487,12 +490,16 @@ function fillPopup(question_index) {
     }
 }
 
+function fillNonQuestion(event_index) {
+    // TODO
+}
+
 // All execution code should be wrapped!!!
 function main() {
     initMainWindow(); // Generate the main playing screen
     asyncTasks(); // Run background processes
     animate(); // Start the animation
-    fillPopup(0);
+    fillQuestion(0);
 }
 
 loadAssets();
