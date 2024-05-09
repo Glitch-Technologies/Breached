@@ -102,7 +102,6 @@ canvas.addEventListener('mousemove', function(event) {
     mouseX = event.clientX;
     mouseY = event.clientY;
     const position = `x: ${mouseX}, y: ${mouseY}`;
-    debug(position);
 });
 
 canvas.addEventListener('click', function(event) {
@@ -256,9 +255,9 @@ function scoreQuestion(question_index, answer_index) {
     // update the player's score based on their answer to the question
     var score_delta;
     if (answer_index == questions[question_index].correct_answer_index) {
-        score_delta = questions[question_index].point_value
+        score_delta = questions[question_index].point_value;
     } else {
-        score_delta = 0
+        score_delta = 0;
     }
 
     scores.splice(question_index, 1, score_delta)
@@ -273,10 +272,10 @@ function finalScore() {
     return score;
 }
 
-function updateGraph(score_change, threshold) {
+function updateGraph(score_delta) {
     // threshold controls the score difference necessary for the arrow to be green
     var image;
-    if (score_change >= 5) {
+    if (score_delta > 0) {
         image = "up_arrow";
     } else {
         image = "down_arrow";
@@ -289,13 +288,24 @@ function updateGraph(score_change, threshold) {
 }
 
 // when an answer is selected
-function checkAnswer(question_index) {
-    if (selected_answer == questions[question_index].correct_answer_index) {
-        // TODO: make this function do something to change user score, maybe a popup
+function checkAnswer(question_index, answer_index) {
+    // updating score
+    var score_delta = scoreQuestion(question_index, answer_index);
+    updateGraph(score_delta);
+    scores.push(score_delta);
+    debug("score_delta: " + score_delta);
+    
+    // TODO: make the code belowdo something to show change in score maybe a popup
+    // the thing should show the "answer_explanation"
+    if (selected_answer == questions[question_index].correct_answer_index) { // if answer is correct
+
+    } else {
+
     }
 }
 
 function fillPopup(question_index) {
+    current_question = question_index;
     // hiding buttons
     document.getElementById("answer1").style.display = "none";
     document.getElementById("answer2").style.display = "none";
@@ -303,24 +313,24 @@ function fillPopup(question_index) {
     document.getElementById("answer4").style.display = "none";
 
     // setting element attributes (like adding text)
-    document.getElementById("topic").innerHTML
-    document.getElementById("background").innerHTML = questions[question_index].background
-    document.getElementById("image").src = questions[question_index].image
-    document.getElementById("image").image_alt_text = questions[question_index].image_alt_text
-    document.getElementById("question").innerHTML = questions[question_index].question
+    document.getElementById("topic").innerHTML;
+    document.getElementById("background").innerHTML = questions[question_index].background;
+    document.getElementById("image").src = questions[question_index].image;
+    document.getElementById("image").image_alt_text = questions[question_index].image_alt_text;
+    document.getElementById("question").innerHTML = questions[question_index].question;
     // setting button attrubutes
     var answer_id;
     for (var answer_index=0; answer_index<questions[question_index].answers.length; answer_index++) {
-        answer_id = "answer" + (answer_index + 1)
-        document.getElementById(answer_id).innerHTML = questions[question_index].answers[answer_index]
+        answer_id = "answer" + (answer_index + 1);
+        document.getElementById(answer_id).innerHTML = questions[question_index].answers[answer_index];
         document.getElementById(answer_id).style.display = "block";
 
         // adding button functionality
         document.getElementById(answer_id).addEventListener(
             "click",
             function () {
-                selected_answer = this.id.slice(6)
-                debug(selected_answer)
+                selected_answer = parseInt(this.id.slice(6)) - 1;
+                debug("selected_answer: " + selected_answer);
             }
         );
     }
