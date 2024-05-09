@@ -496,6 +496,12 @@ function fillNonQuestion(event_index) {
 
 function tutorial() {
     //Placeholder routine for tutorial. Will be replaced with actual tutorial.
+    tutorialBox(ctx, 0, 0, 100, 100, "This is a tutorial box. Click to close.");
+}
+
+function redrawMainWindow() {
+    initMainWindow();
+    drawClock();
 }
 
 function darkenCanvasExceptRect(x, y, width, height) {
@@ -506,6 +512,17 @@ function darkenCanvasExceptRect(x, y, width, height) {
     // darkenCanvasExceptRect(100, 100, 200, 150);
 }
 
+function tutorialBox(ctx, x, y, width, height, text) {
+    darkenCanvasExceptRect(x, y, width, height);
+    drawBoxWithText(ctx, x, y, width, height, text);
+    // Attach the window details to the element map
+    elements.push({
+        left: x,
+        top: y,
+        width: width,
+        height: height,
+    });
+}
 
 function drawBoxWithText(ctx, x, y, width, height, text) {
     // Draw the box
