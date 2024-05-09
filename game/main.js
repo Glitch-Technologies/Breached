@@ -168,12 +168,10 @@ function initMainWindow() {
     ctx.fillRect((canvas.width/2+550), (canvas.height/2+200), 50, 50);
     ctx.drawImage(loadedImages["ibm5150"], (canvas.width/2+350), (canvas.height/2-50), 200, 200);
     ctx.fillRect((canvas.width/2+400), (canvas.height/2-25), 100, 50);
-    ctx.font = "18px Courier New";
+    ctx.font = "28px Courier New";
     ctx.fillStyle = "red";
     ctx.textAlign = "left";
-    ctx.fillText("BREACH", (canvas.width/2+400), (canvas.height/2));
-
-
+    ctx.fillText("BREACH", (canvas.width/2+400), (canvas.height/2+25));
 }
 
 //Sketchy
