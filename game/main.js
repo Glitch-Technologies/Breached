@@ -454,7 +454,7 @@ function fillPopup(question_index) {
     document.getElementById("answer4").style.display = "none";
 
     // setting element attributes (like adding text)
-    document.getElementById("topic").innerHTML;
+    document.getElementById("topic").innerHTML = events.questions[question_index].topic;
     document.getElementById("background").innerHTML = events.questions[question_index].background;
     document.getElementById("image").src = events.questions[question_index].image;
     document.getElementById("image").image_alt_text = events.questions[question_index].image_alt_text;
