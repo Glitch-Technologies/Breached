@@ -285,16 +285,19 @@ function updateGraph(score_change, threshold) {
 }
 
 function fillPopup(question_index) {
+    // hiding buttons
     document.getElementById("answer1").style.display = "none";
     document.getElementById("answer2").style.display = "none";
     document.getElementById("answer3").style.display = "none";
     document.getElementById("answer4").style.display = "none";
 
+    // setting element attributes (like adding text)
     document.getElementById("topic").innerHTML
     document.getElementById("background").innerHTML = questions[question_index].background
     document.getElementById("image").src = questions[question_index].image
     document.getElementById("image").image_alt_text = questions[question_index].image_alt_text
     document.getElementById("question").innerHTML = questions[question_index].question
+    // setting button attrubutes
     var answer_id;
     for (var answer_index=0; answer_index<questions[question_index].answers.length; answer_index++) {
         answer_id = "answer" + (answer_index + 1)
