@@ -22,7 +22,7 @@ imagedir = {
 questions = [
     {
         "topic": "Your email has been hacked!",
-        "image": "assets/up_arrow.png",
+        "image": "../assets/up_arrow.png",
         "image_alt_text": "oops, the image didn't load",
         "background": "You need to change your password. It should be stronger this time so you don't get hacked again.",
         "question": "Which of the following is a good password",
@@ -33,7 +33,7 @@ questions = [
     },
     {
         "topic": "another topic",
-        "image": "assets/up_arrow.png",
+        "image": "../assets/up_arrow.png",
         "image_alt_text": "oops, the image didn't load",
         "background": "some different text about how to solve the issue and what it is",
         "question": "this is another question",
@@ -44,7 +44,7 @@ questions = [
     },
     {
         "topic": "another differet-er topic",
-        "image": "assets/up_arrow.png",
+        "image": "../assets/up_arrow.png",
         "image_alt_text": "oops, the image didn't load",
         "background": "some different-er text about how to solve the issue and what it is",
         "question": "this is another different question",
