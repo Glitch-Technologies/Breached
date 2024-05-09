@@ -13,6 +13,7 @@ canvas.height = window.innerHeight;
 // Global tracking for mouse position and clickable elements
 let mouseX, mouseY;
 let elements = [];
+let alerts = false;
 
 
 imagedir = {
