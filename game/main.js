@@ -28,43 +28,54 @@ imagedir = {
     player: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWQAAAG0CAMAAAAy+609AAAABlBMVEX///8AAABVwtN+AAACxUlEQVR4nO3QgXECAQwDQei/6dTgwRYKv1uBdK8XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBI7099+8B/IHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB1RG/njU9cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR34C0QOEDlA5ACRA0QOEDlAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+xvsxRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA74YmQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe6A+EyUugAvDvrwAAAB10RVh0U29mdHdhcmUAQGx1bmFwYWludC9wbmctY29kZWP1QxkeAAAAAElFTkSuQmCC",
 };
 
-questions = [
-    {
-        "topic": "Your email has been hacked!",
-        "image": "../assets/up_arrow.png",
-        "image_alt_text": "oops, the image didn't load",
-        "background": "You need to change your password. It should be stronger this time so you don't get hacked again.",
-        "question": "Which of the following is a good password",
-        "answers": ["password123", "782PswdG00d)", "ralph"],
-        "correct_answer_index": 1,
-        "answer_explanation": "'password123' and 'ralph' are too easy to guess, someone could guess those passwords too easily.",
-        "point_value": 10
-    },
-    {
-        "topic": "another topic",
-        "image": "../assets/up_arrow.png",
-        "image_alt_text": "oops, the image didn't load",
-        "background": "some different text about how to solve the issue and what it is",
-        "question": "this is another question",
-        "answers": ["answer 1", "answer 2"],
-        "correct_answer_index": 1,
-        "answer_explanation": "an explanation of the answer",
-        "point_value": 10
-    },
-    {
-        "topic": "another differet-er topic",
-        "image": "../assets/up_arrow.png",
-        "image_alt_text": "oops, the image didn't load",
-        "background": "some different-er text about how to solve the issue and what it is",
-        "question": "this is another different question",
-        "answers": ["answer 1", "answer 2", "answer 3", "answer 4"],
-        "correct_answer_index": 1,
-        "answer_explanation": "an explanation of the answer",
-        "point_value": 10
-    }
-]
+// TODO: fix/add questions
+events = {
+    "questions": [
+        {
+            "topic": "Your email has been hacked!",
+            "image": "../assets/up_arrow.png",
+            "image_alt_text": "oops, the image didn't load",
+            "background": "You need to change your password. It should be stronger this time so you don't get hacked again.",
+            "question": "Which of the following is a good password",
+            "answers": ["password123", "782PswdG00d)", "ralph"],
+            "correct_answer_index": 1,
+            "answer_explanation": "'password123' and 'ralph' are too easy to guess, someone could guess those passwords too easily.",
+            "point_value": 10
+        },
+        {
+            "topic": "Your bank account has been hacked?",
+            "image": "../assets/up_arrow.png",
+            "image_alt_text": "oops, the image didn't load",
+            "background": "You get a suspicious e-mail that says your bank account has been hacked. It says that its from your bank. The e-mail is full of misspellings, and ends with a link to 'steal-your-stuff.com'.",
+            "question": "this is another question",
+            "answers": ["answer 1", "answer 2"],
+            "correct_answer_index": 1,
+            "answer_explanation": "an explanation of the answer",
+            "point_value": 10
+        },
+        {
+            "topic": "another differet-er topic",
+            "image": "../assets/up_arrow.png",
+            "image_alt_text": "oops, the image didn't load",
+            "background": "some different-er text about how to solve the issue and what it is",
+            "question": "this is another different question",
+            "answers": ["answer 1", "answer 2", "answer 3", "answer 4"],
+            "correct_answer_index": 1,
+            "answer_explanation": "an explanation of the answer",
+            "point_value": 10
+        }
+    ], 
+    "non_questions": [
+        {
+            "topic": "Your company had a data breach!",
+            "image": "../assets/down_arrow.png",
+            "text": "Breaches like this happen all the time, and once they happen there's pretty much nothing you can do. Companies pay millions a year to recover data stolen by hackers.",
+            "point_value": -10
+        }
+    ]
+}
 
-scores = new Array(questions.length);
+scores = new Array(events.questions.length);
 
 /* To load an image, put the filename into the remoteImages array. You can then reference
 *  the image inside of the main control loops with loadedImages["imagename"]. Do not include
@@ -108,7 +119,6 @@ canvas.addEventListener('mousemove', function(event) {
     mouseX = event.clientX;
     mouseY = event.clientY;
     const position = `x: ${mouseX}, y: ${mouseY}`;
-    //debug(position);
 });
 
 canvas.addEventListener('click', function(event) {
@@ -363,8 +373,8 @@ function animate() {
 function scoreQuestion(question_index, answer_index) {
     // update the player's score based on their answer to the question
     var score_delta;
-    if (answer_index == questions[question_index].correct_answer_index) {
-        score_delta = questions[question_index].point_value;
+    if (answer_index == events.questions[question_index].correct_answer_index) {
+        score_delta = events.questions[question_index].point_value;
     } else {
         score_delta = 0;
     }
@@ -428,7 +438,7 @@ function checkAnswer(question_index, answer_index) {
     
     // TODO: make the code belowdo something to show change in score maybe a popup
     // the thing should show the "answer_explanation"
-    if (selected_answer == questions[question_index].correct_answer_index) { // if answer is correct
+    if (selected_answer == events.questions[question_index].correct_answer_index) { // if answer is correct
 
     } else {
 
@@ -445,15 +455,15 @@ function fillPopup(question_index) {
 
     // setting element attributes (like adding text)
     document.getElementById("topic").innerHTML;
-    document.getElementById("background").innerHTML = questions[question_index].background;
-    document.getElementById("image").src = questions[question_index].image;
-    document.getElementById("image").image_alt_text = questions[question_index].image_alt_text;
-    document.getElementById("question").innerHTML = questions[question_index].question;
+    document.getElementById("background").innerHTML = events.questions[question_index].background;
+    document.getElementById("image").src = events.questions[question_index].image;
+    document.getElementById("image").image_alt_text = events.questions[question_index].image_alt_text;
+    document.getElementById("question").innerHTML = events.questions[question_index].question;
     // setting button attrubutes
     var answer_id;
-    for (var answer_index=0; answer_index<questions[question_index].answers.length; answer_index++) {
+    for (var answer_index=0; answer_index<events.questions[question_index].answers.length; answer_index++) {
         answer_id = "answer" + (answer_index + 1);
-        document.getElementById(answer_id).innerHTML = questions[question_index].answers[answer_index];
+        document.getElementById(answer_id).innerHTML = events.questions[question_index].answers[answer_index];
         document.getElementById(answer_id).style.display = "block";
 
         // adding button functionality
