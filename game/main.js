@@ -14,6 +14,11 @@ canvas.height = window.innerHeight;
 let mouseX, mouseY;
 let elements = [];
 
+// Global clock controls initilization
+let now = new Date();
+now.setHours(6, 0, 0, 0);
+let flash = false;
+let color = "white";
 
 imagedir = {
     player: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWQAAAG0CAMAAAAy+609AAAABlBMVEX///8AAABVwtN+AAACxUlEQVR4nO3QgXECAQwDQei/6dTgwRYKv1uBdK8XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBI7099+8B/IHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB1RG/njU9cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR34C0QOEDlA5ACRA0QOEDlAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+xvsxRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA74YmQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe6A+EyUugAvDvrwAAAB10RVh0U29mdHdhcmUAQGx1bmFwYWludC9wbmctY29kZWP1QxkeAAAAAElFTkSuQmCC",
@@ -161,8 +166,80 @@ function initMainWindow() {
     ctx.fillRect((canvas.width/2+300), (canvas.height/2+200), 50, 50);
     ctx.fillRect((canvas.width/2+550), (canvas.height/2+200), 50, 50);
     ctx.drawImage(loadedImages["ibm5150"], (canvas.width/2+375), (canvas.height/2+25));
+}
 
+function drawClock() {
+    // Get the current time
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const seconds = now.getSeconds();
 
+    // Calculate the total number of seconds since the start of the day
+    const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
+
+    // Calculate the angle for each hand based on the total seconds
+    const hourAngle = (totalSeconds / (12 * 60 * 60)) * (2 * Math.PI);
+    const minuteAngle = (totalSeconds / (60 * 60)) * (2 * Math.PI);
+    const secondAngle = (totalSeconds / 60) * (2 * Math.PI);
+
+    // Draw the clock face
+    ctx.beginPath();
+    ctx.arc(canvas.width - 140, 140, 80, 0, 2 * Math.PI); // Changed position to move 100 px to the left and 100 px down
+    ctx.fillStyle = "white"; // Added white fill color
+    ctx.fill();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+
+    // Draw the hour numbers
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    for (let i = 1; i <= 12; i++) {
+        const angle = (i / 12) * (2 * Math.PI);
+        const x = canvas.width - 140 + 70 * Math.sin(angle);
+        const y = 145 - 70 * Math.cos(angle);
+        ctx.fillText(i.toString(), x, y);
+    }
+
+    // Draw the hour hand
+    const hourHandLength = 40; // Changed length to 40
+    const hourHandX = canvas.width - 140 + hourHandLength * Math.sin(hourAngle);
+    const hourHandY = 140 - hourHandLength * Math.cos(hourAngle);
+    ctx.beginPath();
+    ctx.moveTo(canvas.width - 140, 140);
+    ctx.lineTo(hourHandX, hourHandY);
+    ctx.lineWidth = 1; // Changed width to 1
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+
+    // Draw the minute hand
+    const minuteHandLength = 60; // Changed length to 60
+    const minuteHandX = canvas.width - 140 + minuteHandLength * Math.sin(minuteAngle);
+    const minuteHandY = 140 - minuteHandLength * Math.cos(minuteAngle);
+    ctx.beginPath();
+    ctx.moveTo(canvas.width - 140, 140);
+    ctx.lineTo(minuteHandX, minuteHandY);
+    ctx.lineWidth = 1; // Changed width to 1
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+
+    // Draw the second hand
+    const secondHandLength = 72; // Changed length to 72
+    const secondHandX = canvas.width - 140 + secondHandLength * Math.sin(secondAngle);
+    const secondHandY = 140 - secondHandLength * Math.cos(secondAngle);
+    ctx.beginPath();
+    ctx.moveTo(canvas.width - 140, 140);
+    ctx.lineTo(secondHandX, secondHandY);
+    ctx.lineWidth = 1; // Changed width to 1
+    ctx.strokeStyle = "red";
+    ctx.stroke();
+
+    // Draw the center point
+    ctx.beginPath();
+    ctx.arc(canvas.width - 140, 140, 4, 0, 2 * Math.PI); // Changed radius to 4
+    ctx.fillStyle = "black";
+    ctx.fill();
 }
 
 //Sketchy
@@ -230,6 +307,9 @@ async function loadImage(local = true, identifier) {
 
 function drawFrame() {
     //Frame by frame draw goes here
+    if (flash) {
+        drawClock(now); 
+    }
 }
 
 function updateLoop() {
@@ -281,6 +361,17 @@ function updateGraph(score_change, threshold) {
 // All execution code should be wrapped!!!
 function main() {
     initMainWindow(); // Generate the main playing screen
+    setInterval(() => {
+        now.setMilliseconds(now.getMilliseconds() + 1440);
+        drawClock(now);
+    }, 10);
+    setInterval(() => {
+        if (color == "white") {
+            color = "red";
+        } else {
+            color = "white";
+        }
+    }, 1000);
     animate(); // Start the animation
 }
 
