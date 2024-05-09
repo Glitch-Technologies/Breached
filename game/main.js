@@ -166,7 +166,7 @@ function initMainWindow() {
     // Create rendering and interaction region for event text
     ctx.fillRect((canvas.width/2+400), (canvas.height/2-25), 100, 50);
     elements.push({
-        width: 50,
+        width: 100,
         height: 50,
         top: (canvas.height/2-25),
         left: (canvas.width/2+400)
