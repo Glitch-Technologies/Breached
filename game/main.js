@@ -138,7 +138,7 @@ canvas.addEventListener('click', function(event) {
         console.log(mouseX);
         console.log(element.left);
         if (mouseX >= element.left && mouseX <= element.left + element.width && mouseY >= element.top && mouseY <= element.top + element.height) {
-            if (alert == true) {
+            if (alert == true && element.type == "alert") {
                 openPopup(); 
             }
         }
@@ -198,7 +198,8 @@ function initMainWindow() {
         width: 100,
         height: 50,
         top: (canvas.height/2-25),
-        left: (canvas.width/2+400)
+        left: (canvas.width/2+400),
+        type: "alert"
     });
     drawAlert();
 
