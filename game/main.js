@@ -13,6 +13,7 @@ canvas.height = window.innerHeight;
 // Global tracking for mouse position and clickable elements
 let mouseX, mouseY;
 let elements = [];
+let alerts = false;
 
 var selected_answer;
 var current_question;
@@ -111,7 +112,9 @@ canvas.addEventListener('click', function(event) {
         console.log(mouseX);
         console.log(element.left);
         if (mouseX >= element.left && mouseX <= element.left + element.width && mouseY >= element.top && mouseY <= element.top + element.height) {
-            openPopup(); //Will open popup when center graph is clicked [NOT FINAL]
+            if (alert == true) {
+                openPopup(); 
+            }
         }
     });
 });
@@ -155,23 +158,41 @@ function initMainWindow() {
     // Graph Region
     ctx.fillStyle = "white";
 
-    elements.push({
-        width: 350,
-        height: 350,
-        top: (canvas.height/2-250),
-        left: (canvas.width/2-250)
-    });
-
     ctx.fillRect((canvas.width/2-250), (canvas.height/2-250), 350, 350);
 
-    //Event interface Region
+    // Event interface Region
     ctx.fillStyle = "black";
     ctx.fillRect((canvas.width/2+300), (canvas.height/2+150), 300, 50);
     ctx.fillRect((canvas.width/2+300), (canvas.height/2+200), 50, 50);
     ctx.fillRect((canvas.width/2+550), (canvas.height/2+200), 50, 50);
-    ctx.drawImage(loadedImages["ibm5150"], (canvas.width/2+375), (canvas.height/2+25));
+    ctx.drawImage(loadedImages["ibm5150"], (canvas.width/2+350), (canvas.height/2-50), 200, 200);
+    // Create rendering and interaction region for event text
+    ctx.fillRect((canvas.width/2+400), (canvas.height/2-25), 100, 50);
+    elements.push({
+        width: 100,
+        height: 50,
+        top: (canvas.height/2-25),
+        left: (canvas.width/2+400)
+    });
+    drawAlert();
 
+}
 
+function drawAlert() {
+    ctx.fillRect((canvas.width/2+400), (canvas.height/2-25), 100, 50);
+    ctx.font = "28px Courier New";
+    ctx.fillStyle = "red";
+    ctx.textAlign = "left";
+    ctx.fillText("BREACH", (canvas.width/2+400), (canvas.height/2+10));
+    alert = true;
+}
+function drawSafe() {
+    ctx.fillRect((canvas.width/2+400), (canvas.height/2-25), 100, 50);
+    ctx.font = "28px Courier New";
+    ctx.fillStyle = "lime";
+    ctx.textAlign = "left";
+    ctx.fillText(" SAFE", (canvas.width/2+400), (canvas.height/2+10));
+    alert = false;
 }
 
 //Sketchy
