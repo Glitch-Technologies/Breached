@@ -308,7 +308,9 @@ async function loadImage(local = true, identifier) {
 function drawFrame() {
     //Frame by frame draw goes here
     if (flash) {
-        drawClock(now); 
+        drawClock(now, color); 
+    } else {
+        drawClock(now, "white");
     }
 }
 
@@ -366,10 +368,12 @@ function main() {
         drawClock(now);
     }, 10);
     setInterval(() => {
-        if (color == "white") {
-            color = "red";
-        } else {
-            color = "white";
+        if (flash) {
+            if (color == "white") {
+                color = "red";
+            } else {
+                color = "white";
+            }
         }
     }, 1000);
     animate(); // Start the animation
