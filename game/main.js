@@ -110,7 +110,7 @@ function openPopup() {
 closePopup.addEventListener(
     "click",
     function () {
-        `questionPopup.classList.remove(
+        questionPopup.classList.remove(
             "show"
         );
         checkAnswer(current_question, selected_answer)
