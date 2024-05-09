@@ -494,10 +494,53 @@ function fillNonQuestion(event_index) {
     // TODO
 }
 
+function tutorial() {
+    //Placeholder routine for tutorial. Will be replaced with actual tutorial.
+}
+
+function darkenCanvasExceptRect(x, y, width, height) {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(x, y, width, height);
+    // Example usage:
+    // darkenCanvasExceptRect(100, 100, 200, 150);
+}
+
+
+function drawBoxWithText(ctx, x, y, width, height, text) {
+    // Draw the box
+    ctx.fillStyle = "white";
+    ctx.fillRect(x, y, width, height);
+
+    // Draw the text
+    ctx.fillStyle = "black";
+    ctx.font = "12px Arial";
+    const words = text.split(" ");
+    let line = "";
+    let lineHeight = 16;
+    let currentY = y + lineHeight;
+    for (let i = 0; i < words.length; i++) {
+        const testLine = line + words[i] + " ";
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
+        if (testWidth > width && i > 0) {
+            ctx.fillText(line, x, currentY);
+            line = words[i] + " ";
+            currentY += lineHeight;
+        } else {
+            line = testLine;
+        }
+    }
+    ctx.fillText(line, x, currentY);
+}
+
 // All execution code should be wrapped!!!
 function main() {
     initMainWindow(); // Generate the main playing screen
     asyncTasks(); // Run background processes
+    //Todo: Ask initial difficulty question here
+    //fillNonQuestion(0);
+    tutorial();
     animate(); // Start the animation
     fillQuestion(0);
 }
