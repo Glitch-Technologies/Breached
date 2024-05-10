@@ -80,10 +80,7 @@ var current_event = {
     "event_index": 0
 };
 
-var uncompleted_events = {
-    "questions": [],
-    "non_questions": []
-};
+var uncompleted_events = {};
 resetUncompletedEvents();
 
 // time is in seconds
@@ -110,11 +107,19 @@ remoteImages = ["player", "ibm5150", "down_arrow", "up_arrow"];
 
 
 function resetUncompletedEvents() {
+    console.log("before:")
+    console.log(uncompleted_events)
+    uncompleted_events = {
+        "questions": [],
+        "non_questions": []
+    };
     for (var type in events) {
         for (var event_index in events[type]) {
             uncompleted_events[type].push(parseInt(event_index));
         }
     }
+    console.log("after:")
+    console.log(uncompleted_events)
 }
 
 function openPopup() {
@@ -475,6 +480,11 @@ function asyncTasks() {
             current_event.type = "non_questions";
         }
         
+        console.log()
+        console.log("thingyingy: ")
+        console.log(uncompleted_events)
+        console.log()
+
         // resetting uncompleted events if ran out
         if (uncompleted_events[current_event.type].length == 0) {
             resetUncompletedEvents();
@@ -493,7 +503,7 @@ function asyncTasks() {
 
         console.log(uncompleted_events);
 
-    }, 30000);
+    }, 5000);
 }
 
 function fillCurrentEvent(current_event) {
