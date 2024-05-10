@@ -493,7 +493,7 @@ function asyncTasks() {
 
         console.log(uncompleted_events);
 
-    }, 3000);
+    }, 30000);
 }
 
 function fillCurrentEvent(current_event) {
