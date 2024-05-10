@@ -84,14 +84,7 @@ var uncompleted_events = {
     "questions": [],
     "non_questions": []
 };
-for (var type in events) {
-    console.log("type: " + type);
-    for (var event_index in events[type]) {
-        console.log(event_index);
-        uncompleted_events[type].push(parseInt(event_index));
-    }
-}
-console.log(uncompleted_events);
+resetUncompletedEvents();
 
 // time is in seconds
 const difficulties = {
@@ -115,6 +108,14 @@ remoteImages = ["player", "ibm5150", "down_arrow", "up_arrow"];
 
 
 
+
+function resetUncompletedEvents() {
+    for (var type in events) {
+        for (var event_index in events[type]) {
+            uncompleted_events[type].push(parseInt(event_index));
+        }
+    }
+}
 
 function openPopup() {
     questionPopup.classList.add("show");
@@ -468,19 +469,31 @@ function asyncTasks() {
     setInterval(() => {
         drawAlert();
 
-        if (Math.random() >= 0.25) { // 75% chance
+        if (Math.random() >= 0.10) { // 90% chance
             current_event.type = "questions";
         } else {
             current_event.type = "non_questions";
         }
+        
+        // resetting uncompleted events if ran out
+        if (uncompleted_events[current_event.type].length == 0) {
+            resetUncompletedEvents();
+        }
+
         current_event.event_index = uncompleted_events[current_event.type][(Math.floor(Math.random() * uncompleted_events[current_event.type].length))];
 
         fillCurrentEvent(current_event);
+        
+        // removing current event
+        var index = uncompleted_events[current_event.type].indexOf(current_event.event_index);
+        uncompleted_events[current_event.type].splice(index, 1);
 
         console.log("typestuff: " + current_event.type);
         console.log("indexstuff: " + current_event.event_index);
 
-    }, 30000);
+        console.log(uncompleted_events);
+
+    }, 3000);
 }
 
 function fillCurrentEvent(current_event) {
