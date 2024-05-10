@@ -371,8 +371,8 @@ canvas.addEventListener('click', function(event) {
                 if (tutorial_flag !== 3 && tutorial_flag !== 9) {
                    tutorial(tutorial_flag);
                 }
-               if (tutorial_flag === 3) {
-                    // Load good question
+                if (tutorial_flag === 3) {
+                    setCurrentEvent("questions", 3);
                 }
                 if (tutorial_flag === 9) {
                     // Load bad event
