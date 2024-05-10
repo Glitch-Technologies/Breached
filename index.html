@@ -1,19 +1,102 @@
-<!-- This page will be displayed at glitchtech.top/breached -->
-
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Welcome to Breached!</title>
     <link rel="icon" href="assets/favicon.ico">
-    <!-- Add your CSS stylesheets and other head elements here -->
+    <style>
+        .container {
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+        }
+
+        .game-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f1f1f1;
+            padding: 20px;
+        }
+
+        .container .game-info h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #007bff;
+        }
+
+        .container .game-info p {
+            font-size: 24px;
+            color: #007bff;
+            text-align: center;
+        }
+
+        .container .game-info hr {
+            width: 80%;
+            background-color: blue;
+            height: 5px;
+        }
+
+        .container .title {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container .title img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .container .title {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .container .start-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .container .start-button button {
+            padding: 10px 20px;
+            font-size: 24px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
+
 <body>
-    <div>
-        <h1>Welcome to Breached!</h1>
-        <p>Breached is a business management simulation designed to teach people about the basics of cybersecurity.</p>
-        <p>Play the game and gain the skills necessary to keep yourself safe online and learn ways to mitigate cyber threats.</p>
-        <a href="game" class="play-button"><img src="assets/breached.png"></a>
+    <div class="container">
+        <div class="game-info">
+            <h1>Welcome to Breached!</h1>
+            <p>Breached is a business management simulation designed to teach people about the basics of cybersecurity.
+            </p>
+            <p>Play the game and gain the skills necessary to keep yourself safe online and learn ways to mitigate cyber
+                threats.</p>
+            <hr>
+            <div class="start-button">
+                <button><a href="game" style="text-decoration: none; color: inherit;">Start Game</a></button>
+            </div>
+        </div>
+        <div class="container">
+            <div class="title">
+                <img src="assets/breached.png" alt="Breached Game Title">
+            </div>
+        </div>
     </div>
-    <!-- Add your JavaScript code and other body elements here -->
 </body>
+
 </html>

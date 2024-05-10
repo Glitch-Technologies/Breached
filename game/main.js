@@ -19,11 +19,21 @@ var selected_answer;
 var current_question;
 var current_non_question;
 
+const graphX = (canvas.width / 2.8);
+const graphY = (canvas.height / 6);
+
 // Global clock controls initilization
 let now = new Date();
 now.setHours(6, 0, 0, 0);
 let flash = false;
 let color = "white";
+let oldNow;
+let clockX = canvas.width / 1.15
+let clockY = canvas.height / 5
+
+// Tutorial controls
+let tutorial_flag = 0;
+let tutorial_skip = false;
 
 imagedir = {
     player: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWQAAAG0CAMAAAAy+609AAAABlBMVEX///8AAABVwtN+AAACxUlEQVR4nO3QgXECAQwDQei/6dTgwRYKv1uBdK8XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBI7099+8B/IHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB1RG/njU9cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR34C0QOEDlA5ACRA0QOEDlAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+xvsxRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA74YmQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe6A+EyUugAvDvrwAAAB10RVh0U29mdHdhcmUAQGx1bmFwYWludC9wbmctY29kZWP1QxkeAAAAAElFTkSuQmCC",
@@ -65,7 +75,7 @@ const events = {
             "answer_explanation": "an explanation of the answer",
             "point_value": 10
         }
-    ], 
+    ],
     "non_questions": [
         {
             "topic": "Your company had a data breach!",
@@ -77,15 +87,151 @@ const events = {
     ]
 }
 
+var selected_answer;
+
+var current_event = {
+    "type": "questions",
+    "event_index": 0
+};
+
+var uncompleted_events = {};
+resetUncompletedEvents();
+
 // time is in seconds
 const difficulties = {
     "easy": {
         "time": 300
     },
     "hard": {
-        time: 150
+        "time": 150
     }
 };
+
+
+// function tutorialBox(ctx, x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0, excludeHeight = 0, text) {
+const tutorials = [
+    {
+        "x": (canvas.width/3),
+        "y": (canvas.height/6),
+        "width": 400,
+        "height": 400,
+        "x2": (canvas.width/26),
+        "y2": (canvas.height/4),
+        "excludeWidth": 356,
+        "excludeHeight": 436,
+        "text": "Welcome to Breached!: The Cybersecurity Incident Response Challenge.\n "
+        + "This is you. The objective of Breached is to solve as many cybersecurity problems in your "
+        + "house as possible before the day is over.\n All you have to do is click on yo"
+        + "ur computer and see what event happened. It could be a problem to solve or ju"
+        + "st some news.\n Click each box to continue."
+    },
+    {
+        "x": (canvas.width/2),
+        "y": (canvas.height/6),
+        "width": 200,
+        "height":200,
+        "x2": (canvas.width/1.3),
+        "y2": (canvas.height/2.6),
+        "excludeWidth": 200,
+        "excludeHeight": 250,
+        "text": "This is your home computer.\n You'll use it to keep yourself safe from cyber threats.\n Click."
+    },
+    {
+        "x": (canvas.width/2),
+        "y": (canvas.height/6),
+        "width": 200,
+        "height":200,
+        "x2": (canvas.width/1.3 +30),
+        "y2": (canvas.height / 2.1),
+        "excludeWidth": 100,
+        "excludeHeight": 50,
+        "text": "Oh no, a threat has appeared. I'll help to protect you this time. Let's click on our computer screen to respond."
+    },
+    {
+        "x": (canvas.width/2)-200,
+        "y": (canvas.height/2)-200,
+        "width": 400,
+        "height": 400,
+        "x2": 0,
+        "y2": 0,
+        "excludeWidth": 0,
+        "excludeHeight": 0,
+        "text": "Great work, but all of these choices were correct. It won't be like this for every question.\n Click to continue."
+    },
+    {
+        "x": (canvas.width/2)+250,
+        "y": (canvas.height/2)-200,
+        "width": 300,
+        "height": 300,
+        "x2": graphX,
+        "y2": graphY,
+        "excludeWidth": 350,
+        "excludeHeight": 350,
+        "text": "Look, this means that we gained points from that last question. By collecting the most points, you can prove "
+        + " that you are a cyber champ.\n Click to continue. "
+    },
+    {
+        "x": (canvas.width/2),
+        "y": (canvas.height/2)+100,
+        "width": 200,
+        "height": 200,
+        "x2": (canvas.width / 5.2),
+        "y2": (canvas.height/60),
+        "excludeWidth": 200,
+        "excludeHeight": 50,
+        "text": "You can keep track of your total score over here\n Click to continue." //TODO
+    },
+    {
+        "x": (canvas.width/2)-200,
+        "y": (canvas.height/2)-200,
+        "width": 300,
+        "height": 300,
+        "x2": clockX-200/2,
+        "y2": clockY-200/2,
+        "excludeWidth": 200,
+        "excludeHeight": 200,
+        "text": "The clock is an important part of this simulation. Don't stress about time, it's more important to answer"
+        + " questions correctly, but you will only have 5 minutes total to complete this simulation. Click to continue."
+    },
+    {
+        "x": (canvas.width/2)-200,
+        "y": (canvas.height/2)-200,
+        "width": 400,
+        "height": 400,
+        "x2": (canvas.width/2),
+        "y2": (canvas.height/2),
+        "excludeWidth": 0,
+        "excludeHeight": 0,
+        "text": "Once the simulation is over, we'll tally up your points and rank your cybersecurity abilities.\n"
+        //+ "Remember, you don't have to a computer scientist or an IT wizard to stay safe online. You to could " //Put into the end somewhere
+        //+ "venture into the field of cybersecurity with whatever background or interests you might have./"
+        +" Sometimes, a cyber attack is out of your control, let's simulate one last alert before you get started.\n"
+        +" Click to continue."
+    },
+    {
+        "x": (canvas.width/2),
+        "y": (canvas.height/2)-200,
+        "width": 300,
+        "height":300,
+        "x2": (canvas.width/1.3 +30),
+        "y2": (canvas.height / 2.1),
+        "excludeWidth": 100,
+        "excludeHeight": 50,
+        "text": "We won't be able to fix this threat, so it'll set us back a few points, but it's important to recognize that"
+        +" your decisions in this simulation can help combat these larger cyber attacks in the real world.\n Click the screen."
+    },
+    {
+        "x": (canvas.width/2)-400,
+        "y": (canvas.height/2)-200,
+        "width": 200,
+        "height": 200,
+        "x2": graphX,
+        "y2": graphY,
+        "excludeWidth": 350,
+        "excludeHeight": 350,
+        "text": "Great work. You're ready for the real game. Just click this box one more time and the clock will start."
+    }
+]
 
 var scores = new Array(events.questions.length);
 
@@ -100,21 +246,45 @@ remoteImages = ["player", "ibm5150", "down_arrow", "up_arrow"];
 
 
 
+function resetUncompletedEvents() {
+    console.log("before:")
+    console.log(uncompleted_events)
+    uncompleted_events = {
+        "questions": [],
+        "non_questions": []
+    };
+    for (var type in events) {
+        for (var event_index in events[type]) {
+            uncompleted_events[type].push(parseInt(event_index));
+        }
+    }
+    console.log("after:")
+    console.log(uncompleted_events)
+}
+
 function openPopup() {
     questionPopup.classList.add("show");
 }
 
 closePopup.addEventListener(
     "click",
-    function () {
+    function() {
         questionPopup.classList.remove(
             "show"
         );
-        if (current_question != -1) { // if on a question
-            checkAnswer(current_question, selected_answer)
-        } else if (current_non_question != -1) { // if on non-question
-            scoreNonQuestion(current_non_question);
+        
+        if (tutorial_flag === 3 || tutorial_flag === 9) {
+            tutorial(tutorial_flag);
         }
+        console.log("current1: " + current_event.type);
+        console.log("current2: " + current_event.event_index);
+        if (current_event.type == "questions") { // if on a question
+            checkAnswer(current_event.event_index, selected_answer)
+        } else { // if on non-question
+            scoreNonQuestion(current_event.event_index);
+        }
+
+        drawSafe(); // TODO: might cause issues, overwriting unfinished questions. just sets the screen to safe when closing a prompt
     }
 );
 /*
@@ -135,17 +305,22 @@ canvas.addEventListener('mousemove', function(event) {
     mouseX = event.clientX;
     mouseY = event.clientY;
     const position = `x: ${mouseX}, y: ${mouseY}`;
+    //debug(position);
 });
 
 canvas.addEventListener('click', function(event) {
     // Iterate through all elements to see if the click event was on one of them
+    //debug(JSON.stringify(elements));
     elements.forEach(function(element) {
-        console.log(element);
-        console.log(mouseX);
-        console.log(element.left);
         if (mouseX >= element.left && mouseX <= element.left + element.width && mouseY >= element.top && mouseY <= element.top + element.height) {
-            if (alert == true) {
-                openPopup(); 
+            if ((alert == true && element.type == "alert") && (tutorial_flag === 3 || tutorial_flag === 9 || tutorial_flag > tutorials.length-1)) {
+                openPopup();
+            }
+            if (element.type == "tutorial") {
+                elements.splice(elements.indexOf(element), 1);
+                if (tutorial_flag !== 3 && tutorial_flag !== 9) {
+                    tutorial(tutorial_flag);
+                }
             }
         }
     });
@@ -159,58 +334,69 @@ async function loadAssets() {
 }
 
 // Internal use only.
-function debug(text, json=false) {
+function debug(text, json = false) {
     let debugText = document.getElementById('debug');
     debugText.style.visibility = "visible";
-    
+
     debugText.innerHTML = text;
 }
 
 // Synchronous execution halting. No idea what the use case is, but when I remove it, my computer turns into a pocketwatch.
 function halt(ms) {
     var start = Date.now(),
-    now = start;
-    while (now - start < ms) {
-        now = Date.now();
+        oldNow = start;
+    while (oldNow - start < ms) {
+        oldNow = Date.now();
     }
 }
 
 
 function initMainWindow() {
     // Set the canvas background color to Cisco blue
+    ctx.fillStyle = "";
     canvas.style.backgroundColor = "rgb(0, 112, 184)";
     // Draw the text "Breached!" in the top middle of the canvas
     ctx.font = "48px Arial";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
-    ctx.fillText("Breached!", canvas.width / 2, 50);
-    ctx.drawImage(loadedImages["player"], 50, (canvas.height / 4)/*Todo: subtract half of player sprite height*/);
+    ctx.fillText("Breached!", canvas.width / 2, canvas.height / 12);
+    ctx.drawImage(loadedImages["player"], canvas.width / 26, (canvas.height / 4)/*Todo: subtract half of player sprite height*/);
 
-    
+
     // Graph Region
     ctx.fillStyle = "white";
 
-    ctx.fillRect((canvas.width/2-250), (canvas.height/2-250), 350, 350);
+    ctx.fillRect(graphX, graphY, 350, 350);
 
     // Event interface Region
     ctx.fillStyle = "black";
-    ctx.fillRect((canvas.width/2+300), (canvas.height/2+150), 300, 50);
-    ctx.fillRect((canvas.width/2+300), (canvas.height/2+200), 50, 50);
-    ctx.fillRect((canvas.width/2+550), (canvas.height/2+200), 50, 50);
-    ctx.drawImage(loadedImages["ibm5150"], (canvas.width/2+350), (canvas.height/2-50), 200, 200);
-    // Create rendering and interaction region for event text
-    ctx.fillRect((canvas.width/2+400), (canvas.height/2-25), 100, 50);
-    elements.push({
-        width: 100,
-        height: 50,
-        top: (canvas.height/2-25),
-        left: (canvas.width/2+400)
+    //ctx.fillRect((canvas.width / 1.4), (canvas.height / 1.3), 300, 50);
+    //ctx.fillRect((canvas.width / 1.4), (canvas.height / 1.2), 50, 50);
+    //ctx.fillRect((canvas.width / 1.4 + 250), (canvas.height / 1.2), 50, 50);
+    ctx.drawImage(loadedImages["ibm5150"], (canvas.width / 1.3 - 20), (canvas.height / 2.3 + 5), 200, 200);
+    
+    let alertExists = false;
+    elements.forEach(function(element) {
+        if (element.type === "alert") {
+            alertExists = true
+        }
     });
-    drawAlert();
+    if (!alertExists) {
+        elements.push({
+            width: 100,
+            height: 50,
+            top: (canvas.height / 2.1),
+            left: (canvas.width / 1.3 + 30),
+            type: "alert"
+        });
+    }
+    drawSafe();
 
 }
 
 function drawClock(color) {
+    let centerX = clockX;
+    let centerY = clockY;
     // Get the current time
     const hours = now.getHours();
     const minutes = now.getMinutes();
@@ -222,12 +408,11 @@ function drawClock(color) {
     // Calculate the angle for each hand based on the total seconds
     const hourAngle = (totalSeconds / (12 * 60 * 60)) * (2 * Math.PI);
     const minuteAngle = (totalSeconds / (60 * 60)) * (2 * Math.PI);
-    const secondAngle = (totalSeconds / 60) * (2 * Math.PI);
 
     // Draw the clock face
     ctx.beginPath();
-    ctx.arc(canvas.width - 140, 140, 80, 0, 2 * Math.PI); // Changed position to move 100 px to the left and 100 px down
-    ctx.fillStyle = color; // Added white fill color
+    ctx.arc(centerX, centerY, 80, 0, 2 * Math.PI);
+    ctx.fillStyle = color;
     ctx.fill();
     ctx.lineWidth = 2;
     ctx.strokeStyle = "black";
@@ -239,74 +424,63 @@ function drawClock(color) {
     ctx.textAlign = "center";
     for (let i = 1; i <= 12; i++) {
         const angle = (i / 12) * (2 * Math.PI);
-        const x = canvas.width - 140 + 70 * Math.sin(angle);
-        const y = 145 - 70 * Math.cos(angle);
+        const x = centerX + 70 * Math.sin(angle);
+        const y = centerY + 5 - 70 * Math.cos(angle);
         ctx.fillText(i.toString(), x, y);
     }
 
     // Draw the hour hand
-    const hourHandLength = 40; // Changed length to 40
-    const hourHandX = canvas.width - 140 + hourHandLength * Math.sin(hourAngle);
-    const hourHandY = 140 - hourHandLength * Math.cos(hourAngle);
+    const hourHandLength = 40;
+    const hourHandX = centerX + hourHandLength * Math.sin(hourAngle);
+    const hourHandY = centerY - hourHandLength * Math.cos(hourAngle);
     ctx.beginPath();
-    ctx.moveTo(canvas.width - 140, 140);
+    ctx.moveTo(centerX, centerY);
     ctx.lineTo(hourHandX, hourHandY);
-    ctx.lineWidth = 1; // Changed width to 1
+    ctx.lineWidth = 1;
     ctx.strokeStyle = "black";
     ctx.stroke();
 
     // Draw the minute hand
-    const minuteHandLength = 60; // Changed length to 60
-    const minuteHandX = canvas.width - 140 + minuteHandLength * Math.sin(minuteAngle);
-    const minuteHandY = 140 - minuteHandLength * Math.cos(minuteAngle);
+    const minuteHandLength = 60;
+    const minuteHandX = centerX + minuteHandLength * Math.sin(minuteAngle);
+    const minuteHandY = centerY - minuteHandLength * Math.cos(minuteAngle);
     ctx.beginPath();
-    ctx.moveTo(canvas.width - 140, 140);
+    ctx.moveTo(centerX, centerY);
     ctx.lineTo(minuteHandX, minuteHandY);
-    ctx.lineWidth = 1; // Changed width to 1
+    ctx.lineWidth = 1;
     ctx.strokeStyle = "black";
     ctx.stroke();
 
-    // Draw the second hand
-    /* Removed. Too distracting to users.
-    const secondHandLength = 72; // Changed length to 72
-    const secondHandX = canvas.width - 140 + secondHandLength * Math.sin(secondAngle);
-    const secondHandY = 140 - secondHandLength * Math.cos(secondAngle);
-    ctx.beginPath();
-    ctx.moveTo(canvas.width - 140, 140);
-    ctx.lineTo(secondHandX, secondHandY);
-    ctx.lineWidth = 1; // Changed width to 1
-    ctx.strokeStyle = "red";
-    ctx.stroke();
-    */
-
     // Draw the center point
     ctx.beginPath();
-    ctx.arc(canvas.width - 140, 140, 4, 0, 2 * Math.PI); // Changed radius to 4
+    ctx.arc(centerX, centerY, 4, 0, 2 * Math.PI);
     ctx.fillStyle = "black";
     ctx.fill();
 }
 
 function drawAlert() {
-    ctx.fillRect((canvas.width/2+400), (canvas.height/2-25), 100, 50);
+    ctx.fillStyle = "black";
+    ctx.fillRect((canvas.width / 1.3 + 30), (canvas.height / 2.1), 100, 50);
     ctx.font = "28px Courier New";
     ctx.fillStyle = "red";
     ctx.textAlign = "left";
-    ctx.fillText("BREACH", (canvas.width/2+400), (canvas.height/2+10));
+    ctx.fillText("BREACH", (canvas.width / 1.3 + 30), (canvas.height / 1.9));
     alert = true;
 }
 function drawSafe() {
-    ctx.fillRect((canvas.width/2+400), (canvas.height/2-25), 100, 50);
+    ctx.fillStyle = "black";
+    ctx.fillRect((canvas.width / 1.3 + 30), (canvas.height / 2.1), 100, 50);
     ctx.font = "28px Courier New";
     ctx.fillStyle = "lime";
     ctx.textAlign = "left";
-    ctx.fillText(" SAFE", (canvas.width/2+400), (canvas.height/2+10));
+    ctx.fillText(" SAFE", (canvas.width / 1.3 + 30), (canvas.height / 1.9));
     alert = false;
 }
 
 //Sketchy
 function waitMainCallback(routine) {
     if (Object.keys(loadedImages).length > 3) {
-        
+
         console.log("Done waiting");
 
         const loader = document.getElementById("loader");
@@ -354,7 +528,7 @@ async function loadImage(local = true, identifier) {
         img.src = imagedir[identifier]; // Set source contents
         img.onload = () => {
             ctx.drawImage(img, 0, 0);
-            loadedImages.push({ identifier: img });            
+            loadedImages.push({ identifier: img });
         };
     } else {
         const url = "../assets/" + identifier + ".png";
@@ -362,7 +536,7 @@ async function loadImage(local = true, identifier) {
             loadedImages[identifier] = img;
             //elements.push(img);
         };
-        img.src = url; 
+        img.src = url;
     }
 }
 
@@ -370,7 +544,7 @@ function drawFrame() {
     //Frame by frame draw goes here
     //debug(color);
     if (flash) {
-        drawClock(color); 
+        drawClock(color);
     } else {
         drawClock("white");
     }
@@ -401,7 +575,7 @@ function scoreQuestion(question_index, answer_index) {
 
 function finalScore() {
     var score;
-    
+
     score = scores.reduce((a, b) => a + b, 0);
 
     return score;
@@ -416,8 +590,8 @@ function updateGraph(score_delta) {
         image = "down_arrow";
     }
 
-    var x = (canvas.width/2-250);
-    var y = (canvas.height/2-250);
+    var x = graphX;
+    var y = graphY;
 
     ctx.drawImage(loadedImages[image], x, y)
 }
@@ -450,6 +624,41 @@ function asyncTasks() {
         flash = true;
     }, 4 * 60 * 1000));
     // End of Game
+    
+    // automatically starting questions
+    intervals.push(setInterval(() => {
+        drawAlert();
+
+        if (Math.random() >= 0.10) { // 90% chance
+            current_event.type = "questions";
+        } else {
+            current_event.type = "non_questions";
+        }
+        
+        console.log()
+        console.log("thingyingy: ")
+        console.log(uncompleted_events)
+        console.log()
+
+        // resetting uncompleted events if ran out
+        if (uncompleted_events[current_event.type].length == 0) {
+            resetUncompletedEvents();
+        }
+
+        current_event.event_index = uncompleted_events[current_event.type][(Math.floor(Math.random() * uncompleted_events[current_event.type].length))];
+
+        fillCurrentEvent(current_event);
+        
+        // removing current event
+        var index = uncompleted_events[current_event.type].indexOf(current_event.event_index);
+        uncompleted_events[current_event.type].splice(index, 1);
+
+        console.log("typestuff: " + current_event.type);
+        console.log("indexstuff: " + current_event.event_index);
+
+        console.log(uncompleted_events);
+
+    }, 20000));
     setTimeout(() => {
 
         // Clear all intervals
@@ -500,16 +709,27 @@ function showFinalScore() {
 
     // Display the rank to the user
     ctx.fillText("Rank: " + rank, canvas.width/2, canvas.height/2 + 50);
+    
+}
+
+function fillCurrentEvent(current_event) {
+    if (current_event.type == "questions") {
+        fillQuestion(current_event.event_index)
+    } else {
+        fillNonQuestion(current_event.event_index)
+    }
 }
 
 
 // when an answer is selected
 function checkAnswer(question_index, answer_index) {
     // updating score
-    var score_delta = scoreQuestion(question_index, answer_index);
-    updateGraph(score_delta);
-    scores.push(score_delta);
-    debug("score_delta: " + score_delta);
+    if (tutorial_flag > tutorials.length-1) { // if tutorial is over
+        var score_delta = scoreQuestion(question_index, answer_index);
+        updateGraph(score_delta);
+        scores.push(score_delta);
+    }
+    debug("score_delta1: " + score_delta);
     
     // TODO: make the code belowdo something to show change in score maybe a popup
     // the thing should show the "answer_explanation"
@@ -521,15 +741,18 @@ function checkAnswer(question_index, answer_index) {
 }
 
 function scoreNonQuestion(event_index) {
-    var score_delta = events.non_questions[event_index].point_value;
-    updateGraph(score_delta);
-    scores.push(score_delta);
-    debug("score_delta: " + score_delta);
+    // updating score
+    if (tutorial_flag > tutorials.length-1) { // if tutorial is over
+        var score_delta = events.non_questions[event_index].point_value;
+        updateGraph(score_delta);
+        scores.push(score_delta);
+        debug("score_delta2: " + score_delta);
+    }
 }
 
 function fillQuestion(question_index) {
-    current_question = question_index;
-    current_non_question = -1;
+    current_event.event_index = question_index;
+    current_event.type = "questions";
     // hiding buttons
     document.getElementById("answer1").style.display = "none";
     document.getElementById("answer2").style.display = "none";
@@ -537,25 +760,25 @@ function fillQuestion(question_index) {
     document.getElementById("answer4").style.display = "none";
 
     // setting element attributes (like adding text)
-    document.getElementById("topic").innerHTML = events.questions[question_index].topic;
-    document.getElementById("background").innerHTML = events.questions[question_index].background;
-    document.getElementById("image").src = events.questions[question_index].image;
-    document.getElementById("image").image_alt_text = events.questions[question_index].image_alt_text;
-    document.getElementById("question").innerHTML = events.questions[question_index].question;
+    document.getElementById("topic").innerHTML = events.questions[current_event.event_index].topic;
+    document.getElementById("background").innerHTML = events.questions[current_event.event_index].background;
+    document.getElementById("image").src = events.questions[current_event.event_index].image;
+    document.getElementById("image").image_alt_text = events.questions[current_event.event_index].image_alt_text;
+    document.getElementById("question").innerHTML = events.questions[current_event.event_index].question;
 
     console.log()
 
     // setting button attrubutes
     var answer_id;
-    for (var answer_index=0; answer_index<events.questions[question_index].answers.length; answer_index++) {
+    for (var answer_index=0; answer_index<events.questions[current_event.event_index].answers.length; answer_index++) {
         answer_id = "answer" + (answer_index + 1);
-        document.getElementById(answer_id).innerHTML = events.questions[question_index].answers[answer_index];
+        document.getElementById(answer_id).innerHTML = events.questions[current_event.event_index].answers[answer_index];
         document.getElementById(answer_id).style.display = "block";
 
         // adding button functionality
         document.getElementById(answer_id).addEventListener(
             "click",
-            function () {
+            function() {
                 selected_answer = parseInt(this.id.slice(6)) - 1;
                 debug("selected_answer: " + selected_answer);
             }
@@ -564,8 +787,9 @@ function fillQuestion(question_index) {
 }
 
 function fillNonQuestion(event_index) {
-    current_question = -1;
-    current_non_question = event_index;
+    current_event.event_index = event_index;
+    current_event.type = "non_questions";
+
     // hiding buttons
     document.getElementById("answer1").style.display = "none";
     document.getElementById("answer2").style.display = "none";
@@ -582,12 +806,174 @@ function fillNonQuestion(event_index) {
     document.getElementById("closePopup").innerHTML = "close"
 }
 
+function redrawMainWindow() {
+    ctx.fillStyle = "white";
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    initMainWindow();
+    drawClock("white");
+}
+
+function darkenCanvasExceptRect(x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0, excludeHeight = 0) {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+    // This is the wrong solution. However, excludeWidth and excludeHeight must be >=1. TODO
+    const imageData = ctx.getImageData(x2, y2, excludeWidth+1, excludeHeight+1);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(x2, y2, excludeWidth, excludeHeight);
+    if (excludeWidth !== 0) {
+        ctx.putImageData(imageData, x2, y2);
+    }
+    ctx.clearRect(x, y, width, height);
+    // Example usage:
+    // darkenCanvasExceptRect(100, 100, 200, 150, 150, 150, 100, 100);
+}
+
+function drawArrow(x1, y1, x2, y2, excludeWidth, excludeHeight) {
+    ctx.beginPath();
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 5;
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2 + excludeWidth / 2, y2 + excludeHeight / 2); // Center of the box
+    ctx.lineTo(x1, y1);
+    ctx.stroke();
+    
+
+
+    // Calculate the angle of the arrow
+    const angle = Math.atan2(y2 + excludeHeight / 2 - y1, x2 + excludeWidth / 2 - x1);
+
+    // Draw the arrowhead
+    const arrowSize = 30;
+    ctx.beginPath();
+    ctx.moveTo(x2 + excludeWidth / 2, y2 + excludeHeight / 2); // Center of the box
+    ctx.lineTo(x2 + excludeWidth / 2 - arrowSize * Math.cos(angle - Math.PI / 6), y2 + excludeHeight / 2 - arrowSize * Math.sin(angle - Math.PI / 6));
+    ctx.moveTo(x2 + excludeWidth / 2, y2 + excludeHeight / 2); // Center of the box
+    ctx.lineTo(x2 + excludeWidth / 2 - arrowSize * Math.cos(angle + Math.PI / 6), y2 + excludeHeight / 2 - arrowSize * Math.sin(angle + Math.PI / 6));
+    ctx.stroke();
+}
+
+function tutorialBox(ctx, x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0, excludeHeight = 0, text) {
+
+    darkenCanvasExceptRect(x, y, width, height, x2, y2, excludeWidth, excludeHeight);
+    
+    if (tutorial_flag === 2) {
+        drawAlert();
+    }
+    if (tutorial_flag === 8) {
+        drawAlert();
+    }
+    if (tutorial_flag === 4) {
+        ctx.drawImage(loadedImages["up_arrow"], graphX, graphY);
+    }
+    if (tutorial_flag === 9) {
+        ctx.drawImage(loadedImages["down_arrow"], graphX, graphY);
+    }
+    drawBoxWithText(ctx, x, y, width, height, text, x2, y2, excludeWidth, excludeHeight);
+
+    // Attach the window details to the element map
+    elements.push({
+        left: x,
+        top: y,
+        width: width,
+        height: height,
+        type: "tutorial"
+    });
+    tutorial_flag += 1;
+    
+}
+
+function drawBoxWithText(ctx, x, y, width, height, text, x2, y2, excludeWidth, excludeHeight) {
+    
+    if (excludeWidth !== 0) {
+        drawArrow(x, y, x2, y2, excludeWidth, excludeHeight);
+    }
+    
+    // Draw the rounded box with dashed outline
+    ctx.fillStyle = "white";
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath();
+    ctx.moveTo(x + 10, y);
+    ctx.lineTo(x + width - 10, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + 10);
+    ctx.lineTo(x + width, y + height - 10);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - 10, y + height);
+    ctx.lineTo(x + 10, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - 10);
+    ctx.lineTo(x, y + 10);
+    ctx.quadraticCurveTo(x, y, x + 10, y);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    // Draw the text
+    ctx.fillStyle = "black";
+    ctx.font = "bold 18px Arial";
+    ctx.textAlign = "center";
+
+    const words = text.split(" ");
+    let line = "";
+    let lineHeight = 16;
+    let currentY = y + lineHeight*1.5; // Align the text to the bottom of the box
+    for (let i = 0; i < words.length; i++) {
+        const testLine = line + words[i] + " ";
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
+        if (testWidth > width && i > 0) {
+            ctx.fillText(line, x + (width / 2), currentY);
+            line = words[i] + " ";
+            currentY += lineHeight + 16; // Add single line spacing
+        } else if (words[i].includes("\n")) {
+            const splitWords = words[i].split("\n");
+            for (let j = 0; j < splitWords.length; j++) {
+                ctx.fillText(line + splitWords[j], x + (width / 2), currentY);
+                line = "";
+                currentY += lineHeight + 16; // Add single line spacing
+            }
+        } else {
+            line = testLine;
+        }
+    }
+    ctx.fillText(line, x + (width / 2), currentY);
+    ctx.setLineDash([]);
+
+}
+
 // All execution code should be wrapped!!!
 function main() {
     initMainWindow(); // Generate the main playing screen
-    asyncTasks(); // Run background processes
-    animate(); // Start the animation
+    //Todo: Ask initial difficulty question here
     fillNonQuestion(0);
+    //debug("Width: " + canvas.width.toString() + " Height: " + canvas.height.toString());
+    tutorial(tutorial_flag);
+}
+
+// Hacky way to lock out gameplay until post tutorial
+function tutorial(tutorial_flag) {
+    // Clear the entire canvas
+    redrawMainWindow();
+    if (tutorial_flag > tutorials.length-1) {
+        redrawMainWindow();
+        animate(); // Start the animation
+        asyncTasks(); // Run background processes
+    } else {
+        //debug(`f: ${tutorial_flag}`);
+        halt(100); //Don't want any accidental double clicks. Just a precaution since I move the box around.
+        tutorialBox(
+            ctx, 
+            tutorials[tutorial_flag]["x"], 
+            tutorials[tutorial_flag]["y"],
+            tutorials[tutorial_flag]["width"], 
+            tutorials[tutorial_flag]["height"],
+            tutorials[tutorial_flag]["x2"],
+            tutorials[tutorial_flag]["y2"],
+            tutorials[tutorial_flag]["excludeWidth"],
+            tutorials[tutorial_flag]["excludeHeight"],
+            tutorials[tutorial_flag]["text"],
+        )
+        //tutorialBox(ctx, 0, 0, 100, 100, "This is a tutorial box. Click to close.");
+    }
+
 }
 
 loadAssets();
