@@ -241,7 +241,7 @@ var scores = new Array(events.questions.length);
 */
 
 loadedImages = {};
-remoteImages = ["player", "ibm5150", "down_arrow", "up_arrow"];
+remoteImages = ["player", "ibm5150", "down_arrow", "up_arrow", "backgroundRoom"];
 
 
 
@@ -355,6 +355,7 @@ function initMainWindow() {
     // Set the canvas background color to Cisco blue
     ctx.fillStyle = "";
     canvas.style.backgroundColor = "rgb(0, 112, 184)";
+
     // Draw the text "Breached!" in the top middle of the canvas
     ctx.font = "48px Arial";
     ctx.fillStyle = "white";
