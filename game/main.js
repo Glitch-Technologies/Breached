@@ -86,7 +86,21 @@ const events = {
            "correct_answer_index": 1,
            "answer_explanation": "an explanation of the answer",
            "point_value": 10
-       }
+       },
+       {
+            "topic": "Staying Safe Online",
+            "image": "../assets/up_arrow.png",
+            "image_alt_text": "oops, the image didn't load",
+            "background": "Online safety is important to understand and follow. You'll need to be able to stay"
+            + " safe if you want to protect yourself from data breaches or theft. Some common cybersecurity tips"
+            + " are to avoid computer viruses, use strong passwords, install reputable antivirus software and "
+            + "only visit safe and secure websites.",
+            "question": "What's a good way to stay safe online?",
+            "answers": ["Avoiding viruses", "Using strong passwords", "Using a safe antivirus", "Visiting secure websites"],
+            "correct_answer_index": 1,
+            "answer_explanation": "All of these are good ways to stay safe when using your computer.",
+            "point_value": 10
+        }
    ],
    "non_questions": [
        {
@@ -135,8 +149,8 @@ const tutorials = [
        "height": 400,
        "x2": (canvas.width/26),
        "y2": (canvas.height/4),
-       "excludeWidth": 356,
-       "excludeHeight": 436,
+       "excludeWidth": 400,
+       "excludeHeight": 400,
        "text": "Welcome to Breached!: The Cybersecurity Incident Response Challenge.\n "
        + "This is you. The objective of Breached is to solve as many cybersecurity problems in your "
        + "house as possible before the day is over.\n All you have to do is click on yo"
@@ -347,10 +361,16 @@ canvas.addEventListener('click', function(event) {
                openPopup();
            }
            if (element.type == "tutorial") {
-               elements.splice(elements.indexOf(element), 1);
-               if (tutorial_flag !== 3 && tutorial_flag !== 9) {
+                elements.splice(elements.indexOf(element), 1);
+                if (tutorial_flag !== 3 && tutorial_flag !== 9) {
                    tutorial(tutorial_flag);
-               }
+                }
+               if (tutorial_flag === 3) {
+                    // Load good question
+                }
+                if (tutorial_flag === 9) {
+                    // Load bad event
+                }
            }
        }
    });
@@ -396,7 +416,7 @@ function initMainWindow() {
    ctx.fillStyle = "white";
    ctx.textAlign = "center";
    ctx.fillText("Breached!", canvas.width / 2, canvas.height / 12);
-   ctx.drawImage(loadedImages["player"], canvas.width / 26, (canvas.height / 4)/*Todo: subtract half of player sprite height*/);
+   ctx.drawImage(loadedImages["player"], canvas.width / 26, (canvas.height / 4), 400, 400);
 
    // Graph Region
    ctx.fillStyle = "white";
@@ -709,6 +729,8 @@ function asyncTasks() {
        } else {
            current_event.type = "non_questions";
        }
+
+
       
        console.log()
        console.log("thingyingy: ")
