@@ -19,8 +19,8 @@ var selected_answer;
 var current_question;
 var current_non_question;
 
-const graphX = (canvas.width / 2 - 250);
-const graphY = (canvas.height / 2 - 250);
+const graphX = (canvas.width / 2.8);
+const graphY = (canvas.height / 6);
 
 // Global clock controls initilization
 let now = new Date();
@@ -153,8 +153,8 @@ const tutorials = [
         "y": (canvas.height/2)-200,
         "width": 300,
         "height": 300,
-        "x2": (canvas.width / 3.25),
-        "y2": (canvas.height / 12),
+        "x2": graphX,
+        "y2": graphY,
         "excludeWidth": 350,
         "excludeHeight": 350,
         "text": "Look, this means that we gained points from that last question. By collecting the most points, you can prove "
@@ -215,8 +215,8 @@ const tutorials = [
         "y": (canvas.height/2)-200,
         "width": 200,
         "height": 200,
-        "x2": (canvas.width / 3.25),
-        "y2": (canvas.height / 12),
+        "x2": graphX,
+        "y2": graphY,
         "excludeWidth": 350,
         "excludeHeight": 350,
         "text": "Great work. You're ready for the real game. Just click this box one more time and the clock will start."
@@ -337,7 +337,7 @@ function initMainWindow() {
     // Graph Region
     ctx.fillStyle = "white";
 
-    ctx.fillRect((canvas.width / 3.25), (canvas.height / 12), 350, 350);
+    ctx.fillRect(graphX, graphY, 350, 350);
 
     // Event interface Region
     ctx.fillStyle = "black";
@@ -561,8 +561,8 @@ function updateGraph(score_delta) {
         image = "down_arrow";
     }
 
-    var x = (canvas.width / 2 - 250);
-    var y = (canvas.height / 2 - 250);
+    var x = graphX;
+    var y = graphY;
 
     ctx.drawImage(loadedImages[image], x, y)
 }
