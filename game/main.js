@@ -657,7 +657,7 @@ function animate() {
 function scoreQuestion(question_index, answer_index) {
    // update the player's score based on their answer to the question
    var score_delta;
-   if (events.questions[question_index].correct_answer_indeces.has(answer_index)) {
+   if (events.questions[question_index].correct_answer_indeces.includes(answer_index)) {
        score_delta = events.questions[question_index].point_value;
    } else {
        score_delta = 0;
@@ -847,7 +847,7 @@ function showFinalScore() {
 }
 
 // sets the popup to have the current event
-function fillCurrentEvent(current_event) {
+function fillCurrentEvent() {
    if (current_event.type == "questions") {
        fillQuestion(current_event.event_index)
    } else {
@@ -870,7 +870,7 @@ function checkAnswer(question_index, answer_index) {
   
    // TODO: make the code belowdo something to show change in score maybe a popup
    // the thing should show the "answer_explanation"
-   if (events.questions[question_index].correct_answer_indeces.has(selected_answer)) { // if answer is correct
+   if (events.questions[question_index].correct_answer_indeces.includes(selected_answer)) { // if answer is correct
 
 
    } else {
