@@ -675,7 +675,13 @@ function asyncTasks() {
         for (let i = 0; i < timeouts.length - 1; i++) {
             clearTimeout(timeouts[i]);
         }
+
+        elements = [];
+        
+        
+
         debug("");
+
         showFinalScore();
 
     }, 5 * 60 * 1000);
