@@ -673,7 +673,7 @@ function asyncTasks() {
         
         showFinalScore();
 
-    }, 0.1 * 60 * 1000);
+    }, 5 * 60 * 1000);
 }
 
 function showFinalScore() {
@@ -687,10 +687,20 @@ function showFinalScore() {
     ctx.font = "48px Arial";
     ctx.fillText("You Win", canvas.width/2, canvas.height/2 - 50);
 
-    const finalScore = finalScore();
-    ctx.fillStyle = "lightblue";
+    // Draw a line separator
+    const separatorWidth = canvas.width * 0.8;
+    const separatorX = (canvas.width - separatorWidth) / 2;
+    ctx.beginPath();
+    ctx.moveTo(separatorX, canvas.height/2 - 20);
+    ctx.lineTo(separatorX + separatorWidth, canvas.height/2 - 20);
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    const endScore = finalScore();
+    ctx.fillStyle = "darkblue";
     ctx.font = "48px Arial";
-    ctx.fillText("Final Score: ${finalScore}" + finalScore, canvas.width/2, canvas.height/2);
+    ctx.fillText("Final Score: " + endScore, canvas.width/2, canvas.height/2+30);
 
     // Define the rank dictionary
     const rankDictionary = {
@@ -702,13 +712,13 @@ function showFinalScore() {
     // Assign the user a rank based on their score
     let rank = "Beginner";
     for (const [rankName, minScore] of Object.entries(rankDictionary)) {
-        if (finalScore >= minScore) {
+        if (endScore >= minScore) {
             rank = rankName;
         }
     }
 
     // Display the rank to the user
-    ctx.fillText("Rank: " + rank, canvas.width/2, canvas.height/2 + 50);
+    ctx.fillText("Rank: " + rank, canvas.width/2, canvas.height/2 + 80);
     
 }
 
