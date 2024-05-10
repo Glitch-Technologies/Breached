@@ -97,7 +97,7 @@ const events = {
             + "only visit safe and secure websites.",
             "question": "What's a good way to stay safe online?",
             "answers": ["Avoiding viruses", "Using strong passwords", "Using a safe antivirus", "Visiting secure websites"],
-            "correct_answer_index": 1,
+            "correct_answer_indeces": [1],
             "answer_explanation": "All of these are good ways to stay safe when using your computer.",
             "point_value": 10
         }
@@ -654,7 +654,7 @@ function animate() {
 function scoreQuestion(question_index, answer_index) {
    // update the player's score based on their answer to the question
    var score_delta;
-   if (events.questions[question_index].correct_answer_indeces.has(answer_index)) {
+   if (events.questions[question_index].correct_answer_indeces.includes(answer_index)) {
        score_delta = events.questions[question_index].point_value;
    } else {
        score_delta = 0;
@@ -867,7 +867,7 @@ function checkAnswer(question_index, answer_index) {
   
    // TODO: make the code belowdo something to show change in score maybe a popup
    // the thing should show the "answer_explanation"
-   if (events.questions[question_index].correct_answer_indeces.has(selected_answer)) { // if answer is correct
+   if (events.questions[question_index].correct_answer_indeces.includes(selected_answer)) { // if answer is correct
 
 
    } else {
