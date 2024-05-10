@@ -426,13 +426,17 @@ function updateGraph(score_delta) {
 // Will be called after initilization of Main Screen
 // Do not include rendering tasks in here, please use proper animation requests
 function asyncTasks() {
+    // Add all intervals and timeouts to be cancelled to these lists.
+    const intervals = [];
+    const timeouts = [];
+
     // Clock update cycle. 12 hours in 5 minutes (Roughly).
-    setInterval(() => {
+    intervals.push(setInterval(() => {
         now.setMilliseconds(now.getMilliseconds() + 1440);
         drawClock(now);
-    }, 10);
+    }, 10));
     // Make the clock flash red and white every second after a minute is left.
-    setInterval(() => {
+    intervals.push(setInterval(() => {
         if (flash) {
             if (color == "white") {
                 color = "red";
@@ -440,12 +444,64 @@ function asyncTasks() {
                 color = "white";
             }
         }
-    }, 1000);
+    }, 1000));
     //Enable clock flashing
-    setTimeout(() => {
+    timeouts.push(setTimeout(() => {
         flash = true;
-    }, 4 * 60 * 1000);
+    }, 4 * 60 * 1000));
+    // End of Game
+    setTimeout(() => {
+
+        // Clear all intervals
+        for (let i = 0; i < intervals.length; i++) {
+            clearInterval(intervals[i]);
+        }
+
+        // Clear all timeouts except the end of game timeout
+        for (let i = 0; i < timeouts.length - 1; i++) {
+            clearTimeout(timeouts[i]);
+        }
+        
+        showFinalScore();
+
+    }, 0.1 * 60 * 1000);
 }
+
+function showFinalScore() {
+    // Clear the canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw a "You Win" screen
+    ctx.fillStyle = "lightgrey";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+    ctx.font = "48px Arial";
+    ctx.fillText("You Win", canvas.width/2, canvas.height/2 - 50);
+
+    const finalScore = finalScore();
+    ctx.fillStyle = "lightblue";
+    ctx.font = "48px Arial";
+    ctx.fillText("Final Score: ${finalScore}" + finalScore, canvas.width/2, canvas.height/2);
+
+    // Define the rank dictionary
+    const rankDictionary = {
+        "Beginner": 0,
+        "Intermediate": 50,
+        "Advanced": 100
+    };
+
+    // Assign the user a rank based on their score
+    let rank = "Beginner";
+    for (const [rankName, minScore] of Object.entries(rankDictionary)) {
+        if (finalScore >= minScore) {
+            rank = rankName;
+        }
+    }
+
+    // Display the rank to the user
+    ctx.fillText("Rank: " + rank, canvas.width/2, canvas.height/2 + 50);
+}
+
 
 // when an answer is selected
 function checkAnswer(question_index, answer_index) {
