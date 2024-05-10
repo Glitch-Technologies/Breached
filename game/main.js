@@ -367,10 +367,11 @@ canvas.addEventListener('click', function(event) {
             debug(`f: ${tutorial_flag}`);
             if (tutorial_flag === 3) {
                 setCurrentEvent("questions", 3);
-                fillCurrentEvent(current_event);
+                fillCurrentEvent();
             }
             if (tutorial_flag === 9) {
-                // Load bad event
+                setCurrentEvent("non_questions", 0);
+                fillCurrentEvent();
             }
                 openPopup();
             }
