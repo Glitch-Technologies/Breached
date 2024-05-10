@@ -426,10 +426,12 @@ function updateGraph(score_delta) {
 // Will be called after initilization of Main Screen
 // Do not include rendering tasks in here, please use proper animation requests
 function asyncTasks() {
+    // Clock update cycle. 12 hours in 5 minutes (Roughly).
     setInterval(() => {
         now.setMilliseconds(now.getMilliseconds() + 1440);
         drawClock(now);
     }, 10);
+    // Make the clock flash red and white every second after a minute is left.
     setInterval(() => {
         if (flash) {
             if (color == "white") {
@@ -439,6 +441,7 @@ function asyncTasks() {
             }
         }
     }, 1000);
+    //Enable clock flashing
     setTimeout(() => {
         flash = true;
     }, 4 * 60 * 1000);
