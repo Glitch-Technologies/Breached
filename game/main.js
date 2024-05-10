@@ -806,7 +806,7 @@ function main() {
     initMainWindow(); // Generate the main playing screen
     //Todo: Ask initial difficulty question here
     fillNonQuestion(0);
-    debug("Width: " + canvas.width.toString() + " Height: " + canvas.height.toString());
+    //debug("Width: " + canvas.width.toString() + " Height: " + canvas.height.toString());
     tutorial(tutorial_flag);
 }
 
