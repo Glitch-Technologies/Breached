@@ -97,7 +97,7 @@ const events = {
             + "only visit safe and secure websites.",
             "question": "What's a good way to stay safe online?",
             "answers": ["Avoiding viruses", "Using strong passwords", "Using a safe antivirus", "Visiting secure websites"],
-            "correct_answer_index": 1,
+            "correct_answer_index": [1,2,3,4],
             "answer_explanation": "All of these are good ways to stay safe when using your computer.",
             "point_value": 10
         }
@@ -109,7 +109,7 @@ const events = {
            "image_alt_text": "oops, the image didn't load",
            "background": "Breaches like this happen all the time, and once they happen there's pretty much nothing you can do. Companies pay millions a year to recover data stolen by hackers.",
            "point_value": -10
-       }
+       },
    ]
 }
 
@@ -364,19 +364,22 @@ canvas.addEventListener('click', function(event) {
    elements.forEach(function(element) {
        if (mouseX >= element.left && mouseX <= element.left + element.width && mouseY >= element.top && mouseY <= element.top + element.height) {
            if ((alert == true && element.type == "alert") && (tutorial_flag === 3 || tutorial_flag === 9 || tutorial_flag > tutorials.length-1)) {
-               openPopup();
-           }
+            debug(`f: ${tutorial_flag}`);
+            if (tutorial_flag === 3) {
+                setCurrentEvent("questions", 3);
+                fillCurrentEvent(current_event);
+            }
+            if (tutorial_flag === 9) {
+                // Load bad event
+            }
+                openPopup();
+            }
            if (element.type == "tutorial") {
                 elements.splice(elements.indexOf(element), 1);
                 if (tutorial_flag !== 3 && tutorial_flag !== 9) {
                    tutorial(tutorial_flag);
                 }
-                if (tutorial_flag === 3) {
-                    setCurrentEvent("questions", 3);
-                }
-                if (tutorial_flag === 9) {
-                    // Load bad event
-                }
+                
            }
        }
    });
@@ -564,7 +567,7 @@ function waitMainCallback(routine) {
 
        const loader = document.getElementById("loader");
        loader.style.display = "none";
-       debug(JSON.stringify(loadedImages));
+       //debug(JSON.stringify(loadedImages));
 
 
        // This is the true start. Only executes after pre-loading finishes.
@@ -863,7 +866,7 @@ function checkAnswer(question_index, answer_index) {
        updateGraph(score_delta);
        scores.push(score_delta);
    }
-   debug("score_delta1: " + score_delta);
+   //debug("score_delta1: " + score_delta);
   
    // TODO: make the code belowdo something to show change in score maybe a popup
    // the thing should show the "answer_explanation"
@@ -883,7 +886,7 @@ function scoreNonQuestion(event_index) {
        var score_delta = events.non_questions[event_index].point_value;
        updateGraph(score_delta);
        scores.push(score_delta);
-       debug("score_delta2: " + score_delta);
+       //debug("score_delta2: " + score_delta);
    }
 }
 
@@ -922,7 +925,7 @@ function fillQuestion(question_index) {
            "click",
            function() {
                selected_answer = parseInt(this.id.slice(6)) - 1;
-               debug("selected_answer: " + selected_answer);
+               //debug("selected_answer: " + selected_answer);
            }
        );
    }
