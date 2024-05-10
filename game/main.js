@@ -821,7 +821,7 @@ function showFinalScore() {
   
 }
 
-
+// sets the popup to have the current event
 function fillCurrentEvent(current_event) {
    if (current_event.type == "questions") {
        fillQuestion(current_event.event_index)
