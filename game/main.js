@@ -61,7 +61,7 @@ const events = {
            "background": "You need to change your password. It should be stronger this time so you don't get hacked again.",
            "question": "Which of the following is a good password",
            "answers": ["password123", "782PswdG00d)", "ralph"],
-           "correct_answer_index": 1,
+           "correct_answer_indeces": [1],
            "answer_explanation": "'password123' and 'ralph' are too easy to guess, someone could guess those passwords too easily.",
            "point_value": 10
        },
@@ -72,7 +72,7 @@ const events = {
            "background": "You get a suspicious e-mail that says your bank account has been hacked. It says that its from your bank. The e-mail is full of misspellings, and ends with a link to 'steal-your-stuff.com'.",
            "question": "this is another question",
            "answers": ["answer 1", "answer 2"],
-           "correct_answer_index": 1,
+           "correct_answer_indeces": [1],
            "answer_explanation": "an explanation of the answer",
            "point_value": 10
        },
@@ -83,10 +83,24 @@ const events = {
            "background": "some different-er text about how to solve the issue and what it is",
            "question": "this is another different question",
            "answers": ["answer 1", "answer 2", "answer 3", "answer 4"],
-           "correct_answer_index": 1,
+           "correct_answer_indeces": [1],
            "answer_explanation": "an explanation of the answer",
            "point_value": 10
-       }
+       },
+       {
+            "topic": "Staying Safe Online",
+            "image": "../assets/up_arrow.png",
+            "image_alt_text": "oops, the image didn't load",
+            "background": "Online safety is important to understand and follow. You'll need to be able to stay"
+            + " safe if you want to protect yourself from data breaches or theft. Some common cybersecurity tips"
+            + " are to avoid computer viruses, use strong passwords, install reputable antivirus software and "
+            + "only visit safe and secure websites.",
+            "question": "What's a good way to stay safe online?",
+            "answers": ["Avoiding viruses", "Using strong passwords", "Using a safe antivirus", "Visiting secure websites"],
+            "correct_answer_index": [1,2,3,4],
+            "answer_explanation": "All of these are good ways to stay safe when using your computer.",
+            "point_value": 10
+        }
    ],
    "non_questions": [
        {
@@ -95,7 +109,7 @@ const events = {
            "image_alt_text": "oops, the image didn't load",
            "background": "Breaches like this happen all the time, and once they happen there's pretty much nothing you can do. Companies pay millions a year to recover data stolen by hackers.",
            "point_value": -10
-       }
+       },
    ]
 }
 
@@ -135,8 +149,8 @@ const tutorials = [
        "height": 400,
        "x2": (canvas.width/26),
        "y2": (canvas.height/4),
-       "excludeWidth": 356,
-       "excludeHeight": 436,
+       "excludeWidth": 400,
+       "excludeHeight": 400,
        "text": "Welcome to Breached!: The Cybersecurity Incident Response Challenge.\n "
        + "This is you. The objective of Breached is to solve as many cybersecurity problems in your "
        + "house as possible before the day is over.\n All you have to do is click on yo"
@@ -268,8 +282,14 @@ remoteImages = ["player", "ibm5150", "down_arrow", "up_arrow", "backgroundRoom"]
 
 
 
+// set the current event
+function setCurrentEvent(type, event_index) { // type such as "questions", event index such as 0. that would set it to the 1st question
+    current_event.type = type;
+    current_event.event_index = event_index;
 
-
+    // remove current event from uncompleted events
+    uncompleted_events[type].slice(event_index, 1)
+}
 
 function resetUncompletedEvents() {
    console.log("before:")
@@ -344,13 +364,23 @@ canvas.addEventListener('click', function(event) {
    elements.forEach(function(element) {
        if (mouseX >= element.left && mouseX <= element.left + element.width && mouseY >= element.top && mouseY <= element.top + element.height) {
            if ((alert == true && element.type == "alert") && (tutorial_flag === 3 || tutorial_flag === 9 || tutorial_flag > tutorials.length-1)) {
-               openPopup();
-           }
+            debug(`f: ${tutorial_flag}`);
+            if (tutorial_flag === 3) {
+                setCurrentEvent("questions", 3);
+                fillCurrentEvent();
+            }
+            if (tutorial_flag === 9) {
+                setCurrentEvent("non_questions", 0);
+                fillCurrentEvent();
+            }
+                openPopup();
+            }
            if (element.type == "tutorial") {
-               elements.splice(elements.indexOf(element), 1);
-               if (tutorial_flag !== 3 && tutorial_flag !== 9) {
+                elements.splice(elements.indexOf(element), 1);
+                if (tutorial_flag !== 3 && tutorial_flag !== 9) {
                    tutorial(tutorial_flag);
-               }
+                }
+                
            }
        }
    });
@@ -396,7 +426,7 @@ function initMainWindow() {
    ctx.fillStyle = "white";
    ctx.textAlign = "center";
    ctx.fillText("Breached!", canvas.width / 2, canvas.height / 12);
-   ctx.drawImage(loadedImages["player"], canvas.width / 26, (canvas.height / 4)/*Todo: subtract half of player sprite height*/);
+   ctx.drawImage(loadedImages["player"], canvas.width / 26, (canvas.height / 4), 400, 400);
 
    // Graph Region
    ctx.fillStyle = "white";
@@ -538,7 +568,7 @@ function waitMainCallback(routine) {
 
        const loader = document.getElementById("loader");
        loader.style.display = "none";
-       debug(JSON.stringify(loadedImages));
+       //debug(JSON.stringify(loadedImages));
 
 
        // This is the true start. Only executes after pre-loading finishes.
@@ -628,7 +658,7 @@ function animate() {
 function scoreQuestion(question_index, answer_index) {
    // update the player's score based on their answer to the question
    var score_delta;
-   if (answer_index == events.questions[question_index].correct_answer_index) {
+   if (events.questions[question_index].correct_answer_indeces.includes(answer_index)) {
        score_delta = events.questions[question_index].point_value;
    } else {
        score_delta = 0;
@@ -709,6 +739,8 @@ function asyncTasks() {
        } else {
            current_event.type = "non_questions";
        }
+
+
       
        console.log()
        console.log("thingyingy: ")
@@ -815,8 +847,8 @@ function showFinalScore() {
   
 }
 
-
-function fillCurrentEvent(current_event) {
+// sets the popup to have the current event
+function fillCurrentEvent() {
    if (current_event.type == "questions") {
        fillQuestion(current_event.event_index)
    } else {
@@ -835,11 +867,11 @@ function checkAnswer(question_index, answer_index) {
        updateGraph(score_delta);
        scores.push(score_delta);
    }
-   debug("score_delta1: " + score_delta);
+   //debug("score_delta1: " + score_delta);
   
    // TODO: make the code belowdo something to show change in score maybe a popup
    // the thing should show the "answer_explanation"
-   if (selected_answer == events.questions[question_index].correct_answer_index) { // if answer is correct
+   if (events.questions[question_index].correct_answer_indeces.includes(selected_answer)) { // if answer is correct
 
 
    } else {
@@ -855,11 +887,11 @@ function scoreNonQuestion(event_index) {
        var score_delta = events.non_questions[event_index].point_value;
        updateGraph(score_delta);
        scores.push(score_delta);
-       debug("score_delta2: " + score_delta);
+       //debug("score_delta2: " + score_delta);
    }
 }
 
-
+// fills 
 function fillQuestion(question_index) {
    current_event.event_index = question_index;
    current_event.type = "questions";
@@ -894,7 +926,7 @@ function fillQuestion(question_index) {
            "click",
            function() {
                selected_answer = parseInt(this.id.slice(6)) - 1;
-               debug("selected_answer: " + selected_answer);
+               //debug("selected_answer: " + selected_answer);
            }
        );
    }
