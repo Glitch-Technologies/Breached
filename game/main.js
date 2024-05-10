@@ -19,6 +19,9 @@ var selected_answer;
 var current_question;
 var current_non_question;
 
+const graphX = (canvas.width / 2 - 250);
+const graphY = (canvas.height / 2 - 250);
+
 // Global clock controls initilization
 let now = new Date();
 now.setHours(6, 0, 0, 0);
@@ -206,7 +209,7 @@ const tutorials = [
         +" your decisions in this simulation can help combat these larger cyber attacks in the real world.\n Click the screen."
     },
     {
-        "x": (canvas.width/2)-200,
+        "x": (canvas.width/2)-400,
         "y": (canvas.height/2)-200,
         "width": 200,
         "height": 200,
@@ -241,14 +244,15 @@ closePopup.addEventListener(
         questionPopup.classList.remove(
             "show"
         );
-        if (tutorial_flag === 3 || tutorial_flag === 9) {
-            tutorial(tutorial_flag);
-        }
         
         if (current_question != -1) { // if on a question
             checkAnswer(current_question, selected_answer)
         } else if (current_non_question != -1) { // if on non-question
             scoreNonQuestion(current_non_question);
+        }
+
+        if (tutorial_flag === 3 || tutorial_flag === 9) {
+            tutorial(tutorial_flag);
         }
     }
 );
@@ -722,6 +726,13 @@ function tutorialBox(ctx, x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0,
 
     darkenCanvasExceptRect(x, y, width, height, x2, y2, excludeWidth, excludeHeight);
     
+    if (tutorial_flag === 4) {
+        ctx.drawImage(loadedImages["up_arrow"], graphX, graphY);
+    }
+    if (tutorial_flag === 9) {
+        ctx.drawImage(loadedImages["down_arrow"], graphX, graphY);
+    }
+
     drawBoxWithText(ctx, x, y, width, height, text, x2, y2, excludeWidth, excludeHeight);
 
     // Attach the window details to the element map
