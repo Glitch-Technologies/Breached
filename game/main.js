@@ -15,6 +15,8 @@ let mouseX, mouseY;
 let elements = [];
 let alerts = false;
 
+let gameEnd = false;
+
 var selected_answer;
 var current_question;
 var current_non_question;
@@ -555,9 +557,11 @@ function updateLoop() {
 }
 
 function animate() {
-    updateLoop();
-    drawFrame();
-    requestAnimationFrame(animate);
+    if (!gameEnd) {
+        updateLoop();
+        drawFrame();
+        requestAnimationFrame(animate);
+    }
 }
 
 function scoreQuestion(question_index, answer_index) {
@@ -623,8 +627,7 @@ function asyncTasks() {
     timeouts.push(setTimeout(() => {
         flash = true;
     }, 4 * 60 * 1000));
-    // End of Game
-    
+
     // automatically starting questions
     intervals.push(setInterval(() => {
         drawAlert();
@@ -659,8 +662,10 @@ function asyncTasks() {
         console.log(uncompleted_events);
 
     }, 20000));
-    setTimeout(() => {
 
+    // Game end event
+    setTimeout(() => {
+        gameEnd = true;
         // Clear all intervals
         for (let i = 0; i < intervals.length; i++) {
             clearInterval(intervals[i]);
@@ -670,7 +675,7 @@ function asyncTasks() {
         for (let i = 0; i < timeouts.length - 1; i++) {
             clearTimeout(timeouts[i]);
         }
-        
+        debug("");
         showFinalScore();
 
     }, 5 * 60 * 1000);
