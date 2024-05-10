@@ -262,7 +262,7 @@ var scores = new Array(events.questions.length);
 
 
 loadedImages = {};
-remoteImages = ["player", "ibm5150", "down_arrow", "up_arrow"];
+remoteImages = ["player", "ibm5150", "down_arrow", "up_arrow", "backgroundRoom"];
 
 
 
