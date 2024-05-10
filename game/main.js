@@ -99,14 +99,14 @@ const difficulties = {
 // function tutorialBox(ctx, x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0, excludeHeight = 0, text) {
 const tutorials = [
     {
-        "x": (canvas.width/2)-200,
-        "y": (canvas.height/2)-200,
+        "x": (canvas.width/3),
+        "y": (canvas.height/6),
         "width": 400,
         "height": 400,
-        "x2": (canvas.width/2)-620,
-        "y2": (canvas.height/2)-200,
-        "excludeWidth": 370,
-        "excludeHeight": 500,
+        "x2": (canvas.width/26),
+        "y2": (canvas.height/4),
+        "excludeWidth": 356,
+        "excludeHeight": 436,
         "text": "Welcome to Breached!: The Cybersecurity Incident Response Challenge.\n "
         + "This is you. The objective of Breached is to solve as many cybersecurity problems in your "
         + "house as possible before the day is over.\n All you have to do is click on yo"
@@ -328,8 +328,8 @@ function initMainWindow() {
     ctx.font = "48px Arial";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
-    ctx.fillText("Breached!", canvas.width / 2, 50);
-    ctx.drawImage(loadedImages["player"], 50, (canvas.height / 4)/*Todo: subtract half of player sprite height*/);
+    ctx.fillText("Breached!", canvas.width / 2, canvas.height / 12);
+    ctx.drawImage(loadedImages["player"], canvas.width / 26, (canvas.height / 4)/*Todo: subtract half of player sprite height*/);
 
 
     // Graph Region
@@ -360,7 +360,7 @@ function initMainWindow() {
             type: "alert"
         });
     }
-    drawAlert();
+    drawSafe();
 
 }
 
@@ -441,6 +441,7 @@ function drawClock(color) {
 }
 
 function drawAlert() {
+    ctx.fillStyle = "black";
     ctx.fillRect((canvas.width / 2 + 400), (canvas.height / 2 - 25), 100, 50);
     ctx.font = "28px Courier New";
     ctx.fillStyle = "red";
@@ -449,6 +450,7 @@ function drawAlert() {
     alert = true;
 }
 function drawSafe() {
+    ctx.fillStyle = "black";
     ctx.fillRect((canvas.width / 2 + 400), (canvas.height / 2 - 25), 100, 50);
     ctx.font = "28px Courier New";
     ctx.fillStyle = "lime";
@@ -726,13 +728,18 @@ function tutorialBox(ctx, x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0,
 
     darkenCanvasExceptRect(x, y, width, height, x2, y2, excludeWidth, excludeHeight);
     
+    if (tutorial_flag === 2) {
+        drawAlert();
+    }
+    if (tutorial_flag === 8) {
+        drawAlert();
+    }
     if (tutorial_flag === 4) {
         ctx.drawImage(loadedImages["up_arrow"], graphX, graphY);
     }
     if (tutorial_flag === 9) {
         ctx.drawImage(loadedImages["down_arrow"], graphX, graphY);
     }
-
     drawBoxWithText(ctx, x, y, width, height, text, x2, y2, excludeWidth, excludeHeight);
 
     // Attach the window details to the element map
@@ -775,6 +782,8 @@ function drawBoxWithText(ctx, x, y, width, height, text, x2, y2, excludeWidth, e
     // Draw the text
     ctx.fillStyle = "black";
     ctx.font = "bold 18px Arial";
+    ctx.textAlign = "center";
+
     const words = text.split(" ");
     let line = "";
     let lineHeight = 16;
@@ -808,6 +817,7 @@ function main() {
     initMainWindow(); // Generate the main playing screen
     //Todo: Ask initial difficulty question here
     fillNonQuestion(0);
+    debug("Width: " + canvas.width.toString() + " Height: " + canvas.height.toString());
     tutorial(tutorial_flag);
 }
 
