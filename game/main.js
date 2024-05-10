@@ -15,10 +15,6 @@ let mouseX, mouseY;
 let elements = [];
 let alerts = false;
 
-var selected_answer;
-var current_question;
-var current_non_question;
-
 // Global clock controls initilization
 let now = new Date();
 now.setHours(6, 0, 0, 0);
@@ -77,6 +73,16 @@ const events = {
     ]
 }
 
+var selected_answer;
+
+var current_event = {
+    "type": "questions",
+    "event_index": 0
+};
+
+var uncompleted_events = {};
+resetUncompletedEvents();
+
 // time is in seconds
 const difficulties = {
     "easy": {
@@ -100,6 +106,22 @@ remoteImages = ["player", "ibm5150", "down_arrow", "up_arrow"];
 
 
 
+function resetUncompletedEvents() {
+    console.log("before:")
+    console.log(uncompleted_events)
+    uncompleted_events = {
+        "questions": [],
+        "non_questions": []
+    };
+    for (var type in events) {
+        for (var event_index in events[type]) {
+            uncompleted_events[type].push(parseInt(event_index));
+        }
+    }
+    console.log("after:")
+    console.log(uncompleted_events)
+}
+
 function openPopup() {
     questionPopup.classList.add("show");
 }
@@ -110,11 +132,15 @@ closePopup.addEventListener(
         questionPopup.classList.remove(
             "show"
         );
-        if (current_question != -1) { // if on a question
-            checkAnswer(current_question, selected_answer)
-        } else if (current_non_question != -1) { // if on non-question
-            scoreNonQuestion(current_non_question);
+        console.log("current1: " + current_event.type);
+        console.log("current2: " + current_event.event_index);
+        if (current_event.type == "questions") { // if on a question
+            checkAnswer(current_event.event_index, selected_answer)
+        } else { // if on non-question
+            scoreNonQuestion(current_event.event_index);
         }
+
+        drawSafe(); // TODO: might cause issues, overwriting unfinished questions. just sets the screen to safe when closing a prompt
     }
 );
 /*
@@ -426,6 +452,7 @@ function updateGraph(score_delta) {
 // Will be called after initilization of Main Screen
 // Do not include rendering tasks in here, please use proper animation requests
 function asyncTasks() {
+    // clock suff
     setInterval(() => {
         now.setMilliseconds(now.getMilliseconds() + 1440);
         drawClock(now);
@@ -442,6 +469,49 @@ function asyncTasks() {
     setTimeout(() => {
         flash = true;
     }, 4 * 60 * 1000);
+    
+    // automatically starting questions
+    setInterval(() => {
+        drawAlert();
+
+        if (Math.random() >= 0.10) { // 90% chance
+            current_event.type = "questions";
+        } else {
+            current_event.type = "non_questions";
+        }
+        
+        console.log()
+        console.log("thingyingy: ")
+        console.log(uncompleted_events)
+        console.log()
+
+        // resetting uncompleted events if ran out
+        if (uncompleted_events[current_event.type].length == 0) {
+            resetUncompletedEvents();
+        }
+
+        current_event.event_index = uncompleted_events[current_event.type][(Math.floor(Math.random() * uncompleted_events[current_event.type].length))];
+
+        fillCurrentEvent(current_event);
+        
+        // removing current event
+        var index = uncompleted_events[current_event.type].indexOf(current_event.event_index);
+        uncompleted_events[current_event.type].splice(index, 1);
+
+        console.log("typestuff: " + current_event.type);
+        console.log("indexstuff: " + current_event.event_index);
+
+        console.log(uncompleted_events);
+
+    }, 5000);
+}
+
+function fillCurrentEvent(current_event) {
+    if (current_event.type == "questions") {
+        fillQuestion(current_event.event_index)
+    } else {
+        fillNonQuestion(current_event.event_index)
+    }
 }
 
 // when an answer is selected
@@ -450,7 +520,7 @@ function checkAnswer(question_index, answer_index) {
     var score_delta = scoreQuestion(question_index, answer_index);
     updateGraph(score_delta);
     scores.push(score_delta);
-    debug("score_delta: " + score_delta);
+    debug("score_delta1: " + score_delta);
     
     // TODO: make the code belowdo something to show change in score maybe a popup
     // the thing should show the "answer_explanation"
@@ -463,14 +533,17 @@ function checkAnswer(question_index, answer_index) {
 
 function scoreNonQuestion(event_index) {
     var score_delta = events.non_questions[event_index].point_value;
+
+    console.log("score_change: " + events.non_questions[event_index].point_value);
+
     updateGraph(score_delta);
     scores.push(score_delta);
-    debug("score_delta: " + score_delta);
+    debug("score_delta2: " + score_delta);
 }
 
 function fillQuestion(question_index) {
-    current_question = question_index;
-    current_non_question = -1;
+    current_event.event_index = question_index;
+    current_event.type = "questions";
     // hiding buttons
     document.getElementById("answer1").style.display = "none";
     document.getElementById("answer2").style.display = "none";
@@ -478,19 +551,19 @@ function fillQuestion(question_index) {
     document.getElementById("answer4").style.display = "none";
 
     // setting element attributes (like adding text)
-    document.getElementById("topic").innerHTML = events.questions[question_index].topic;
-    document.getElementById("background").innerHTML = events.questions[question_index].background;
-    document.getElementById("image").src = events.questions[question_index].image;
-    document.getElementById("image").image_alt_text = events.questions[question_index].image_alt_text;
-    document.getElementById("question").innerHTML = events.questions[question_index].question;
+    document.getElementById("topic").innerHTML = events.questions[current_event.event_index].topic;
+    document.getElementById("background").innerHTML = events.questions[current_event.event_index].background;
+    document.getElementById("image").src = events.questions[current_event.event_index].image;
+    document.getElementById("image").image_alt_text = events.questions[current_event.event_index].image_alt_text;
+    document.getElementById("question").innerHTML = events.questions[current_event.event_index].question;
 
     console.log()
 
     // setting button attrubutes
     var answer_id;
-    for (var answer_index=0; answer_index<events.questions[question_index].answers.length; answer_index++) {
+    for (var answer_index=0; answer_index<events.questions[current_event.event_index].answers.length; answer_index++) {
         answer_id = "answer" + (answer_index + 1);
-        document.getElementById(answer_id).innerHTML = events.questions[question_index].answers[answer_index];
+        document.getElementById(answer_id).innerHTML = events.questions[current_event.event_index].answers[answer_index];
         document.getElementById(answer_id).style.display = "block";
 
         // adding button functionality
@@ -505,8 +578,9 @@ function fillQuestion(question_index) {
 }
 
 function fillNonQuestion(event_index) {
-    current_question = -1;
-    current_non_question = event_index;
+    current_event.event_index = event_index;
+    current_event.type = "non_questions";
+
     // hiding buttons
     document.getElementById("answer1").style.display = "none";
     document.getElementById("answer2").style.display = "none";
@@ -528,7 +602,8 @@ function main() {
     initMainWindow(); // Generate the main playing screen
     asyncTasks(); // Run background processes
     animate(); // Start the animation
-    fillNonQuestion(0);
+
+    drawSafe();
 }
 
 loadAssets();
