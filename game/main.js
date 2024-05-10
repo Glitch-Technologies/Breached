@@ -341,9 +341,9 @@ function initMainWindow() {
 
     // Event interface Region
     ctx.fillStyle = "black";
-    ctx.fillRect((canvas.width / 1.4), (canvas.height / 1.3), 300, 50);
-    ctx.fillRect((canvas.width / 1.4), (canvas.height / 1.2), 50, 50);
-    ctx.fillRect((canvas.width / 1.4 + 250), (canvas.height / 1.2), 50, 50);
+    //ctx.fillRect((canvas.width / 1.4), (canvas.height / 1.3), 300, 50);
+    //ctx.fillRect((canvas.width / 1.4), (canvas.height / 1.2), 50, 50);
+    //ctx.fillRect((canvas.width / 1.4 + 250), (canvas.height / 1.2), 50, 50);
     ctx.drawImage(loadedImages["ibm5150"], (canvas.width / 1.3 - 20), (canvas.height / 2.3 + 5), 200, 200);
     
     let alertExists = false;
