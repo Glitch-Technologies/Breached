@@ -553,10 +553,13 @@ function redrawMainWindow() {
 
 function darkenCanvasExceptRect(x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0, excludeHeight = 0) {
     ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
-    const imageData = ctx.getImageData(x2, y2, excludeWidth, excludeHeight);
+    // This is the wrong solution. However, excludeWidth and excludeHeight must be >=1. TODO
+    const imageData = ctx.getImageData(x2, y2, excludeWidth+1, excludeHeight+1);
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.clearRect(x2, y2, excludeWidth, excludeHeight);
-    //ctx.putImageData(imageData, x2, y2);
+    if (excludeWidth !== 0) {
+        ctx.putImageData(imageData, 0, 0);
+    }
     ctx.clearRect(x, y, width, height);
     // Example usage:
     // darkenCanvasExceptRect(100, 100, 200, 150, 150, 150, 100, 100);
