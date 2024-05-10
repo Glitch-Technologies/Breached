@@ -98,26 +98,60 @@ const tutorials = [
         "y": (canvas.height/2)-200,
         "width": 400,
         "height": 400,
-        "x2": 0,
-        "y2": 0,
-        "excludeWidth": 0,
-        "excludeHeight": 0,
+        "x2": (canvas.width/2)-620,
+        "y2": (canvas.height/2)-200,
+        "excludeWidth": 370,
+        "excludeHeight": 500,
         "text": "Welcome to Breached!: The Cybersecurity Incident Response Challenge.\n "
-        + "The objective of Breached is to solve as many cybersecurity problems in your "
+        + "This is you. The objective of Breached is to solve as many cybersecurity problems in your "
         + "house as possible before the day is over.\n All you have to do is click on yo"
         + "ur computer and see what event happened. It could be a problem to solve or ju"
-        + "st some news.\n Click to continue."
+        + "st some news.\n Click each box to continue."
     },
     {
-        "x": (canvas.width/2)+100,
+        "x": (canvas.width/2),
         "y": (canvas.height/2)-200,
         "width": 200,
         "height":200,
         "x2": (canvas.width/2)*1.5,
-        "y2": (canvas.height/2),
-        "excludeWidth": 200,
-        "excludeHeight": 200,
-        "text": "This is your home computer"
+        "y2": (canvas.height/2)-75,
+        "excludeWidth": 250,
+        "excludeHeight": 300,
+        "text": "This is your home computer.\n You'll use it to keep yourself safe from cyber threats.\n Click."
+    },
+    {
+        "x": (canvas.width/2),
+        "y": (canvas.height/2)-200,
+        "width": 200,
+        "height":200,
+        "x2": (canvas.width/2)*1.5+50,
+        "y2": (canvas.height/2)-30,
+        "excludeWidth": 150,
+        "excludeHeight": 60,
+        "text": "Oh no, a threat has appeared. I'll help to protect you this time. Let's click on our computer screen to respond."
+    },
+    {
+        "x": (canvas.width/2)-200,
+        "y": (canvas.height/2)-200,
+        "width": 400,
+        "height": 400,
+        "x2": 0,
+        "y2": 0,
+        "excludeWidth": 0,
+        "excludeHeight": 0,
+        "text": "Great work, but all of these choices were correct. It won't be like this for every question.\n Click to continue."
+    },
+    {
+        "x": (canvas.width/2)+250,
+        "y": (canvas.height/2)-200,
+        "width": 300,
+        "height": 300,
+        "x2": (canvas.width / 2 - 250),
+        "y2": (canvas.height / 2 - 250),
+        "excludeWidth": 350,
+        "excludeHeight": 350,
+        "text": "Look, this means that we gained points from that last question. By collecting the most points, you can prove "
+        + "that you are a cyber champ.\n Click to continue. "
     }
 ]
 
@@ -144,7 +178,11 @@ closePopup.addEventListener(
         questionPopup.classList.remove(
             "show"
         );
+        if (tutorial_flag === 3) {
+            tutorial(tutorial_flag);
+        }
         checkAnswer(current_question, selected_answer)
+        
     }
 );
 /*
@@ -165,7 +203,7 @@ canvas.addEventListener('mousemove', function(event) {
     mouseX = event.clientX;
     mouseY = event.clientY;
     const position = `x: ${mouseX}, y: ${mouseY}`;
-    debug(position);
+    //debug(position);
 });
 
 canvas.addEventListener('click', function(event) {
@@ -173,13 +211,14 @@ canvas.addEventListener('click', function(event) {
     //debug(JSON.stringify(elements));
     elements.forEach(function(element) {
         if (mouseX >= element.left && mouseX <= element.left + element.width && mouseY >= element.top && mouseY <= element.top + element.height) {
-            if (alert == true && element.type == "alert") {
+            if ((alert == true && element.type == "alert") && (tutorial_flag === 3 || tutorial_flag > tutorials.length-1)) {
                 openPopup();
             }
             if (element.type == "tutorial") {
                 elements.splice(elements.indexOf(element), 1);
-                tutorial(tutorial_flag);
-                
+                if (tutorial_flag !== 3) {
+                    tutorial(tutorial_flag);
+                }
             }
         }
     });
@@ -558,44 +597,39 @@ function darkenCanvasExceptRect(x, y, width, height, x2 = 0, y2 = 0, excludeWidt
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.clearRect(x2, y2, excludeWidth, excludeHeight);
     if (excludeWidth !== 0) {
-        ctx.putImageData(imageData, 0, 0);
+        ctx.putImageData(imageData, x2, y2);
     }
     ctx.clearRect(x, y, width, height);
     // Example usage:
     // darkenCanvasExceptRect(100, 100, 200, 150, 150, 150, 100, 100);
 }
 
-function drawArrow(x1, y1, x2, y2) {
+function drawArrow(x1, y1, x2, y2, excludeWidth, excludeHeight) {
     ctx.beginPath();
     ctx.strokeStyle = "red";
     ctx.lineWidth = 5;
     ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
+    ctx.lineTo(x2 + excludeWidth / 2, y2 + excludeHeight / 2); // Center of the box
     ctx.stroke();
 
     // Calculate the angle of the arrow
-    const angle = Math.atan2(y2 - y1, x2 - x1);
+    const angle = Math.atan2(y2 + excludeHeight / 2 - y1, x2 + excludeWidth / 2 - x1);
 
     // Draw the arrowhead
-    const arrowSize = 10;
+    const arrowSize = 30;
     ctx.beginPath();
-    ctx.moveTo(x2, y2);
-    ctx.lineTo(x2 - arrowSize * Math.cos(angle - Math.PI / 6), y2 - arrowSize * Math.sin(angle - Math.PI / 6));
-    ctx.moveTo(x2, y2);
-    ctx.lineTo(x2 - arrowSize * Math.cos(angle + Math.PI / 6), y2 - arrowSize * Math.sin(angle + Math.PI / 6));
+    ctx.moveTo(x2 + excludeWidth / 2, y2 + excludeHeight / 2); // Center of the box
+    ctx.lineTo(x2 + excludeWidth / 2 - arrowSize * Math.cos(angle - Math.PI / 6), y2 + excludeHeight / 2 - arrowSize * Math.sin(angle - Math.PI / 6));
+    ctx.moveTo(x2 + excludeWidth / 2, y2 + excludeHeight / 2); // Center of the box
+    ctx.lineTo(x2 + excludeWidth / 2 - arrowSize * Math.cos(angle + Math.PI / 6), y2 + excludeHeight / 2 - arrowSize * Math.sin(angle + Math.PI / 6));
     ctx.stroke();
 }
 
 function tutorialBox(ctx, x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0, excludeHeight = 0, text) {
 
     darkenCanvasExceptRect(x, y, width, height, x2, y2, excludeWidth, excludeHeight);
-
-    drawBoxWithText(ctx, x, y, width, height, text);
-
-        
-    if (excludeWidth !== 0) {
-        drawArrow(x, y, x2, y2);
-    }
+    
+    drawBoxWithText(ctx, x, y, width, height, text, x2, y2, excludeWidth, excludeHeight);
 
     // Attach the window details to the element map
     elements.push({
@@ -609,7 +643,12 @@ function tutorialBox(ctx, x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0,
     
 }
 
-function drawBoxWithText(ctx, x, y, width, height, text) {
+function drawBoxWithText(ctx, x, y, width, height, text, x2, y2, excludeWidth, excludeHeight) {
+    
+    if (excludeWidth !== 0) {
+        drawArrow(x, y, x2, y2, excludeWidth, excludeHeight);
+    }
+    
     // Draw the rounded box with dashed outline
     ctx.fillStyle = "white";
     ctx.strokeStyle = "black";
@@ -670,7 +709,7 @@ function main() {
 function tutorial(tutorial_flag) {
     // Clear the entire canvas
     redrawMainWindow();
-    if (tutorial_flag > 1) {
+    if (tutorial_flag > tutorials.length-1) {
         redrawMainWindow();
         animate(); // Start the animation
         asyncTasks(); // Run background processes
