@@ -665,9 +665,11 @@ function fillCurrentEvent(current_event) {
 // when an answer is selected
 function checkAnswer(question_index, answer_index) {
     // updating score
-    var score_delta = scoreQuestion(question_index, answer_index);
-    updateGraph(score_delta);
-    scores.push(score_delta);
+    if (tutorial_flag > tutorials.length-1) { // if tutorial is over
+        var score_delta = scoreQuestion(question_index, answer_index);
+        updateGraph(score_delta);
+        scores.push(score_delta);
+    }
     debug("score_delta1: " + score_delta);
     
     // TODO: make the code belowdo something to show change in score maybe a popup
@@ -680,13 +682,13 @@ function checkAnswer(question_index, answer_index) {
 }
 
 function scoreNonQuestion(event_index) {
-    var score_delta = events.non_questions[event_index].point_value;
-
-    console.log("score_change: " + events.non_questions[event_index].point_value);
-
-    updateGraph(score_delta);
-    scores.push(score_delta);
-    debug("score_delta2: " + score_delta);
+    // updating score
+    if (tutorial_flag > tutorials.length-1) { // if tutorial is over
+        var score_delta = events.non_questions[event_index].point_value;
+        updateGraph(score_delta);
+        scores.push(score_delta);
+        debug("score_delta2: " + score_delta);
+    }
 }
 
 function fillQuestion(question_index) {
