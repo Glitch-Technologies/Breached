@@ -468,19 +468,27 @@ function asyncTasks() {
     setInterval(() => {
         drawAlert();
 
-        if (Math.random >= 0.25) { // 75% chance
+        if (Math.random() >= 0.25) { // 75% chance
             current_event.type = "questions";
         } else {
             current_event.type = "non_questions";
         }
-
-        console.log("something?: " + current_event.type)
-
         current_event.event_index = uncompleted_events[current_event.type][(Math.floor(Math.random() * uncompleted_events[current_event.type].length))];
-        console.log(current_event.type);
-        console.log(current_event.event_index);
 
-    }, 10000);
+        fillCurrentEvent(current_event);
+
+        console.log("typestuff: " + current_event.type);
+        console.log("indexstuff: " + current_event.event_index);
+
+    }, 30000);
+}
+
+function fillCurrentEvent(current_event) {
+    if (current_event.type == "questions") {
+        fillQuestion(current_event.event_index)
+    } else {
+        fillNonQuestion(current_event.event_index)
+    }
 }
 
 // when an answer is selected
@@ -572,7 +580,7 @@ function main() {
     asyncTasks(); // Run background processes
     animate(); // Start the animation
 
-    fillNonQuestion(0);
+    drawSafe();
 }
 
 loadAssets();
