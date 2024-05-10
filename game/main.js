@@ -152,6 +152,67 @@ const tutorials = [
         "excludeHeight": 350,
         "text": "Look, this means that we gained points from that last question. By collecting the most points, you can prove "
         + "that you are a cyber champ.\n Click to continue. "
+    },
+    {
+        "x": (canvas.width/2),
+        "y": (canvas.height/2)+100,
+        "width": 200,
+        "height": 200,
+        "x2": (canvas.width / 2)-400,
+        "y2": 10,
+        "excludeWidth": 200,
+        "excludeHeight": 50,
+        "text": "You can keep track of your total score over here\n Click to continue." //TODO
+    },
+    {
+        "x": (canvas.width/2)-200,
+        "y": (canvas.height/2)-200,
+        "width": 300,
+        "height": 300,
+        "x2": (canvas.width / 2)+400,
+        "y2": 50,
+        "excludeWidth": 200,
+        "excludeHeight": 150,
+        "text": "The clock is an important part of this simulation. Don't stress about time, it's more important to answer"
+        + " questions correctly, but you will only have 5 minutes total to complete this simulation. Click to continue."
+    },
+    {
+        "x": (canvas.width/2)-200,
+        "y": (canvas.height/2)-200,
+        "width": 400,
+        "height": 400,
+        "x2": (canvas.width/2),
+        "y2": (canvas.height/2),
+        "excludeWidth": 0,
+        "excludeHeight": 0,
+        "text": "Once the simulation is over, we'll tally up your points and rank your cybersecurity abilities.\n"
+        //+ "Remember, you don't have to a computer scientist or an IT wizard to stay safe online. You to could " //Put into the end somewhere
+        //+ "venture into the field of cybersecurity with whatever background or interests you might have./"
+        +" Sometimes, a cyber attack is out of your control, let's simulate one last alert before you get started.\n"
+        +" Click to continue."
+    },
+    {
+        "x": (canvas.width/2),
+        "y": (canvas.height/2)-200,
+        "width": 300,
+        "height":300,
+        "x2": (canvas.width/2)*1.5+50,
+        "y2": (canvas.height/2)-30,
+        "excludeWidth": 150,
+        "excludeHeight": 60,
+        "text": "We won't be able to fix this threat, so it'll set us back a few points, but it's important to recognize that"
+        +" your decisions in this simulation can help combat these larger cyber attacks in the real world.\n Click the screen."
+    },
+    {
+        "x": (canvas.width/2)-200,
+        "y": (canvas.height/2)-200,
+        "width": 200,
+        "height": 200,
+        "x2": (canvas.width/2),
+        "y2": (canvas.height/2),
+        "excludeWidth": 0,
+        "excludeHeight": 0,
+        "text": "Great work. You're ready for the real game. Just click this box one more time and the clock will start."
     }
 ]
 
@@ -178,7 +239,7 @@ closePopup.addEventListener(
         questionPopup.classList.remove(
             "show"
         );
-        if (tutorial_flag === 3) {
+        if (tutorial_flag === 3 || tutorial_flag === 9) {
             tutorial(tutorial_flag);
         }
         checkAnswer(current_question, selected_answer)
@@ -211,12 +272,12 @@ canvas.addEventListener('click', function(event) {
     //debug(JSON.stringify(elements));
     elements.forEach(function(element) {
         if (mouseX >= element.left && mouseX <= element.left + element.width && mouseY >= element.top && mouseY <= element.top + element.height) {
-            if ((alert == true && element.type == "alert") && (tutorial_flag === 3 || tutorial_flag > tutorials.length-1)) {
+            if ((alert == true && element.type == "alert") && (tutorial_flag === 3 || tutorial_flag === 9 || tutorial_flag > tutorials.length-1)) {
                 openPopup();
             }
             if (element.type == "tutorial") {
                 elements.splice(elements.indexOf(element), 1);
-                if (tutorial_flag !== 3) {
+                if (tutorial_flag !== 3 && tutorial_flag !== 9) {
                     tutorial(tutorial_flag);
                 }
             }
@@ -610,7 +671,10 @@ function drawArrow(x1, y1, x2, y2, excludeWidth, excludeHeight) {
     ctx.lineWidth = 5;
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2 + excludeWidth / 2, y2 + excludeHeight / 2); // Center of the box
+    ctx.lineTo(x1, y1);
     ctx.stroke();
+    
+
 
     // Calculate the angle of the arrow
     const angle = Math.atan2(y2 + excludeHeight / 2 - y1, x2 + excludeWidth / 2 - x1);
@@ -695,6 +759,8 @@ function drawBoxWithText(ctx, x, y, width, height, text, x2, y2, excludeWidth, e
         }
     }
     ctx.fillText(line, x + (width / 2), currentY);
+    ctx.setLineDash([]);
+
 }
 
 // All execution code should be wrapped!!!
@@ -714,7 +780,8 @@ function tutorial(tutorial_flag) {
         animate(); // Start the animation
         asyncTasks(); // Run background processes
     } else {
-        debug(`f: ${tutorial_flag}`);
+        //debug(`f: ${tutorial_flag}`);
+        halt(100); //Don't want any accidental double clicks. Just a precaution since I move the box around.
         tutorialBox(
             ctx, 
             tutorials[tutorial_flag]["x"], 
