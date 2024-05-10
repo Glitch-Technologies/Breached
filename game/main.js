@@ -28,6 +28,8 @@ now.setHours(6, 0, 0, 0);
 let flash = false;
 let color = "white";
 let oldNow;
+let clockX = canvas.width / 1.15
+let clockY = canvas.height / 5
 
 // Tutorial controls
 let tutorial_flag = 0;
@@ -115,24 +117,24 @@ const tutorials = [
     },
     {
         "x": (canvas.width/2),
-        "y": (canvas.height/2)-200,
+        "y": (canvas.height/6),
         "width": 200,
         "height":200,
-        "x2": (canvas.width/2)*1.5,
-        "y2": (canvas.height/2)-75,
-        "excludeWidth": 250,
-        "excludeHeight": 300,
+        "x2": (canvas.width/1.3),
+        "y2": (canvas.height/2.6),
+        "excludeWidth": 200,
+        "excludeHeight": 250,
         "text": "This is your home computer.\n You'll use it to keep yourself safe from cyber threats.\n Click."
     },
     {
         "x": (canvas.width/2),
-        "y": (canvas.height/2)-200,
+        "y": (canvas.height/6),
         "width": 200,
         "height":200,
-        "x2": (canvas.width/2)*1.5+50,
-        "y2": (canvas.height/2)-30,
-        "excludeWidth": 150,
-        "excludeHeight": 60,
+        "x2": (canvas.width/1.3 +30),
+        "y2": (canvas.height / 2.1),
+        "excludeWidth": 100,
+        "excludeHeight": 50,
         "text": "Oh no, a threat has appeared. I'll help to protect you this time. Let's click on our computer screen to respond."
     },
     {
@@ -151,20 +153,20 @@ const tutorials = [
         "y": (canvas.height/2)-200,
         "width": 300,
         "height": 300,
-        "x2": (canvas.width / 2 - 250),
-        "y2": (canvas.height / 2 - 250),
+        "x2": (canvas.width / 3.25),
+        "y2": (canvas.height / 12),
         "excludeWidth": 350,
         "excludeHeight": 350,
         "text": "Look, this means that we gained points from that last question. By collecting the most points, you can prove "
-        + "that you are a cyber champ.\n Click to continue. "
+        + " that you are a cyber champ.\n Click to continue. "
     },
     {
         "x": (canvas.width/2),
         "y": (canvas.height/2)+100,
         "width": 200,
         "height": 200,
-        "x2": (canvas.width / 2)-400,
-        "y2": 10,
+        "x2": (canvas.width / 5.2),
+        "y2": (canvas.height/60),
         "excludeWidth": 200,
         "excludeHeight": 50,
         "text": "You can keep track of your total score over here\n Click to continue." //TODO
@@ -174,10 +176,10 @@ const tutorials = [
         "y": (canvas.height/2)-200,
         "width": 300,
         "height": 300,
-        "x2": (canvas.width / 2)+400,
-        "y2": 50,
+        "x2": clockX-200/2,
+        "y2": clockY-200/2,
         "excludeWidth": 200,
-        "excludeHeight": 150,
+        "excludeHeight": 200,
         "text": "The clock is an important part of this simulation. Don't stress about time, it's more important to answer"
         + " questions correctly, but you will only have 5 minutes total to complete this simulation. Click to continue."
     },
@@ -201,10 +203,10 @@ const tutorials = [
         "y": (canvas.height/2)-200,
         "width": 300,
         "height":300,
-        "x2": (canvas.width/2)*1.5+50,
-        "y2": (canvas.height/2)-30,
-        "excludeWidth": 150,
-        "excludeHeight": 60,
+        "x2": (canvas.width/1.3 +30),
+        "y2": (canvas.height / 2.1),
+        "excludeWidth": 100,
+        "excludeHeight": 50,
         "text": "We won't be able to fix this threat, so it'll set us back a few points, but it's important to recognize that"
         +" your decisions in this simulation can help combat these larger cyber attacks in the real world.\n Click the screen."
     },
@@ -213,10 +215,10 @@ const tutorials = [
         "y": (canvas.height/2)-200,
         "width": 200,
         "height": 200,
-        "x2": (canvas.width/2),
-        "y2": (canvas.height/2),
-        "excludeWidth": 0,
-        "excludeHeight": 0,
+        "x2": (canvas.width / 3.25),
+        "y2": (canvas.height / 12),
+        "excludeWidth": 350,
+        "excludeHeight": 350,
         "text": "Great work. You're ready for the real game. Just click this box one more time and the clock will start."
     }
 ]
@@ -335,16 +337,15 @@ function initMainWindow() {
     // Graph Region
     ctx.fillStyle = "white";
 
-    ctx.fillRect((canvas.width / 2 - 250), (canvas.height / 2 - 250), 350, 350);
+    ctx.fillRect((canvas.width / 3.25), (canvas.height / 12), 350, 350);
 
     // Event interface Region
     ctx.fillStyle = "black";
-    ctx.fillRect((canvas.width / 2 + 300), (canvas.height / 2 + 150), 300, 50);
-    ctx.fillRect((canvas.width / 2 + 300), (canvas.height / 2 + 200), 50, 50);
-    ctx.fillRect((canvas.width / 2 + 550), (canvas.height / 2 + 200), 50, 50);
-    ctx.drawImage(loadedImages["ibm5150"], (canvas.width / 2 + 350), (canvas.height / 2 - 50), 200, 200);
-    // Create rendering and interaction region for event text
-    ctx.fillRect((canvas.width / 2 + 400), (canvas.height / 2 - 25), 100, 50);
+    ctx.fillRect((canvas.width / 1.4), (canvas.height / 1.3), 300, 50);
+    ctx.fillRect((canvas.width / 1.4), (canvas.height / 1.2), 50, 50);
+    ctx.fillRect((canvas.width / 1.4 + 250), (canvas.height / 1.2), 50, 50);
+    ctx.drawImage(loadedImages["ibm5150"], (canvas.width / 1.3 - 20), (canvas.height / 2.3 + 5), 200, 200);
+    
     let alertExists = false;
     elements.forEach(function(element) {
         if (element.type === "alert") {
@@ -355,8 +356,8 @@ function initMainWindow() {
         elements.push({
             width: 100,
             height: 50,
-            top: (canvas.height / 2 - 25),
-            left: (canvas.width / 2 + 400),
+            top: (canvas.height / 2.1),
+            left: (canvas.width / 1.3 + 30),
             type: "alert"
         });
     }
@@ -365,6 +366,8 @@ function initMainWindow() {
 }
 
 function drawClock(color) {
+    let centerX = clockX;
+    let centerY = clockY;
     // Get the current time
     const hours = now.getHours();
     const minutes = now.getMinutes();
@@ -376,12 +379,11 @@ function drawClock(color) {
     // Calculate the angle for each hand based on the total seconds
     const hourAngle = (totalSeconds / (12 * 60 * 60)) * (2 * Math.PI);
     const minuteAngle = (totalSeconds / (60 * 60)) * (2 * Math.PI);
-    const secondAngle = (totalSeconds / 60) * (2 * Math.PI);
 
     // Draw the clock face
     ctx.beginPath();
-    ctx.arc(canvas.width - 140, 140, 80, 0, 2 * Math.PI); // Changed position to move 100 px to the left and 100 px down
-    ctx.fillStyle = color; // Added white fill color
+    ctx.arc(centerX, centerY, 80, 0, 2 * Math.PI);
+    ctx.fillStyle = color;
     ctx.fill();
     ctx.lineWidth = 2;
     ctx.strokeStyle = "black";
@@ -393,69 +395,56 @@ function drawClock(color) {
     ctx.textAlign = "center";
     for (let i = 1; i <= 12; i++) {
         const angle = (i / 12) * (2 * Math.PI);
-        const x = canvas.width - 140 + 70 * Math.sin(angle);
-        const y = 145 - 70 * Math.cos(angle);
+        const x = centerX + 70 * Math.sin(angle);
+        const y = centerY + 5 - 70 * Math.cos(angle);
         ctx.fillText(i.toString(), x, y);
     }
 
     // Draw the hour hand
-    const hourHandLength = 40; // Changed length to 40
-    const hourHandX = canvas.width - 140 + hourHandLength * Math.sin(hourAngle);
-    const hourHandY = 140 - hourHandLength * Math.cos(hourAngle);
+    const hourHandLength = 40;
+    const hourHandX = centerX + hourHandLength * Math.sin(hourAngle);
+    const hourHandY = centerY - hourHandLength * Math.cos(hourAngle);
     ctx.beginPath();
-    ctx.moveTo(canvas.width - 140, 140);
+    ctx.moveTo(centerX, centerY);
     ctx.lineTo(hourHandX, hourHandY);
-    ctx.lineWidth = 1; // Changed width to 1
+    ctx.lineWidth = 1;
     ctx.strokeStyle = "black";
     ctx.stroke();
 
     // Draw the minute hand
-    const minuteHandLength = 60; // Changed length to 60
-    const minuteHandX = canvas.width - 140 + minuteHandLength * Math.sin(minuteAngle);
-    const minuteHandY = 140 - minuteHandLength * Math.cos(minuteAngle);
+    const minuteHandLength = 60;
+    const minuteHandX = centerX + minuteHandLength * Math.sin(minuteAngle);
+    const minuteHandY = centerY - minuteHandLength * Math.cos(minuteAngle);
     ctx.beginPath();
-    ctx.moveTo(canvas.width - 140, 140);
+    ctx.moveTo(centerX, centerY);
     ctx.lineTo(minuteHandX, minuteHandY);
-    ctx.lineWidth = 1; // Changed width to 1
+    ctx.lineWidth = 1;
     ctx.strokeStyle = "black";
     ctx.stroke();
 
-    // Draw the second hand
-    /* Removed. Too distracting to users.
-    const secondHandLength = 72; // Changed length to 72
-    const secondHandX = canvas.width - 140 + secondHandLength * Math.sin(secondAngle);
-    const secondHandY = 140 - secondHandLength * Math.cos(secondAngle);
-    ctx.beginPath();
-    ctx.moveTo(canvas.width - 140, 140);
-    ctx.lineTo(secondHandX, secondHandY);
-    ctx.lineWidth = 1; // Changed width to 1
-    ctx.strokeStyle = "red";
-    ctx.stroke();
-    */
-
     // Draw the center point
     ctx.beginPath();
-    ctx.arc(canvas.width - 140, 140, 4, 0, 2 * Math.PI); // Changed radius to 4
+    ctx.arc(centerX, centerY, 4, 0, 2 * Math.PI);
     ctx.fillStyle = "black";
     ctx.fill();
 }
 
 function drawAlert() {
     ctx.fillStyle = "black";
-    ctx.fillRect((canvas.width / 2 + 400), (canvas.height / 2 - 25), 100, 50);
+    ctx.fillRect((canvas.width / 1.3 + 30), (canvas.height / 2.1), 100, 50);
     ctx.font = "28px Courier New";
     ctx.fillStyle = "red";
     ctx.textAlign = "left";
-    ctx.fillText("BREACH", (canvas.width / 2 + 400), (canvas.height / 2 + 10));
+    ctx.fillText("BREACH", (canvas.width / 1.3 + 30), (canvas.height / 1.9));
     alert = true;
 }
 function drawSafe() {
     ctx.fillStyle = "black";
-    ctx.fillRect((canvas.width / 2 + 400), (canvas.height / 2 - 25), 100, 50);
+    ctx.fillRect((canvas.width / 1.3 + 30), (canvas.height / 2.1), 100, 50);
     ctx.font = "28px Courier New";
     ctx.fillStyle = "lime";
     ctx.textAlign = "left";
-    ctx.fillText(" SAFE", (canvas.width / 2 + 400), (canvas.height / 2 + 10));
+    ctx.fillText(" SAFE", (canvas.width / 1.3 + 30), (canvas.height / 1.9));
     alert = false;
 }
 
