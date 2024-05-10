@@ -283,7 +283,7 @@ remoteImages = ["player", "ibm5150", "down_arrow", "up_arrow", "backgroundRoom"]
 
 
 // set the current event
-function setCurrentEvent(type, event_index) {
+function setCurrentEvent(type, event_index) { // type such as "questions", event index such as 0. that would set it to the 1st question
     current_event.type = type;
     current_event.event_index = event_index;
 
