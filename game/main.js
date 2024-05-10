@@ -108,9 +108,9 @@ var current_event = {
    "event_index": 0
 };
 
-
 var uncompleted_events = {};
 resetUncompletedEvents();
+
 
 
 // time is in seconds
@@ -525,15 +525,20 @@ function drawSafe() {
 
 //Sketchy
 function waitMainCallback(routine) {
-   if (Object.keys(loadedImages).length > 3) {
+
+    console.log(Object.keys(loadedImages).length.toString());
+
+   if (Object.keys(loadedImages).length > 2) {
+    
 
 
        console.log("Done waiting");
+       
 
 
        const loader = document.getElementById("loader");
        loader.style.display = "none";
-       //debug(JSON.stringify(loadedImages));
+       debug(JSON.stringify(loadedImages));
 
 
        // This is the true start. Only executes after pre-loading finishes.
@@ -1068,6 +1073,7 @@ function drawBoxWithText(ctx, x, y, width, height, text, x2, y2, excludeWidth, e
 
 // All execution code should be wrapped!!!
 function main() {
+   console.log("OK")
    initMainWindow(); // Generate the main playing screen
    //Todo: Ask initial difficulty question here
    fillNonQuestion(0);
