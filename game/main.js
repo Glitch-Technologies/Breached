@@ -61,7 +61,7 @@ const events = {
            "background": "You need to change your password. It should be stronger this time so you don't get hacked again.",
            "question": "Which of the following is a good password",
            "answers": ["password123", "782PswdG00d)", "ralph"],
-           "correct_answer_index": 1,
+           "correct_answer_indeces": [1],
            "answer_explanation": "'password123' and 'ralph' are too easy to guess, someone could guess those passwords too easily.",
            "point_value": 10
        },
@@ -72,7 +72,7 @@ const events = {
            "background": "You get a suspicious e-mail that says your bank account has been hacked. It says that its from your bank. The e-mail is full of misspellings, and ends with a link to 'steal-your-stuff.com'.",
            "question": "this is another question",
            "answers": ["answer 1", "answer 2"],
-           "correct_answer_index": 1,
+           "correct_answer_indeces": [1],
            "answer_explanation": "an explanation of the answer",
            "point_value": 10
        },
@@ -83,7 +83,7 @@ const events = {
            "background": "some different-er text about how to solve the issue and what it is",
            "question": "this is another different question",
            "answers": ["answer 1", "answer 2", "answer 3", "answer 4"],
-           "correct_answer_index": 1,
+           "correct_answer_indeces": [1],
            "answer_explanation": "an explanation of the answer",
            "point_value": 10
        }
@@ -268,8 +268,14 @@ remoteImages = ["player", "ibm5150", "down_arrow", "up_arrow", "backgroundRoom"]
 
 
 
+// set the current event
+function setCurrentEvent(type, event_index) {
+    current_event.type = type;
+    current_event.event_index = event_index;
 
-
+    // remove current event from uncompleted events
+    uncompleted_events[type].slice(event_index, 1)
+}
 
 function resetUncompletedEvents() {
    console.log("before:")
@@ -628,7 +634,7 @@ function animate() {
 function scoreQuestion(question_index, answer_index) {
    // update the player's score based on their answer to the question
    var score_delta;
-   if (answer_index == events.questions[question_index].correct_answer_index) {
+   if (events.questions[question_index].correct_answer_indeces.has(answer_index)) {
        score_delta = events.questions[question_index].point_value;
    } else {
        score_delta = 0;
@@ -739,7 +745,7 @@ function asyncTasks() {
        console.log(uncompleted_events);
 
 
-   }, 20000));
+   }, 5000));
 
 
    // Game end event
@@ -839,7 +845,7 @@ function checkAnswer(question_index, answer_index) {
   
    // TODO: make the code belowdo something to show change in score maybe a popup
    // the thing should show the "answer_explanation"
-   if (selected_answer == events.questions[question_index].correct_answer_index) { // if answer is correct
+   if (events.questions[question_index].correct_answer_indeces.has(selected_answer)) { // if answer is correct
 
 
    } else {
@@ -859,7 +865,7 @@ function scoreNonQuestion(event_index) {
    }
 }
 
-
+// fills 
 function fillQuestion(question_index) {
    current_event.event_index = question_index;
    current_event.type = "questions";
