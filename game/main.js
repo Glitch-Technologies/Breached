@@ -15,10 +15,6 @@ let mouseX, mouseY;
 let elements = [];
 let alerts = false;
 
-var selected_answer;
-var current_question;
-var current_non_question;
-
 // Global clock controls initilization
 let now = new Date();
 now.setHours(6, 0, 0, 0);
@@ -76,6 +72,23 @@ const events = {
         }
     ]
 }
+
+var selected_answer;
+var current_question;
+var current_non_question;
+
+var uncompleted_events = {
+    "questions": [],
+    "non_questions": []
+};
+for (var type in events) {
+    console.log("type: " + type);
+    for (var event_index in events[type]) {
+        console.log(event_index);
+        uncompleted_events[type].push(parseInt(event_index));
+    }
+}
+console.log(uncompleted_events);
 
 // time is in seconds
 const difficulties = {
@@ -426,6 +439,7 @@ function updateGraph(score_delta) {
 // Will be called after initilization of Main Screen
 // Do not include rendering tasks in here, please use proper animation requests
 function asyncTasks() {
+    // clock suff
     setInterval(() => {
         now.setMilliseconds(now.getMilliseconds() + 1440);
         drawClock(now);
@@ -442,6 +456,20 @@ function asyncTasks() {
     setTimeout(() => {
         flash = true;
     }, 4 * 60 * 1000);
+    
+    // automatically starting questions
+    setInterval(() => {
+        drawAlert();
+
+
+
+        drawSafe();
+        if (Math.random > 0.25) { // 75% chance
+
+        } else {
+
+        }
+    }, 30000);
 }
 
 // when an answer is selected
