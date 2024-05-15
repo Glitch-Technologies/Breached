@@ -54,6 +54,20 @@ imagedir = {
 // TODO: fix/add questions
 const events = {
    "questions": [
+        {
+            "topic": "Staying Safe Online",
+            "image": "../assets/up_arrow.png",
+            "image_alt_text": "oops, the image didn't load",
+            "background": "Online safety is important to understand and follow. You'll need to be able to stay"
+            + " safe if you want to protect yourself from data breaches or theft. Some common cybersecurity tips"
+            + " are to avoid computer viruses, use strong passwords, install reputable antivirus software and "
+            + "only visit safe and secure websites.",
+            "question": "What's a good way to stay safe online?",
+            "answers": ["Avoiding viruses", "Using strong passwords", "Using a safe antivirus", "Visiting secure websites"],
+            "correct_answer_index": [1,2,3,4],
+            "answer_explanation": "All of these are good ways to stay safe when using your computer.",
+            "point_value": 10
+        },
        {
            "topic": "Your email has been hacked!",
            "image": "../assets/up_arrow.png",
@@ -403,7 +417,7 @@ canvas.addEventListener('click', function(event) {
            if ((alert == true && element.type == "alert") && (tutorial_flag === 3 || tutorial_flag === 9 || tutorial_flag > tutorials.length-1)) {
             debug(`f: ${tutorial_flag}`);
             if (tutorial_flag === 3) {
-                setCurrentEvent("questions", 3);
+                setCurrentEvent("questions", 0);
                 fillCurrentEvent();
             }
             if (tutorial_flag === 9) {
