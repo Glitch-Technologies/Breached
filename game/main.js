@@ -70,35 +70,43 @@ const events = {
            "image": "../assets/up_arrow.png",
            "image_alt_text": "oops, the image didn't load",
            "background": "You get a suspicious e-mail that says your bank account has been hacked. It says that its from your bank. The e-mail is full of misspellings, and ends with a link to 'steal-your-stuff.com'.",
-           "question": "this is another question",
-           "answers": ["answer 1", "answer 2"],
-           "correct_answer_indeces": [1],
-           "answer_explanation": "an explanation of the answer",
+           "question": "Which of the following is a red flag in an email claiming your bank account has been hacked?",
+           "answers": ["A link to 'steal-your-stuff.com'", "A well-written email from your bank", "An email from an unknown sender"],
+           "correct_answer_indeces": [0],
+           "answer_explanation": "Legitimate institutions won't ask you to click on suspicious links.",
            "point_value": 10
        },
        {
-           "topic": "another differet-er topic",
+           "topic": "Phishing Attack!",
            "image": "../assets/up_arrow.png",
            "image_alt_text": "oops, the image didn't load",
-           "background": "some different-er text about how to solve the issue and what it is",
-           "question": "this is another different question",
-           "answers": ["answer 1", "answer 2", "answer 3", "answer 4"],
+           "background": "You receive an email from 'security@yourbank.com' asking you to verify your account details by clicking a link. What should you do?",
+           "question": "What should you do if you receive an email asking you to verify your account details by clicking a link?",
+           "answers": ["Click the link and provide your information", "Delete the email and contact your bank directly", "Ignore the email"],
            "correct_answer_indeces": [1],
-           "answer_explanation": "an explanation of the answer",
+           "answer_explanation": "It's safer to contact your bank directly using a trusted source of contact.",
            "point_value": 10
        },
        {
-            "topic": "Staying Safe Online",
+            "topic": "Malware Infection!",
             "image": "../assets/up_arrow.png",
             "image_alt_text": "oops, the image didn't load",
-            "background": "Online safety is important to understand and follow. You'll need to be able to stay"
-            + " safe if you want to protect yourself from data breaches or theft. Some common cybersecurity tips"
-            + " are to avoid computer viruses, use strong passwords, install reputable antivirus software and "
-            + "only visit safe and secure websites.",
-            "question": "What's a good way to stay safe online?",
-            "answers": ["Avoiding viruses", "Using strong passwords", "Using a safe antivirus", "Visiting secure websites"],
-            "correct_answer_index": [1,2,3,4],
-            "answer_explanation": "All of these are good ways to stay safe when using your computer.",
+            "background": "Your computer is acting strange and you suspect it might be infected with malware. What's a good course of action?",
+            "question": "What's a good course of action if you suspect your computer is infected with malware?",
+            "answers": ["Continue using the computer as usual", "Run a reputable antivirus scan", "Call a friend for help"],
+            "correct_answer_indeces": [1],
+            "answer_explanation": "Running an antivirus scan can help detect and remove malware.",
+            "point_value": 10
+        },
+        {
+            "topic": "Data Encryption",
+            "image": "../assets/up_arrow.png",
+            "image_alt_text": "oops, the image didn't load",
+            "background": "You want to securely store sensitive information on your computer. What's a good practice?",
+            "question": "What's a good practice to securely store sensitive information on your computer?",
+            "answers": ["Use encryption", "Store it in plain text files", "Share it with friends"],
+            "correct_answer_indeces": [0],
+            "answer_explanation": "Encryption protects your data from unauthorized access.",
             "point_value": 10
         }
    ],
@@ -110,8 +118,37 @@ const events = {
            "background": "Breaches like this happen all the time, and once they happen there's pretty much nothing you can do. Companies pay millions a year to recover data stolen by hackers.",
            "point_value": -10
        },
+       {
+           "topic": "Phishing Attempt Detected!",
+           "image": "../assets/down_arrow.png",
+           "image_alt_text": "oops, the image didn't load",
+           "background": "Your company's IT department detects a phishing attempt in the email system and neutralizes it before anyone falls for it.",
+           "point_value": 5
+       },
+       {
+           "topic": "Data Backup",
+           "image": "../assets/down_arrow.png",
+           "image_alt_text": "oops, the image didn't load",
+           "background": "Your computer crashes, but luckily you've been regularly backing up your data. You restore it from the backup with minimal loss.",
+           "point_value": 5
+       },
+       {
+           "topic": "Software Update",
+           "image": "../assets/down_arrow.png",
+           "image_alt_text": "oops, the image didn't load",
+           "background": "You receive a notification for a software update. You install it promptly, ensuring your system has the latest security patches.",
+           "point_value": 5
+       },
+       {
+           "topic": "Security Training",
+           "image": "../assets/down_arrow.png",
+           "image_alt_text": "oops, the image didn't load",
+           "background": "Your company conducts a cybersecurity training session, educating employees about the latest threats and how to stay safe online.",
+           "point_value": 5
+       }
    ]
 }
+
 
 
 var selected_answer;
