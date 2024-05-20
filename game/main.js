@@ -160,7 +160,18 @@ const events = {
            "background": "Your company conducts a cybersecurity training session, educating employees about the latest threats and how to stay safe online.",
            "point_value": 5
        }
+   ],
+   "answer_explanations": [
+
    ]
+}
+
+
+function generateAnswerExplanations() {
+    for (var question_index=0; question_index<events.questions.length(); question_index++) {
+        events.answer_explanations[question_index]["background"] = events.questions[question_index]["answer_explanation"];
+        events.answer_explanations[question_index]["point_value"] = 0;
+    }
 }
 
 
@@ -1007,6 +1018,14 @@ function fillNonQuestion(event_index) {
    document.getElementById("closePopup").innerHTML = "submit"
 }
 
+// TODO: integrate and improve upon this function
+function fillAnswerExplanation(event_index) {
+    current_event.event_index = event_index;
+    current_event.type = "answer_explanation";
+
+    document.getElementById("background").innerHTML = events.answer_explanations[event_index].background;
+}
+
 
 function redrawMainWindow() {
    ctx.fillStyle = "white";
@@ -1157,6 +1176,7 @@ function drawBoxWithText(ctx, x, y, width, height, text, x2, y2, excludeWidth, e
 // All execution code should be wrapped!!!
 function main() {
    console.log("OK")
+   generateAnswerExplanations();
    initMainWindow(); // Generate the main playing screen
    //Todo: Ask initial difficulty question here
    fillNonQuestion(0);
