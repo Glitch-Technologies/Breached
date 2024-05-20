@@ -39,6 +39,7 @@ let color = "white";
 let oldNow;
 let clockX = canvas.width / 1.15
 let clockY = canvas.height / 5
+let clock_pause = 1;  // set to 0 to pause clock
 
 
 // Tutorial controls
@@ -64,7 +65,7 @@ const events = {
             + "only visit safe and secure websites.",
             "question": "What's a good way to stay safe online?",
             "answers": ["Avoiding viruses", "Using strong passwords", "Using a safe antivirus", "Visiting secure websites"],
-            "correct_answer_index": [1,2,3,4],
+            "correct_answer_indeces": [1,2,3,4],
             "answer_explanation": "All of these are good ways to stay safe when using your computer.",
             "point_value": 10
         },
@@ -386,8 +387,6 @@ closePopup.addEventListener(
        if (tutorial_flag === 3 || tutorial_flag === 9) {
            tutorial(tutorial_flag);
        }
-       console.log("current1: " + current_event.type);
-       console.log("current2: " + current_event.event_index);
        if (current_event.type == "questions") { // if on a question
            checkAnswer(current_event.event_index, selected_answer)
        } else { // if on non-question
@@ -729,6 +728,9 @@ function scoreQuestion(question_index, answer_index) {
 
 
    scores.splice(question_index, 1, score_delta)
+
+   console.log("score delta: " + score_delta);  // debug
+
    return score_delta
 }
 
@@ -773,7 +775,7 @@ function asyncTasks() {
 
    // Clock update cycle. 12 hours in 5 minutes (Roughly).
    intervals.push(setInterval(() => {
-       now.setMilliseconds(now.getMilliseconds() + 1440);
+       now.setMilliseconds((now.getMilliseconds() + (1440 * clock_pause)));
        drawClock(now);
    }, 10));
    // Make the clock flash red and white every second after a minute is left.
@@ -913,9 +915,11 @@ function showFinalScore() {
 // sets the popup to have the current event
 function fillCurrentEvent() {
    if (current_event.type == "questions") {
-       fillQuestion(current_event.event_index)
+        fillQuestion(current_event.event_index);
+   } else if (current_event.type == "non_questions") {
+        fillNonQuestion(current_event.event_index);
    } else {
-       fillNonQuestion(current_event.event_index)
+        fillAnswerExplanation(current_event.event_index);
    }
 }
 
