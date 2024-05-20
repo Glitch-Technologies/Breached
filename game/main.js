@@ -1004,7 +1004,7 @@ function fillNonQuestion(event_index) {
    document.getElementById("image").image_alt_text = events.non_questions[event_index].image_alt_text;
 
 
-   document.getElementById("closePopup").innerHTML = "close"
+   document.getElementById("closePopup").innerHTML = "submit"
 }
 
 
