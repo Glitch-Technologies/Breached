@@ -168,7 +168,8 @@ const events = {
 
 
 function generateAnswerExplanations() {
-    for (var question_index=0; question_index<events.questions.length(); question_index++) {
+    for (var question_index=0; question_index<events.questions.length; question_index++) {
+        events.answer_explanations[question_index] = {};
         events.answer_explanations[question_index]["background"] = events.questions[question_index]["answer_explanation"];
         events.answer_explanations[question_index]["point_value"] = 0;
     }
