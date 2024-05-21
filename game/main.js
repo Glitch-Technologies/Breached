@@ -27,8 +27,8 @@ var current_question;
 var current_non_question;
 
 
-const graphX = (canvas.width / 2.8);
-const graphY = (canvas.height / 6);
+const graphX = translateY(canvas.width / 2.8);
+const graphY = translateX(canvas.height / 6);
 
 
 // Global clock controls initilization
@@ -37,8 +37,8 @@ now.setHours(6, 0, 0, 0);
 let flash = false;
 let color = "white";
 let oldNow;
-let clockX = canvas.width / 1.15
-let clockY = canvas.height / 5
+let clockX = translateX(canvas.width / 1.15);
+let clockY = translateY(canvas.height / 5);
 
 
 // Tutorial controls
@@ -193,127 +193,127 @@ const difficulties = {
 
 // function tutorialBox(ctx, x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0, excludeHeight = 0, text) {
 const tutorials = [
-   {
-       "x": (canvas.width/3),
-       "y": (canvas.height/6),
-       "width": 400,
-       "height": 400,
-       "x2": (canvas.width/26),
-       "y2": (canvas.height/4),
-       "excludeWidth": 400,
-       "excludeHeight": 400,
-       "text": "Welcome to Breached!: The Cybersecurity Incident Response Challenge.\n "
-       + "This is you. The objective of Breached is to solve as many cybersecurity problems in your "
-       + "house as possible before the day is over.\n All you have to do is click on yo"
-       + "ur computer and see what event happened. It could be a problem to solve or ju"
-       + "st some news.\n Click each box to continue."
-   },
-   {
-       "x": (canvas.width/2),
-       "y": (canvas.height/6),
-       "width": 200,
-       "height":200,
-       "x2": (canvas.width/1.3),
-       "y2": (canvas.height/2.6),
-       "excludeWidth": 200,
-       "excludeHeight": 250,
-       "text": "This is your home computer.\n You'll use it to keep yourself safe from cyber threats.\n Click."
-   },
-   {
-       "x": (canvas.width/2),
-       "y": (canvas.height/6),
-       "width": 200,
-       "height":200,
-       "x2": (canvas.width/1.3 +30),
-       "y2": (canvas.height / 2.1),
-       "excludeWidth": 100,
-       "excludeHeight": 50,
-       "text": "Oh no, a threat has appeared. I'll help to protect you this time. Let's click on our computer screen to respond."
-   },
-   {
-       "x": (canvas.width/2)-200,
-       "y": (canvas.height/2)-200,
-       "width": 400,
-       "height": 400,
-       "x2": 0,
-       "y2": 0,
-       "excludeWidth": 0,
-       "excludeHeight": 0,
-       "text": "Great work, but all of these choices were correct. It won't be like this for every question.\n Click to continue."
-   },
-   {
-       "x": (canvas.width/2)+250,
-       "y": (canvas.height/2)-200,
-       "width": 300,
-       "height": 300,
-       "x2": graphX,
-       "y2": graphY,
-       "excludeWidth": 350,
-       "excludeHeight": 350,
-       "text": "Look, this means that we gained points from that last question. By collecting the most points, you can prove "
-       + " that you are a cyber champ.\n Click to continue. "
-   },
-   {
-       "x": (canvas.width/2),
-       "y": (canvas.height/2)+100,
-       "width": 200,
-       "height": 200,
-       "x2": (canvas.width / 5.2),
-       "y2": (canvas.height/60),
-       "excludeWidth": 200,
-       "excludeHeight": 50,
-       "text": "You can keep track of your total score over here\n Click to continue." //TODO
-   },
-   {
-       "x": (canvas.width/2)-200,
-       "y": (canvas.height/2)-200,
-       "width": 300,
-       "height": 300,
-       "x2": clockX-200/2,
-       "y2": clockY-200/2,
-       "excludeWidth": 200,
-       "excludeHeight": 200,
-       "text": "The clock is an important part of this simulation. Don't stress about time, it's more important to answer"
-       + " questions correctly, but you will only have 5 minutes total to complete this simulation. Click to continue."
-   },
-   {
-       "x": (canvas.width/2)-200,
-       "y": (canvas.height/2)-200,
-       "width": 400,
-       "height": 400,
-       "x2": (canvas.width/2),
-       "y2": (canvas.height/2),
-       "excludeWidth": 0,
-       "excludeHeight": 0,
-       "text": "Once the simulation is over, we'll tally up your points and rank your cybersecurity abilities.\n"
-       //+ "Remember, you don't have to a computer scientist or an IT wizard to stay safe online. You to could " //Put into the end somewhere
-       //+ "venture into the field of cybersecurity with whatever background or interests you might have./"
-       +" Sometimes, a cyber attack is out of your control, let's simulate one last alert before you get started.\n"
-       +" Click to continue."
-   },
-   {
-       "x": (canvas.width/2),
-       "y": (canvas.height/2)-200,
-       "width": 300,
-       "height":300,
-       "x2": (canvas.width/1.3 +30),
-       "y2": (canvas.height / 2.1),
-       "excludeWidth": 100,
-       "excludeHeight": 50,
-       "text": "We won't be able to fix this threat, so it'll set us back a few points, but it's important to recognize that"
-       +" your decisions in this simulation can help combat these larger cyber attacks in the real world.\n Click the screen."
-   },
-   {
-       "x": (canvas.width/2)-400,
-       "y": (canvas.height/2)-200,
-       "width": 200,
-       "height": 200,
-       "x2": graphX,
-       "y2": graphY,
-       "excludeWidth": 350,
-       "excludeHeight": 350,
-       "text": "Great work. You're ready for the real game. Just click this box one more time and the clock will start."
-   }
+    {
+         "x": translateX(canvas.width/3),
+         "y": translateY(canvas.height/6),
+         "width": translateWidth(400),
+         "height": translateHeight(400),
+         "x2": translateX(canvas.width/26),
+         "y2": translateY(canvas.height/4),
+         "excludeWidth": translateWidth(400),
+         "excludeHeight": translateHeight(400),
+         "text": "Welcome to Breached!: The Cybersecurity Incident Response Challenge.\n "
+         + "This is you. The objective of Breached is to solve as many cybersecurity problems in your "
+         + "house as possible before the day is over.\n All you have to do is click on yo"
+         + "ur computer and see what event happened. It could be a problem to solve or ju"
+         + "st some news.\n Click each box to continue."
+    },
+    {
+         "x": translateX(canvas.width/2),
+         "y": translateY(canvas.height/6),
+         "width": translateWidth(200),
+         "height": translateHeight(200),
+         "x2": translateX(canvas.width/1.3),
+         "y2": translateY(canvas.height/2.6),
+         "excludeWidth": translateWidth(200),
+         "excludeHeight": translateHeight(250),
+         "text": "This is your home computer.\n You'll use it to keep yourself safe from cyber threats.\n Click."
+    },
+    {
+         "x": translateX(canvas.width/2),
+         "y": translateY(canvas.height/6),
+         "width": translateWidth(200),
+         "height": translateHeight(200),
+         "x2": translateX(canvas.width/1.3 +30),
+         "y2": translateY(canvas.height / 2.1),
+         "excludeWidth": translateWidth(100),
+         "excludeHeight": translateHeight(50),
+         "text": "Oh no, a threat has appeared. I'll help to protect you this time. Let's click on our computer screen to respond."
+    },
+    {
+         "x": translateX(canvas.width/2)-translateWidth(200),
+         "y": translateY(canvas.height/2)-translateHeight(200),
+         "width": translateWidth(400),
+         "height": translateHeight(400),
+         "x2": translateX(0),
+         "y2": translateY(0),
+         "excludeWidth": translateWidth(0),
+         "excludeHeight": translateHeight(0),
+         "text": "Great work, but all of these choices were correct. It won't be like this for every question.\n Click to continue."
+    },
+    {
+         "x": translateX(canvas.width/2)+translateWidth(250),
+         "y": translateY(canvas.height/2)-translateHeight(200),
+         "width": translateWidth(300),
+         "height": translateHeight(300),
+         "x2": translateX(graphX),
+         "y2": translateY(graphY),
+         "excludeWidth": translateWidth(350),
+         "excludeHeight": translateHeight(350),
+         "text": "Look, this means that we gained points from that last question. By collecting the most points, you can prove "
+         + " that you are a cyber champ.\n Click to continue. "
+    },
+    {
+         "x": translateX(canvas.width/2),
+         "y": translateY(canvas.height/2)+translateHeight(100),
+         "width": translateWidth(200),
+         "height": translateHeight(200),
+         "x2": translateX(canvas.width / 5.2),
+         "y2": translateY(canvas.height/60),
+         "excludeWidth": translateWidth(200),
+         "excludeHeight": translateHeight(50),
+         "text": "You can keep track of your total score over here\n Click to continue." //TODO
+    },
+    {
+         "x": translateX(canvas.width/2)-translateWidth(200),
+         "y": translateY(canvas.height/2)-translateHeight(200),
+         "width": translateWidth(300),
+         "height": translateHeight(300),
+         "x2": translateX(clockX-200/2),
+         "y2": translateY(clockY-200/2),
+         "excludeWidth": translateWidth(200),
+         "excludeHeight": translateHeight(200),
+         "text": "The clock is an important part of this simulation. Don't stress about time, it's more important to answer"
+         + " questions correctly, but you will only have 5 minutes total to complete this simulation. Click to continue."
+    },
+    {
+         "x": translateX(canvas.width/2)-translateWidth(200),
+         "y": translateY(canvas.height/2)-translateHeight(200),
+         "width": translateWidth(400),
+         "height": translateHeight(400),
+         "x2": translateX(canvas.width/2),
+         "y2": translateY(canvas.height/2),
+         "excludeWidth": translateWidth(0),
+         "excludeHeight": translateHeight(0),
+         "text": "Once the simulation is over, we'll tally up your points and rank your cybersecurity abilities.\n"
+         //+ "Remember, you don't have to a computer scientist or an IT wizard to stay safe online. You to could " //Put into the end somewhere
+         //+ "venture into the field of cybersecurity with whatever background or interests you might have./"
+         +" Sometimes, a cyber attack is out of your control, let's simulate one last alert before you get started.\n"
+         +" Click to continue."
+    },
+    {
+         "x": translateX(canvas.width/2),
+         "y": translateY(canvas.height/2)-translateHeight(200),
+         "width": translateWidth(300),
+         "height": translateHeight(300),
+         "x2": translateX(canvas.width/1.3 +30),
+         "y2": translateY(canvas.height / 2.1),
+         "excludeWidth": translateWidth(100),
+         "excludeHeight": translateHeight(50),
+         "text": "We won't be able to fix this threat, so it'll set us back a few points, but it's important to recognize that"
+         +" your decisions in this simulation can help combat these larger cyber attacks in the real world.\n Click the screen."
+    },
+    {
+         "x": translateX(canvas.width/2)-translateWidth(400),
+         "y": translateY(canvas.height/2)-translateHeight(200),
+         "width": translateWidth(200),
+         "height": translateHeight(200),
+         "x2": translateX(graphX),
+         "y2": translateY(graphY),
+         "excludeWidth": translateWidth(350),
+         "excludeHeight": translateHeight(350),
+         "text": "Great work. You're ready for the real game. Just click this box one more time and the clock will start."
+    }
 ]
 
 
@@ -469,44 +469,44 @@ function halt(ms) {
 
 
 function initMainWindow() {
-   // Set the canvas background color to Cisco blue
-   ctx.fillStyle = "";
-   canvas.style.backgroundColor = "rgb(0, 112, 184)";
-   // Draw the text "Breached!" in the top middle of the canvas
-   ctx.font = "48px Arial";
-   ctx.fillStyle = "white";
-   ctx.textAlign = "center";
-   ctx.fillText("Breached!", canvas.width / 2, canvas.height / 12);
-   ctx.drawImage(loadedImages["player"], canvas.width / 26, (canvas.height / 4), 400, 400);
+    // Set the canvas background color to Cisco blue
+    ctx.fillStyle = "";
+    canvas.style.backgroundColor = "rgb(0, 112, 184)";
+    // Draw the text "Breached!" in the top middle of the canvas
+    ctx.font = "48px Arial";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.fillText("Breached!", canvas.width / 2, canvas.height / 12);
+    ctx.drawImage(loadedImages["player"], translateX(canvas.width / 26), translateY(canvas.height / 4), translateWidth(400), translateHeight(400));
 
-   // Graph Region
-   ctx.fillStyle = "white";
+    // Graph Region
+    ctx.fillStyle = "white";
 
-   ctx.fillRect(graphX, graphY, 350, 350);
+    ctx.fillRect(translateX(graphX), translateY(graphY), translateWidth(350), translateHeight(350));
 
-   // Event interface Region
-   ctx.fillStyle = "black";
-   //ctx.fillRect((canvas.width / 1.4), (canvas.height / 1.3), 300, 50);
-   //ctx.fillRect((canvas.width / 1.4), (canvas.height / 1.2), 50, 50);
-   //ctx.fillRect((canvas.width / 1.4 + 250), (canvas.height / 1.2), 50, 50);
-   ctx.drawImage(loadedImages["ibm5150"], (canvas.width / 1.3 - 20), (canvas.height / 2.3 + 5), 200, 200);
+    // Event interface Region
+    ctx.fillStyle = "black";
+    //ctx.fillRect(translateX(canvas.width / 1.4), translateY(canvas.height / 1.3), translateWidth(300), translateHeight(50));
+    //ctx.fillRect(translateX(canvas.width / 1.4), translateY(canvas.height / 1.2), translateWidth(50), translateHeight(50));
+    //ctx.fillRect(translateX(canvas.width / 1.4 + 250), translateY(canvas.height / 1.2), translateWidth(50), translateHeight(50));
+    ctx.drawImage(loadedImages["ibm5150"], translateX(canvas.width / 1.3 - 20), translateY(canvas.height / 2.3 + 5), translateWidth(200), translateHeight(200));
   
-   let alertExists = false;
-   elements.forEach(function(element) {
-       if (element.type === "alert") {
-           alertExists = true
-       }
-   });
-   if (!alertExists) {
-       elements.push({
-           width: 100,
-           height: 50,
-           top: (canvas.height / 2.1),
-           left: (canvas.width / 1.3 + 30),
-           type: "alert"
-       });
-   }
-   drawSafe();
+    let alertExists = false;
+    elements.forEach(function(element) {
+         if (element.type === "alert") {
+              alertExists = true
+         }
+    });
+    if (!alertExists) {
+         elements.push({
+              width: translateWidth(100),
+              height: translateHeight(50),
+              top: translateY(canvas.height / 2.1),
+              left: translateX(canvas.width / 1.3 + 30),
+              type: "alert"
+         });
+    }
+    drawSafe();
 
 
 }
@@ -585,22 +585,22 @@ function drawClock(color) {
 
 
 function drawAlert() {
-   ctx.fillStyle = "black";
-   ctx.fillRect((canvas.width / 1.3 + 30), (canvas.height / 2.1), 100, 50);
-   ctx.font = "28px Courier New";
-   ctx.fillStyle = "red";
-   ctx.textAlign = "left";
-   ctx.fillText("BREACH", (canvas.width / 1.3 + 30), (canvas.height / 1.9));
-   alert = true;
+    ctx.fillStyle = "black";
+    ctx.fillRect(translateX((canvas.width / 1.3 + 30)), translateY((canvas.height / 2.1)), translateWidth(100), translateHeight(50));
+    ctx.font = "28px Courier New";
+    ctx.fillStyle = "red";
+    ctx.textAlign = "left";
+    ctx.fillText("BREACH", translateX((canvas.width / 1.3 + 30)), translateY((canvas.height / 1.9)));
+    alert = true;
 }
 function drawSafe() {
-   ctx.fillStyle = "black";
-   ctx.fillRect((canvas.width / 1.3 + 30), (canvas.height / 2.1), 100, 50);
-   ctx.font = "28px Courier New";
-   ctx.fillStyle = "lime";
-   ctx.textAlign = "left";
-   ctx.fillText(" SAFE", (canvas.width / 1.3 + 30), (canvas.height / 1.9));
-   alert = false;
+    ctx.fillStyle = "black";
+    ctx.fillRect(translateX((canvas.width / 1.3 + 30)), translateY((canvas.height / 2.1)), translateWidth(100), translateHeight(50));
+    ctx.font = "28px Courier New";
+    ctx.fillStyle = "lime";
+    ctx.textAlign = "left";
+    ctx.fillText(" SAFE", translateX((canvas.width / 1.3 + 30)), translateY((canvas.height / 1.9)));
+    alert = false;
 }
 
 
@@ -631,6 +631,22 @@ function waitMainCallback(routine) {
    }
 
 
+}
+
+function translateX(x) {
+    return (x / 1300) * canvas.width;
+}
+
+function translateY(y) {
+    return (y / 650) * canvas.height;
+}
+
+function translateWidth(width) {
+    return (width / 1300) * canvas.width;
+}
+
+function translateHeight(height) {
+    return (height / 650) * canvas.height;
 }
 
 
@@ -1071,7 +1087,7 @@ function tutorialBox(ctx, x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0,
        drawAlert();
    }
    if (tutorial_flag === 4) {
-       ctx.drawImage(loadedImages["up_arrow"], graphX, graphY);
+       ctx.drawImage(loadedImages["up_arrow"], graphX, graphY, translateWidth(loadedImages["up_arrow"].width), translateHeight(loadedImages["up_arrow"].height));
    }
    if (tutorial_flag === 9) {
        ctx.drawImage(loadedImages["down_arrow"], graphX, graphY);
