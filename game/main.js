@@ -27,8 +27,8 @@ var current_question;
 var current_non_question;
 
 
-const graphX = translateY(canvas.width / 2.8);
-const graphY = translateX(canvas.height / 6);
+const graphX = translateY(1381 / 2.8);
+const graphY = translateX(647 / 6);
 
 
 // Global clock controls initilization
@@ -37,8 +37,8 @@ now.setHours(6, 0, 0, 0);
 let flash = false;
 let color = "white";
 let oldNow;
-let clockX = translateX(canvas.width / 1.15);
-let clockY = translateY(canvas.height / 5);
+let clockX = translateX(1381 / 1.15);
+let clockY = translateY(647 / 5);
 
 
 // Tutorial controls
@@ -194,12 +194,12 @@ const difficulties = {
 // function tutorialBox(ctx, x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0, excludeHeight = 0, text) {
 const tutorials = [
     {
-         "x": translateX(canvas.width/3),
-         "y": translateY(canvas.height/6),
+         "x": translateX(1318/3),
+         "y": translateY(647/6),
          "width": translateWidth(400),
          "height": translateHeight(400),
-         "x2": translateX(canvas.width/26),
-         "y2": translateY(canvas.height/4),
+         "x2": translateX(1318/26),
+         "y2": translateY(647/4),
          "excludeWidth": translateWidth(400),
          "excludeHeight": translateHeight(400),
          "text": "Welcome to Breached!: The Cybersecurity Incident Response Challenge.\n "
@@ -209,30 +209,30 @@ const tutorials = [
          + "st some news.\n Click each box to continue."
     },
     {
-         "x": translateX(canvas.width/2),
-         "y": translateY(canvas.height/6),
+         "x": translateX(1318/2),
+         "y": translateY(647/6),
          "width": translateWidth(200),
          "height": translateHeight(200),
-         "x2": translateX(canvas.width/1.3),
-         "y2": translateY(canvas.height/2.6),
+         "x2": translateX(1318/1.3),
+         "y2": translateY(647/2.6),
          "excludeWidth": translateWidth(200),
          "excludeHeight": translateHeight(250),
          "text": "This is your home computer.\n You'll use it to keep yourself safe from cyber threats.\n Click."
     },
     {
-         "x": translateX(canvas.width/2),
-         "y": translateY(canvas.height/6),
+         "x": translateX(1318/2),
+         "y": translateY(647/6),
          "width": translateWidth(200),
          "height": translateHeight(200),
-         "x2": translateX(canvas.width/1.3 +30),
-         "y2": translateY(canvas.height / 2.1),
+         "x2": translateX(1318/1.3 +30),
+         "y2": translateY(647/2.1),
          "excludeWidth": translateWidth(100),
          "excludeHeight": translateHeight(50),
          "text": "Oh no, a threat has appeared. I'll help to protect you this time. Let's click on our computer screen to respond."
     },
     {
-         "x": translateX(canvas.width/2)-translateWidth(200),
-         "y": translateY(canvas.height/2)-translateHeight(200),
+         "x": translateX(1318/2)-translateWidth(200),
+         "y": translateY(647/2)-translateHeight(200),
          "width": translateWidth(400),
          "height": translateHeight(400),
          "x2": translateX(0),
@@ -242,8 +242,8 @@ const tutorials = [
          "text": "Great work, but all of these choices were correct. It won't be like this for every question.\n Click to continue."
     },
     {
-         "x": translateX(canvas.width/2)+translateWidth(250),
-         "y": translateY(canvas.height/2)-translateHeight(200),
+         "x": translateX(1318/2)+translateWidth(250),
+         "y": translateY(647/2)-translateHeight(200),
          "width": translateWidth(300),
          "height": translateHeight(300),
          "x2": translateX(graphX),
@@ -254,19 +254,19 @@ const tutorials = [
          + " that you are a cyber champ.\n Click to continue. "
     },
     {
-         "x": translateX(canvas.width/2),
-         "y": translateY(canvas.height/2)+translateHeight(100),
+         "x": translateX(1318/2),
+         "y": translateY(647/2)+translateHeight(100),
          "width": translateWidth(200),
          "height": translateHeight(200),
-         "x2": translateX(canvas.width / 5.2),
-         "y2": translateY(canvas.height/60),
+         "x2": translateX(1318/5.2),
+         "y2": translateY(647/60),
          "excludeWidth": translateWidth(200),
          "excludeHeight": translateHeight(50),
          "text": "You can keep track of your total score over here\n Click to continue." //TODO
     },
     {
-         "x": translateX(canvas.width/2)-translateWidth(200),
-         "y": translateY(canvas.height/2)-translateHeight(200),
+         "x": translateX(1318/2)-translateWidth(200),
+         "y": translateY(647/2)-translateHeight(200),
          "width": translateWidth(300),
          "height": translateHeight(300),
          "x2": translateX(clockX-200/2),
@@ -277,12 +277,12 @@ const tutorials = [
          + " questions correctly, but you will only have 5 minutes total to complete this simulation. Click to continue."
     },
     {
-         "x": translateX(canvas.width/2)-translateWidth(200),
-         "y": translateY(canvas.height/2)-translateHeight(200),
+         "x": translateX(1318/2)-translateWidth(200),
+         "y": translateY(647/2)-translateHeight(200),
          "width": translateWidth(400),
          "height": translateHeight(400),
-         "x2": translateX(canvas.width/2),
-         "y2": translateY(canvas.height/2),
+         "x2": translateX(1318/2),
+         "y2": translateY(647/2),
          "excludeWidth": translateWidth(0),
          "excludeHeight": translateHeight(0),
          "text": "Once the simulation is over, we'll tally up your points and rank your cybersecurity abilities.\n"
@@ -292,20 +292,20 @@ const tutorials = [
          +" Click to continue."
     },
     {
-         "x": translateX(canvas.width/2),
-         "y": translateY(canvas.height/2)-translateHeight(200),
+         "x": translateX(1318/2),
+         "y": translateY(647/2)-translateHeight(200),
          "width": translateWidth(300),
          "height": translateHeight(300),
-         "x2": translateX(canvas.width/1.3 +30),
-         "y2": translateY(canvas.height / 2.1),
+         "x2": translateX(1318/1.3 +30),
+         "y2": translateY(647 / 2.1),
          "excludeWidth": translateWidth(100),
          "excludeHeight": translateHeight(50),
          "text": "We won't be able to fix this threat, so it'll set us back a few points, but it's important to recognize that"
          +" your decisions in this simulation can help combat these larger cyber attacks in the real world.\n Click the screen."
     },
     {
-         "x": translateX(canvas.width/2)-translateWidth(400),
-         "y": translateY(canvas.height/2)-translateHeight(200),
+         "x": translateX(1318/2)-translateWidth(400),
+         "y": translateY(647/2)-translateHeight(200),
          "width": translateWidth(200),
          "height": translateHeight(200),
          "x2": translateX(graphX),
@@ -476,8 +476,8 @@ function initMainWindow() {
     ctx.font = "48px Arial";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
-    ctx.fillText("Breached!", canvas.width / 2, canvas.height / 12);
-    ctx.drawImage(loadedImages["player"], translateX(canvas.width / 26), translateY(canvas.height / 4), translateWidth(400), translateHeight(400));
+    ctx.fillText("Breached!", translateX(1381 / 2), translateY(647 / 12));
+    ctx.drawImage(loadedImages["player"], translateX(1381 / 26), translateY(647 / 4), translateWidth(400), translateHeight(400));
 
     // Graph Region
     ctx.fillStyle = "white";
@@ -486,10 +486,10 @@ function initMainWindow() {
 
     // Event interface Region
     ctx.fillStyle = "black";
-    //ctx.fillRect(translateX(canvas.width / 1.4), translateY(canvas.height / 1.3), translateWidth(300), translateHeight(50));
-    //ctx.fillRect(translateX(canvas.width / 1.4), translateY(canvas.height / 1.2), translateWidth(50), translateHeight(50));
-    //ctx.fillRect(translateX(canvas.width / 1.4 + 250), translateY(canvas.height / 1.2), translateWidth(50), translateHeight(50));
-    ctx.drawImage(loadedImages["ibm5150"], translateX(canvas.width / 1.3 - 20), translateY(canvas.height / 2.3 + 5), translateWidth(200), translateHeight(200));
+    //ctx.fillRect(translateX(1381 / 1.4), translateY(647 / 1.3), translateWidth(300), translateHeight(50));
+    //ctx.fillRect(translateX(1381 / 1.4), translateY(647 / 1.2), translateWidth(50), translateHeight(50));
+    //ctx.fillRect(translateX(1381 / 1.4 + 250), translateY(647 / 1.2), translateWidth(50), translateHeight(50));
+    ctx.drawImage(loadedImages["ibm5150"], translateX(1381 / 1.3 - 20), translateY(647 / 2.3 + 5), translateWidth(200), translateHeight(200));
   
     let alertExists = false;
     elements.forEach(function(element) {
@@ -501,8 +501,8 @@ function initMainWindow() {
          elements.push({
               width: translateWidth(100),
               height: translateHeight(50),
-              top: translateY(canvas.height / 2.1),
-              left: translateX(canvas.width / 1.3 + 30),
+              top: translateY(647 / 2.1),
+              left: translateX(1381 / 1.3 + 30),
               type: "alert"
          });
     }
@@ -586,20 +586,20 @@ function drawClock(color) {
 
 function drawAlert() {
     ctx.fillStyle = "black";
-    ctx.fillRect(translateX((canvas.width / 1.3 + 30)), translateY((canvas.height / 2.1)), translateWidth(100), translateHeight(50));
+    ctx.fillRect(translateX((1381 / 1.3 + 30)), translateY((647 / 2.1)), translateWidth(100), translateHeight(50));
     ctx.font = "28px Courier New";
     ctx.fillStyle = "red";
     ctx.textAlign = "left";
-    ctx.fillText("BREACH", translateX((canvas.width / 1.3 + 30)), translateY((canvas.height / 1.9)));
+    ctx.fillText("BREACH", translateX((1381 / 1.3 + 30)), translateY((647 / 1.9)));
     alert = true;
 }
 function drawSafe() {
     ctx.fillStyle = "black";
-    ctx.fillRect(translateX((canvas.width / 1.3 + 30)), translateY((canvas.height / 2.1)), translateWidth(100), translateHeight(50));
+    ctx.fillRect(translateX((1381 / 1.3 + 30)), translateY((647 / 2.1)), translateWidth(100), translateHeight(50));
     ctx.font = "28px Courier New";
     ctx.fillStyle = "lime";
     ctx.textAlign = "left";
-    ctx.fillText(" SAFE", translateX((canvas.width / 1.3 + 30)), translateY((canvas.height / 1.9)));
+    ctx.fillText(" SAFE", translateX((1381 / 1.3 + 30)), translateY((647 / 1.9)));
     alert = false;
 }
 
@@ -1165,8 +1165,6 @@ function drawBoxWithText(ctx, x, y, width, height, text, x2, y2, excludeWidth, e
    }
    ctx.fillText(line, x + (width / 2), currentY);
    ctx.setLineDash([]);
-
-
 }
 
 
