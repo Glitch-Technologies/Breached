@@ -34,6 +34,7 @@ const graphY = (canvas.height / 6);
 // Global clock controls initilization
 let now = new Date();
 now.setHours(6, 0, 0, 0);
+let totalSeconds = 0;
 let flash = false;
 let color = "white";
 let oldNow;
@@ -512,6 +513,25 @@ function initMainWindow() {
 }
 
 
+drawaltClock(color) {
+    // Separate total seconds into minutes and seconds
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+
+    // Draw the clock face
+    ctx.beginPath();
+    ctx.fillStyle = color;
+    ctx.fillRect(clockX, clockY, 300, 100);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+
+    ctx.font = "28px Courier New";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "left";
+    ctx.fillText(`${minutes}:${seconds}`, clockX, clockY);
+}
+
 function drawClock(color) {
     let centerX = clockX;
     let centerY = clockY;
@@ -764,6 +784,10 @@ function asyncTasks() {
         now.setMilliseconds(now.getMilliseconds() + 1440);
         drawClock(now);
     }, 10));
+    intervals.push(setInterval(() => {
+        totalSeconds = totalSeconds + 1;
+        //drawaltClock(now);
+    }, 1000));
     // Make the clock flash red and white every second after a minute is left.
     intervals.push(setInterval(() => {
         if (flash) {
