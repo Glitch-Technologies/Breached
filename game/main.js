@@ -58,6 +58,34 @@ function scaleCanvas() {
     ctx.scale(scale, scale); 
 }
 
+function translateX(x) {
+    const desiredWidth = 1600;
+    const currentWidth = canvas.width;
+    const scaleX = currentWidth / desiredWidth;
+    return x / scaleX;
+}
+
+function translateY(y) {
+    const desiredHeight = 1200;
+    const currentHeight = canvas.height;
+    const scaleY = desiredHeight / currentHeight;
+    return y / scaleY;
+}
+
+function translateWidth(width) {
+    const desiredWidth = 1600;
+    const currentWidth = canvas.width;
+    const scaleX = currentWidth / desiredWidth;
+    return width / scaleX;
+}
+
+function translateHeight(height) {
+    const desiredHeight = 1200;
+    const currentHeight = canvas.height;
+    const scaleY = desiredHeight / currentHeight;
+    return height / scaleY;
+}
+
 imagedir = {
    player: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWQAAAG0CAMAAAAy+609AAAABlBMVEX///8AAABVwtN+AAACxUlEQVR4nO3QgXECAQwDQei/6dTgwRYKv1uBdK8XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBI7099+8B/IHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB1RG/njU9cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR34C0QOEDlA5ACRA0QOEDlAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+xvsxRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA74YmQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe6A+EyUugAvDvrwAAAB10RVh0U29mdHdhcmUAQGx1bmFwYWludC9wbmctY29kZWP1QxkeAAAAAElFTkSuQmCC",
 };
@@ -1031,11 +1059,21 @@ function redrawMainWindow() {
 function darkenCanvasExceptRect(x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0, excludeHeight = 0) {
    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
    // This is the wrong solution. However, excludeWidth and excludeHeight must be >=1. TODO
-   const imageData = ctx.getImageData(x2, y2, excludeWidth+1, excludeHeight+1);
+   const imageData = ctx.getImageData(
+        (x2 - (translateWidth(x2) - x2)),
+        (y2 - (translateWidth(y2) - y2)), 
+        (excludeWidth - (translateWidth(excludeWidth) - excludeWidth) + 1), 
+        (excludeHeight - (translateWidth(excludeHeight) - excludeHeight) + 1)
+    );
+   const position = `x: ${(x2 - (translateWidth(x2) - x2))}, y: ${(y2 - (translateWidth(y2) - y2))}`;
+   debug(position);
    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
    ctx.clearRect(x2, y2, excludeWidth, excludeHeight);
    if (excludeWidth !== 0) {
-       ctx.putImageData(imageData, x2, y2, 0, 0, excludeWidth, excludeHeight);
+       ctx.putImageData(imageData, 
+        (x2 - (translateWidth(x2) - x2)), (y2 - (translateWidth(y2) - y2)), 0, 0, 
+        (excludeWidth - (translateWidth(excludeWidth) - excludeWidth)),
+        (excludeHeight - (translateWidth(excludeHeight) - excludeHeight))); //Powerful Magic
    }
    ctx.clearRect(x, y, width, height);
    // Example usage:
@@ -1210,12 +1248,3 @@ function tutorial(tutorial_flag) {
 loadAssets();
 scaleCanvas();
 wait(100, waitMainCallback());
-
-
-
-
-
-
-
-
-
