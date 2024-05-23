@@ -11,6 +11,8 @@ let ctxTop = canvas.offsetTop + ctx.clientTop
 // Make canvas fullscreen
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+let canvasWidth = 1600;
+let canvasHeight = 1200;
 
 
 // Global tracking for mouse position and clickable elements
@@ -27,8 +29,8 @@ var current_question;
 var current_non_question;
 
 
-const graphX = (canvas.width / 2.8);
-const graphY = (canvas.height / 6);
+const graphX = (canvasWidth / 2.8);
+const graphY = (canvasHeight / 6);
 
 
 // Global clock controls initilization
@@ -37,14 +39,24 @@ now.setHours(6, 0, 0, 0);
 let flash = false;
 let color = "white";
 let oldNow;
-let clockX = canvas.width / 1.15
-let clockY = canvas.height / 5
+let clockX = canvasWidth / 1.15
+let clockY = canvasHeight / 5
 
 
 // Tutorial controls
 let tutorial_flag = 0;
 let tutorial_skip = false;
 
+function scaleCanvas() { 
+    const desiredWidth = 1600; 
+    const desiredHeight = 1200; 
+    const currentWidth = canvas.width; 
+    const currentHeight = canvas.height; 
+    const scaleX = currentWidth / desiredWidth; 
+    const scaleY = desiredHeight / currentHeight; 
+    const scale = Math.min(scaleX, scaleY); 
+    ctx.scale(scale, scale); 
+}
 
 imagedir = {
    player: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWQAAAG0CAMAAAAy+609AAAABlBMVEX///8AAABVwtN+AAACxUlEQVR4nO3QgXECAQwDQei/6dTgwRYKv1uBdK8XAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPBI7099+8B/IHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB4gcIHKAyAEiB1RG/njU9cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR04VPlhIe3twKHKDwtpbwcOVX5YSHs7cKjyw0La24FDlR8W0t4OHKr8sJD2duBQ5YeFtLcDhyo/LKS9HThU+WEh7e3AocoPC2lvBw5VflhIeztwqPLDQtrbgUOVHxbS3g4cqvywkPZ24FDlh4W0twOHKj8spL0dOFT5YSHt7cChyg8LaW8HDlV+WEh7O3Co8sNC2tuBQ5UfFtLeDhyq/LCQ9nbgUOWHhbS3A4cqPyykvR34C0QOEDlA5ACRA0QOEDlAZAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB+xvsxRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA4QOUDkAJEDRA74YmQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAe6A+EyUugAvDvrwAAAB10RVh0U29mdHdhcmUAQGx1bmFwYWludC9wbmctY29kZWP1QxkeAAAAAElFTkSuQmCC",
@@ -194,12 +206,12 @@ const difficulties = {
 // function tutorialBox(ctx, x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0, excludeHeight = 0, text) {
 const tutorials = [
    {
-       "x": (canvas.width/3),
-       "y": (canvas.height/6),
+       "x": (canvasWidth/3),
+       "y": (canvasHeight/6),
        "width": 400,
        "height": 400,
-       "x2": (canvas.width/26),
-       "y2": (canvas.height/4),
+       "x2": 100,
+       "y2": 200,
        "excludeWidth": 400,
        "excludeHeight": 400,
        "text": "Welcome to Breached!: The Cybersecurity Incident Response Challenge.\n "
@@ -209,30 +221,30 @@ const tutorials = [
        + "st some news.\n Click each box to continue."
    },
    {
-       "x": (canvas.width/2),
-       "y": (canvas.height/6),
+       "x": (canvasWidth/2),
+       "y": (canvasHeight/6),
        "width": 200,
        "height":200,
-       "x2": (canvas.width/1.3),
-       "y2": (canvas.height/2.6),
+       "x2": (canvasWidth/1.3),
+       "y2": (canvasHeight/2.6),
        "excludeWidth": 200,
        "excludeHeight": 250,
        "text": "This is your home computer.\n You'll use it to keep yourself safe from cyber threats.\n Click."
    },
    {
-       "x": (canvas.width/2),
-       "y": (canvas.height/6),
+       "x": (canvasWidth/2),
+       "y": (canvasHeight/6),
        "width": 200,
        "height":200,
-       "x2": (canvas.width/1.3 +30),
-       "y2": (canvas.height / 2.1),
+       "x2": (canvasWidth/1.3 +30),
+       "y2": (canvasHeight / 2.1),
        "excludeWidth": 100,
        "excludeHeight": 50,
        "text": "Oh no, a threat has appeared. I'll help to protect you this time. Let's click on our computer screen to respond."
    },
    {
-       "x": (canvas.width/2)-200,
-       "y": (canvas.height/2)-200,
+       "x": (canvasWidth/2)-200,
+       "y": (canvasHeight/2)-200,
        "width": 400,
        "height": 400,
        "x2": 0,
@@ -242,8 +254,8 @@ const tutorials = [
        "text": "Great work, but all of these choices were correct. It won't be like this for every question.\n Click to continue."
    },
    {
-       "x": (canvas.width/2)+250,
-       "y": (canvas.height/2)-200,
+       "x": (canvasWidth/2)+250,
+       "y": (canvasHeight/2)-200,
        "width": 300,
        "height": 300,
        "x2": graphX,
@@ -254,19 +266,19 @@ const tutorials = [
        + " that you are a cyber champ.\n Click to continue. "
    },
    {
-       "x": (canvas.width/2),
-       "y": (canvas.height/2)+100,
+       "x": (canvasWidth/2),
+       "y": (canvasHeight/2)+100,
        "width": 200,
        "height": 200,
-       "x2": (canvas.width / 5.2),
-       "y2": (canvas.height/60),
+       "x2": (canvasWidth / 5.2),
+       "y2": (canvasHeight/60),
        "excludeWidth": 200,
        "excludeHeight": 50,
        "text": "You can keep track of your total score over here\n Click to continue." //TODO
    },
    {
-       "x": (canvas.width/2)-200,
-       "y": (canvas.height/2)-200,
+       "x": (canvasWidth/2)-200,
+       "y": (canvasHeight/2)-200,
        "width": 300,
        "height": 300,
        "x2": clockX-200/2,
@@ -277,12 +289,12 @@ const tutorials = [
        + " questions correctly, but you will only have 5 minutes total to complete this simulation. Click to continue."
    },
    {
-       "x": (canvas.width/2)-200,
-       "y": (canvas.height/2)-200,
+       "x": (canvasWidth/2)-200,
+       "y": (canvasHeight/2)-200,
        "width": 400,
        "height": 400,
-       "x2": (canvas.width/2),
-       "y2": (canvas.height/2),
+       "x2": (canvasWidth/2),
+       "y2": (canvasHeight/2),
        "excludeWidth": 0,
        "excludeHeight": 0,
        "text": "Once the simulation is over, we'll tally up your points and rank your cybersecurity abilities.\n"
@@ -292,20 +304,20 @@ const tutorials = [
        +" Click to continue."
    },
    {
-       "x": (canvas.width/2),
-       "y": (canvas.height/2)-200,
+       "x": (canvasWidth/2),
+       "y": (canvasHeight/2)-200,
        "width": 300,
        "height":300,
-       "x2": (canvas.width/1.3 +30),
-       "y2": (canvas.height / 2.1),
+       "x2": (canvasWidth/1.3 +30),
+       "y2": (canvasHeight / 2.1),
        "excludeWidth": 100,
        "excludeHeight": 50,
        "text": "We won't be able to fix this threat, so it'll set us back a few points, but it's important to recognize that"
        +" your decisions in this simulation can help combat these larger cyber attacks in the real world.\n Click the screen."
    },
    {
-       "x": (canvas.width/2)-400,
-       "y": (canvas.height/2)-200,
+       "x": (canvasWidth/2)-400,
+       "y": (canvasHeight/2)-200,
        "width": 200,
        "height": 200,
        "x2": graphX,
@@ -405,7 +417,7 @@ canvas.addEventListener('mousemove', function(event) {
    mouseX = event.clientX;
    mouseY = event.clientY;
    const position = `x: ${mouseX}, y: ${mouseY}`;
-   //debug(position);
+   debug(position);
 });
 
 
@@ -476,8 +488,8 @@ function initMainWindow() {
    ctx.font = "48px Arial";
    ctx.fillStyle = "white";
    ctx.textAlign = "center";
-   ctx.fillText("Breached!", canvas.width / 2, canvas.height / 12);
-   ctx.drawImage(loadedImages["player"], canvas.width / 26, (canvas.height / 4), 400, 400);
+   ctx.fillText("Breached!", canvasWidth / 2, canvasHeight / 12);
+   ctx.drawImage(loadedImages["player"], 100, 200, 400, 400);
 
    // Graph Region
    ctx.fillStyle = "white";
@@ -486,10 +498,10 @@ function initMainWindow() {
 
    // Event interface Region
    ctx.fillStyle = "black";
-   //ctx.fillRect((canvas.width / 1.4), (canvas.height / 1.3), 300, 50);
-   //ctx.fillRect((canvas.width / 1.4), (canvas.height / 1.2), 50, 50);
-   //ctx.fillRect((canvas.width / 1.4 + 250), (canvas.height / 1.2), 50, 50);
-   ctx.drawImage(loadedImages["ibm5150"], (canvas.width / 1.3 - 20), (canvas.height / 2.3 + 5), 200, 200);
+   //ctx.fillRect((canvasWidth / 1.4), (canvasHeight / 1.3), 300, 50);
+   //ctx.fillRect((canvasWidth / 1.4), (canvasHeight / 1.2), 50, 50);
+   //ctx.fillRect((canvasWidth / 1.4 + 250), (canvasHeight / 1.2), 50, 50);
+   ctx.drawImage(loadedImages["ibm5150"], (canvasWidth / 1.3 - 20), (canvasHeight / 2.3 + 5), 200, 200);
   
    let alertExists = false;
    elements.forEach(function(element) {
@@ -501,8 +513,8 @@ function initMainWindow() {
        elements.push({
            width: 100,
            height: 50,
-           top: (canvas.height / 2.1),
-           left: (canvas.width / 1.3 + 30),
+           top: (canvasHeight / 2.1),
+           left: (canvasWidth / 1.3 + 30),
            type: "alert"
        });
    }
@@ -586,20 +598,20 @@ function drawClock(color) {
 
 function drawAlert() {
    ctx.fillStyle = "black";
-   ctx.fillRect((canvas.width / 1.3 + 30), (canvas.height / 2.1), 100, 50);
+   ctx.fillRect((canvasWidth / 1.3 + 30), (canvasHeight / 2.1), 100, 50);
    ctx.font = "28px Courier New";
    ctx.fillStyle = "red";
    ctx.textAlign = "left";
-   ctx.fillText("BREACH", (canvas.width / 1.3 + 30), (canvas.height / 1.9));
+   ctx.fillText("BREACH", (canvasWidth / 1.3 + 30), (canvasHeight / 1.9));
    alert = true;
 }
 function drawSafe() {
    ctx.fillStyle = "black";
-   ctx.fillRect((canvas.width / 1.3 + 30), (canvas.height / 2.1), 100, 50);
+   ctx.fillRect((canvasWidth / 1.3 + 30), (canvasHeight / 2.1), 100, 50);
    ctx.font = "28px Courier New";
    ctx.fillStyle = "lime";
    ctx.textAlign = "left";
-   ctx.fillText(" SAFE", (canvas.width / 1.3 + 30), (canvas.height / 1.9));
+   ctx.fillText(" SAFE", (canvasWidth / 1.3 + 30), (canvasHeight / 1.9));
    alert = false;
 }
 
@@ -848,23 +860,23 @@ function asyncTasks() {
 
 function showFinalScore() {
    // Clear the canvas
-   ctx.clearRect(0, 0, canvas.width, canvas.height);
+   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
 
    // Draw a "You Win" screen
    ctx.fillStyle = "lightgrey";
-   ctx.fillRect(0, 0, canvas.width, canvas.height);
+   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
    ctx.fillStyle = "black";
    ctx.font = "48px Arial";
-   ctx.fillText("You Win", canvas.width/2, canvas.height/2 - 50);
+   ctx.fillText("You Win", canvasWidth/2, canvasHeight/2 - 50);
 
 
    // Draw a line separator
-   const separatorWidth = canvas.width * 0.8;
-   const separatorX = (canvas.width - separatorWidth) / 2;
+   const separatorWidth = canvasWidth * 0.8;
+   const separatorX = (canvasWidth - separatorWidth) / 2;
    ctx.beginPath();
-   ctx.moveTo(separatorX, canvas.height/2 - 20);
-   ctx.lineTo(separatorX + separatorWidth, canvas.height/2 - 20);
+   ctx.moveTo(separatorX, canvasHeight/2 - 20);
+   ctx.lineTo(separatorX + separatorWidth, canvasHeight/2 - 20);
    ctx.strokeStyle = "black";
    ctx.lineWidth = 2;
    ctx.stroke();
@@ -873,7 +885,7 @@ function showFinalScore() {
    const endScore = finalScore();
    ctx.fillStyle = "darkblue";
    ctx.font = "48px Arial";
-   ctx.fillText("Final Score: " + endScore, canvas.width/2, canvas.height/2+30);
+   ctx.fillText("Final Score: " + endScore, canvasWidth/2, canvasHeight/2+30);
 
 
    // Define the rank dictionary
@@ -894,7 +906,7 @@ function showFinalScore() {
 
 
    // Display the rank to the user
-   ctx.fillText("Rank: " + rank, canvas.width/2, canvas.height/2 + 80);
+   ctx.fillText("Rank: " + rank, canvasWidth/2, canvasHeight/2 + 80);
   
 }
 
@@ -1010,7 +1022,7 @@ function fillNonQuestion(event_index) {
 
 function redrawMainWindow() {
    ctx.fillStyle = "white";
-   ctx.clearRect(0, 0, canvas.width, canvas.height);
+   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
    initMainWindow();
    drawClock("white");
 }
@@ -1020,10 +1032,10 @@ function darkenCanvasExceptRect(x, y, width, height, x2 = 0, y2 = 0, excludeWidt
    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
    // This is the wrong solution. However, excludeWidth and excludeHeight must be >=1. TODO
    const imageData = ctx.getImageData(x2, y2, excludeWidth+1, excludeHeight+1);
-   ctx.fillRect(0, 0, canvas.width, canvas.height);
+   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
    ctx.clearRect(x2, y2, excludeWidth, excludeHeight);
    if (excludeWidth !== 0) {
-       ctx.putImageData(imageData, x2, y2);
+       ctx.putImageData(imageData, x2, y2, 0, 0, excludeWidth, excludeHeight);
    }
    ctx.clearRect(x, y, width, height);
    // Example usage:
@@ -1160,7 +1172,7 @@ function main() {
    initMainWindow(); // Generate the main playing screen
    //Todo: Ask initial difficulty question here
    fillNonQuestion(0);
-   //debug("Width: " + canvas.width.toString() + " Height: " + canvas.height.toString());
+   //debug("Width: " + canvasWidth.toString() + " Height: " + canvasHeight.toString());
    tutorial(tutorial_flag);
 }
 
@@ -1196,6 +1208,7 @@ function tutorial(tutorial_flag) {
 
 
 loadAssets();
+scaleCanvas();
 wait(100, waitMainCallback());
 
 
