@@ -170,7 +170,8 @@ var selected_answer;
 
 var current_event = {
     "type": "questions",
-    "event_index": 0
+    "event_index": 0,
+    "open": false
 };
 
 var uncompleted_events = {};
@@ -367,6 +368,7 @@ function openPopup() {
 closePopup.addEventListener(
     "click",
     function() {
+        current_event.open = false;
         questionPopup.classList.remove(
             "show"
         );
@@ -916,6 +918,7 @@ function showFinalScore() {
 
 // sets the popup to have the current event
 function fillCurrentEvent() {
+    current_event.open = true;
     if (current_event.type == "questions") {
         fillQuestion(current_event.event_index)
     } else {
