@@ -999,10 +999,6 @@ function fillQuestion(question_index) {
 
 
 function fillNonQuestion(event_index) {
-    current_event.event_index = event_index;
-    current_event.type = "non_questions";
-
-
     // hiding buttons
     document.getElementById("answer1").style.display = "none";
     document.getElementById("answer2").style.display = "none";
