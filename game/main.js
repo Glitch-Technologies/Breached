@@ -361,6 +361,7 @@ function resetUncompletedEvents() {
 
 
 function openPopup() {
+    current_event.open = true;
     questionPopup.classList.add("show");
 }
 
@@ -918,7 +919,6 @@ function showFinalScore() {
 
 // sets the popup to have the current event
 function fillCurrentEvent() {
-    current_event.open = true;
     if (current_event.type == "questions") {
         fillQuestion(current_event.event_index)
     } else {
