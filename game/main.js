@@ -916,12 +916,10 @@ function showFinalScore() {
 
 // sets the popup to have the current event
 function fillCurrentEvent() {
-    of () {
-        if (current_event.type == "questions") {
-            fillQuestion(current_event.event_index)
-        } else {
-            fillNonQuestion(current_event.event_index)
-        }
+    if (current_event.type == "questions") {
+        fillQuestion(current_event.event_index)
+    } else {
+        fillNonQuestion(current_event.event_index)
     }
 }
 
