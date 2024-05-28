@@ -717,6 +717,9 @@ function scoreQuestion(question_index, answer_index) {
 
 
     scores.splice(question_index, 1, score_delta)
+
+    current_event.type = "empty";
+
     return score_delta
 }
 
@@ -913,10 +916,12 @@ function showFinalScore() {
 
 // sets the popup to have the current event
 function fillCurrentEvent() {
-    if (current_event.type == "questions") {
-        fillQuestion(current_event.event_index)
-    } else {
-        fillNonQuestion(current_event.event_index)
+    of () {
+        if (current_event.type == "questions") {
+            fillQuestion(current_event.event_index)
+        } else {
+            fillNonQuestion(current_event.event_index)
+        }
     }
 }
 
@@ -957,8 +962,6 @@ function scoreNonQuestion(event_index) {
 
 // fills 
 function fillQuestion(question_index) {
-    current_event.event_index = question_index;
-    current_event.type = "questions";
     // hiding buttons
     document.getElementById("answer1").style.display = "none";
     document.getElementById("answer2").style.display = "none";
