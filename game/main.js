@@ -788,46 +788,47 @@ function asyncTasks() {
 
     // automatically starting questions
     intervals.push(setInterval(() => {
-        drawAlert();
+        if (!current_event.open) {
+            drawAlert();
 
 
-        if (Math.random() >= 0.10) { // 90% chance
-            current_event.type = "questions";
-        } else {
-            current_event.type = "non_questions";
+            if (Math.random() >= 0.10) { // 90% chance
+                current_event.type = "questions";
+            } else {
+                current_event.type = "non_questions";
+            }
+
+
+
+            console.log()
+            console.log("thingyingy: ")
+            console.log(uncompleted_events)
+            console.log()
+
+
+            // resetting uncompleted events if ran out
+            if (uncompleted_events[current_event.type].length == 0) {
+                resetUncompletedEvents();
+            }
+
+
+            current_event.event_index = uncompleted_events[current_event.type][(Math.floor(Math.random() * uncompleted_events[current_event.type].length))];
+
+
+            fillCurrentEvent(current_event);
+
+            // removing current event
+            var index = uncompleted_events[current_event.type].indexOf(current_event.event_index);
+            uncompleted_events[current_event.type].splice(index, 1);
+
+
+            console.log("typestuff: " + current_event.type);
+            console.log("indexstuff: " + current_event.event_index);
+
+
+            console.log(uncompleted_events);
+
         }
-
-
-
-        console.log()
-        console.log("thingyingy: ")
-        console.log(uncompleted_events)
-        console.log()
-
-
-        // resetting uncompleted events if ran out
-        if (uncompleted_events[current_event.type].length == 0) {
-            resetUncompletedEvents();
-        }
-
-
-        current_event.event_index = uncompleted_events[current_event.type][(Math.floor(Math.random() * uncompleted_events[current_event.type].length))];
-
-
-        fillCurrentEvent(current_event);
-
-        // removing current event
-        var index = uncompleted_events[current_event.type].indexOf(current_event.event_index);
-        uncompleted_events[current_event.type].splice(index, 1);
-
-
-        console.log("typestuff: " + current_event.type);
-        console.log("indexstuff: " + current_event.event_index);
-
-
-        console.log(uncompleted_events);
-
-
     }, 20000));
 
 
