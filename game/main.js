@@ -62,28 +62,28 @@ function translateX(x) {
     const desiredWidth = 1600;
     const currentWidth = canvas.width;
     const scaleX = currentWidth / desiredWidth;
-    return x / scaleX;
+    return x * scaleX;
 }
 
 function translateY(y) {
     const desiredHeight = 1200;
     const currentHeight = canvas.height;
-    const scaleY = desiredHeight / currentHeight;
-    return y / scaleY;
+    const scaleY = currentHeight / desiredHeight;
+    return y * scaleY;
 }
 
 function translateWidth(width) {
     const desiredWidth = 1600;
     const currentWidth = canvas.width;
     const scaleX = currentWidth / desiredWidth;
-    return width / scaleX;
+    return width * scaleX;
 }
 
 function translateHeight(height) {
     const desiredHeight = 1200;
     const currentHeight = canvas.height;
     const scaleY = desiredHeight / currentHeight;
-    return height / scaleY;
+    return height * scaleY;
 }
 
 imagedir = {
@@ -253,10 +253,10 @@ const tutorials = [
        "y": (canvasHeight/6),
        "width": 200,
        "height":200,
-       "x2": (canvasWidth/1.3),
-       "y2": (canvasHeight/2.6),
+       "x2": (1250),
+       "y2": (540),
        "excludeWidth": 200,
-       "excludeHeight": 250,
+       "excludeHeight": 200,
        "text": "This is your home computer.\n You'll use it to keep yourself safe from cyber threats.\n Click."
    },
    {
@@ -529,7 +529,7 @@ function initMainWindow() {
    //ctx.fillRect((canvasWidth / 1.4), (canvasHeight / 1.3), 300, 50);
    //ctx.fillRect((canvasWidth / 1.4), (canvasHeight / 1.2), 50, 50);
    //ctx.fillRect((canvasWidth / 1.4 + 250), (canvasHeight / 1.2), 50, 50);
-   ctx.drawImage(loadedImages["ibm5150"], (canvasWidth / 1.3 - 20), (canvasHeight / 2.3 + 5), 200, 200);
+   ctx.drawImage(loadedImages["ibm5150"], (1250), (540), 200, 200);
   
    let alertExists = false;
    elements.forEach(function(element) {
@@ -1059,21 +1059,30 @@ function redrawMainWindow() {
 function darkenCanvasExceptRect(x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0, excludeHeight = 0) {
    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
    // This is the wrong solution. However, excludeWidth and excludeHeight must be >=1. TODO
-   const imageData = ctx.getImageData(
-        (x2 - (translateWidth(x2) - x2)),
-        (y2 - (translateWidth(y2) - y2)), 
-        (excludeWidth - (translateWidth(excludeWidth) - excludeWidth) + 1), 
-        (excludeHeight - (translateWidth(excludeHeight) - excludeHeight) + 1)
-    );
-   const position = `x: ${(x2 - (translateWidth(x2) - x2))}, y: ${(y2 - (translateWidth(y2) - y2))}`;
+   const imageData = ctx.getImageData(translateX(x2), y2, excludeWidth+1, excludeHeight+1);
+   const position = `x: ${imageData.width.toString()}, y: ${imageData.height.toString()}`;
    debug(position);
-   ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-   ctx.clearRect(x2, y2, excludeWidth, excludeHeight);
-   if (excludeWidth !== 0) {
-       ctx.putImageData(imageData, 
-        (x2 - (translateWidth(x2) - x2)), (y2 - (translateWidth(y2) - y2)), 0, 0, 
-        (excludeWidth - (translateWidth(excludeWidth) - excludeWidth)),
-        (excludeHeight - (translateWidth(excludeHeight) - excludeHeight))); //Powerful Magic
+   
+    cheapRedrawMap = [
+        [loadedImages["player"], 100, 200, 400, 400],
+        [loadedImages["ibm5150"], 1250, 540, 200, 200]
+    ];
+
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.clearRect(x2, y2, excludeWidth, excludeHeight);
+    if (excludeWidth !== 0) {
+        if (tutorial_flag == 0 || tutorial_flag == 1) {
+            ctx.drawImage(
+                cheapRedrawMap[tutorial_flag][0],
+                cheapRedrawMap[tutorial_flag][1],
+                cheapRedrawMap[tutorial_flag][2],
+                cheapRedrawMap[tutorial_flag][3],
+                cheapRedrawMap[tutorial_flag][4]
+            )
+            if (tutorial_flag == 2) {
+                drawAlert();
+            }
+        }
    }
    ctx.clearRect(x, y, width, height);
    // Example usage:
@@ -1131,12 +1140,14 @@ function tutorialBox(ctx, x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0,
 
    // Attach the window details to the element map
    elements.push({
-       left: x,
-       top: y,
+       left: translateX(x),
+       top: y6,
        width: width,
        height: height,
        type: "tutorial"
    });
+   debug(JSON.stringify(elements[elements.length-1]));
+   ctx.fillRect()
    tutorial_flag += 1;
   
 }
