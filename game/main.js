@@ -171,7 +171,8 @@ var selected_answer;
 
 var current_event = {
     "type": "questions",
-    "event_index": 0
+    "event_index": 0,
+    "open": false
 };
 
 var uncompleted_events = {};
@@ -361,6 +362,7 @@ function resetUncompletedEvents() {
 
 
 function openPopup() {
+    current_event.open = true;
     questionPopup.classList.add("show");
 }
 
@@ -368,6 +370,7 @@ function openPopup() {
 closePopup.addEventListener(
     "click",
     function() {
+        current_event.open = false;
         questionPopup.classList.remove(
             "show"
         );
@@ -668,6 +671,9 @@ function scoreQuestion(question_index, answer_index) {
 
 
     scores.splice(question_index, 1, score_delta)
+
+    current_event.type = "empty";
+
     return score_delta
 }
 
@@ -733,46 +739,47 @@ function asyncTasks() {
 
     // automatically starting questions
     intervals.push(setInterval(() => {
-        drawAlert();
+        if (!current_event.open) {
+            drawAlert();
 
 
-        if (Math.random() >= 0.10) { // 90% chance
-            current_event.type = "questions";
-        } else {
-            current_event.type = "non_questions";
+            if (Math.random() >= 0.10) { // 90% chance
+                current_event.type = "questions";
+            } else {
+                current_event.type = "non_questions";
+            }
+
+
+
+            console.log()
+            console.log("thingyingy: ")
+            console.log(uncompleted_events)
+            console.log()
+
+
+            // resetting uncompleted events if ran out
+            if (uncompleted_events[current_event.type].length == 0) {
+                resetUncompletedEvents();
+            }
+
+
+            current_event.event_index = uncompleted_events[current_event.type][(Math.floor(Math.random() * uncompleted_events[current_event.type].length))];
+
+
+            fillCurrentEvent(current_event);
+
+            // removing current event
+            var index = uncompleted_events[current_event.type].indexOf(current_event.event_index);
+            uncompleted_events[current_event.type].splice(index, 1);
+
+
+            console.log("typestuff: " + current_event.type);
+            console.log("indexstuff: " + current_event.event_index);
+
+
+            console.log(uncompleted_events);
+
         }
-
-
-
-        console.log()
-        console.log("thingyingy: ")
-        console.log(uncompleted_events)
-        console.log()
-
-
-        // resetting uncompleted events if ran out
-        if (uncompleted_events[current_event.type].length == 0) {
-            resetUncompletedEvents();
-        }
-
-
-        current_event.event_index = uncompleted_events[current_event.type][(Math.floor(Math.random() * uncompleted_events[current_event.type].length))];
-
-
-        fillCurrentEvent(current_event);
-
-        // removing current event
-        var index = uncompleted_events[current_event.type].indexOf(current_event.event_index);
-        uncompleted_events[current_event.type].splice(index, 1);
-
-
-        console.log("typestuff: " + current_event.type);
-        console.log("indexstuff: " + current_event.event_index);
-
-
-        console.log(uncompleted_events);
-
-
     }, 20000));
 
 
@@ -908,8 +915,6 @@ function scoreNonQuestion(event_index) {
 
 // fills 
 function fillQuestion(question_index) {
-    current_event.event_index = question_index;
-    current_event.type = "questions";
     // hiding buttons
     document.getElementById("answer1").style.display = "none";
     document.getElementById("answer2").style.display = "none";
@@ -949,10 +954,6 @@ function fillQuestion(question_index) {
 
 
 function fillNonQuestion(event_index) {
-    current_event.event_index = event_index;
-    current_event.type = "non_questions";
-
-
     // hiding buttons
     document.getElementById("answer1").style.display = "none";
     document.getElementById("answer2").style.display = "none";
