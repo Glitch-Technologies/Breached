@@ -513,23 +513,26 @@ function initMainWindow() {
 }
 
 
-drawaltClock(color) {
+function drawAltClock(color) {
     // Separate total seconds into minutes and seconds
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
+    const minutes = Math.max(0, 4 - Math.floor(totalSeconds / 60));
+    const seconds = Math.max(0, 59 - (totalSeconds % 60));
 
     // Draw the clock face
     ctx.beginPath();
     ctx.fillStyle = color;
-    ctx.fillRect(clockX, clockY, 300, 100);
+    ctx.fillRect(clockX-5, clockY-50, 125, 65);
     ctx.lineWidth = 2;
     ctx.strokeStyle = "black";
     ctx.stroke();
 
-    ctx.font = "28px Courier New";
+    ctx.font = "48px Courier New";
     ctx.fillStyle = "black";
     ctx.textAlign = "left";
-    ctx.fillText(`${minutes}:${seconds}`, clockX, clockY);
+
+    padSeconds = seconds < 10 ? "0" + seconds : seconds.toString();
+
+    ctx.fillText(`${minutes}:${padSeconds}`, clockX, clockY);
 }
 
 function drawClock(color) {
@@ -705,9 +708,9 @@ function drawFrame() {
     //Frame by frame draw goes here
     //debug(color);
     if (flash) {
-        drawClock(color);
+        drawAltClock(color);
     } else {
-        drawClock("white");
+        drawAltClock("white");
     }
 }
 
@@ -779,14 +782,10 @@ function asyncTasks() {
     const timeouts = [];
 
 
-    // Clock update cycle. 12 hours in 5 minutes (Roughly).
-    intervals.push(setInterval(() => {
-        now.setMilliseconds(now.getMilliseconds() + 1440);
-        drawClock(now);
-    }, 10));
+    // Clock update cycle.
     intervals.push(setInterval(() => {
         totalSeconds = totalSeconds + 1;
-        //drawaltClock(now);
+        drawAltClock(now);
     }, 1000));
     // Make the clock flash red and white every second after a minute is left.
     intervals.push(setInterval(() => {
@@ -1049,7 +1048,7 @@ function redrawMainWindow() {
     ctx.fillStyle = "white";
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     initMainWindow();
-    drawClock("white");
+    drawAltClock("white");
 }
 
 
