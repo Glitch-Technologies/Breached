@@ -535,6 +535,7 @@ function drawClock(color) {
     ctx.fillText(`${minutes}:${padSeconds}`, clockX, clockY);
 }
 
+// Todo: Redraw alert position to new graphics. Blocked by canvas scaling for now.
 function drawAlert() {
     ctx.fillStyle = "black";
     ctx.fillRect((canvas.width / 1.3 + 30), (canvas.height / 2.1), 100, 50);
