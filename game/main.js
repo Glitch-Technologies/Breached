@@ -101,11 +101,15 @@ const events = {
             "topic": "Vishing Attack!",
             "image": "../assets/questions/bank.png",
             "image_alt_text": "oops, the image didn't load",
-            "background": "You receive an email from 'security@yourbank.com' asking you to verify your account details by clicking a link. What should you do?",
-            "question": "What should you do if you receive an email asking you to verify your account details by clicking a link?",
-            "answers": ["Click the link and provide your information", "Delete the email and contact your bank directly", "Ignore the email"],
+            "background": "You receive an call from someone claiming to be from your bank. They want your username and password to confirm "
+            + "that you still have control over your account. They say that they have detected unusual purchases recently and just need these "
+            + "details to confirm your identity. You have read the Terms of Service and know that your bank will never ask you for your login.",
+            "question": "Should you comply with their requests?",
+            "answers": ["No, hang up the phone.","Yes, I don't want them to freeze my account."],
             "correct_answer_indeces": [1],
-            "answer_explanation": "It's safer to contact your bank directly using a trusted source of contact.",
+            "answer_explanation": "You should never disclose your banking information over the phone. Your bank will ALWAYS ask for different "
+            + "proofs of identity. If the call is a hoax, they can't access your account and have no means to disable it, so your shouldn't take "
+            + "their threats seriously. Falling for them is a scare tactic they use to make you more likely to give up your personal details.",
             "point_value": 10
         },
         {
