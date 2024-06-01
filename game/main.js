@@ -46,7 +46,7 @@ let clockY = canvasHeight / 5
 // Tutorial controls
 let tutorial_flag = 0;
 let tutorial_skip = false;
-
+6
 function scaleCanvas() { 
     const desiredWidth = 1600; 
     const desiredHeight = 1200; 
