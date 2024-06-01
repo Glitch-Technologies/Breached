@@ -57,7 +57,7 @@ const events = {
     "questions": [
         {
             "topic": "Staying Safe Online",
-            "image": "../assets/up_arrow.png",
+            "image": "../assets/questions/security.png",
             "image_alt_text": "oops, the image didn't load",
             "background": "Online safety is important to understand and follow. You'll need to be able to stay"
                 + " safe if you want to protect yourself from data breaches or theft. Some common cybersecurity tips"
@@ -71,7 +71,7 @@ const events = {
         },
         {
             "topic": "Updating your password",
-            "image": "../assets/up_arrow.png",
+            "image": "../assets/questions/password.png",
             "image_alt_text": "oops, the image didn't load",
             "background": "You need to update your password. It should be as strong as you can make it."
             + " A good password is long, has a mix of letters, numbers, and symbols. This makes it harder for a hacker to "
@@ -85,7 +85,7 @@ const events = {
         },
         {
             "topic": "Suspicious emails",
-            "image": "../assets/up_arrow.png",
+            "image": "../assets/questions/mail.png",
             "image_alt_text": "oops, the image didn't load",
             "background": "You get an e-mail that says your bank account has been hacked. It says that its from your bank. " 
             + "The e-mail is full of misspellings, and ends with a link to 'yourbank.steal-your-stuff.com'. You don't want to lose "
@@ -98,8 +98,8 @@ const events = {
             "point_value": 10
         },
         {
-            "topic": "Phishing Attack!",
-            "image": "../assets/up_arrow.png",
+            "topic": "Vishing Attack!",
+            "image": "../assets/questions/bank.png",
             "image_alt_text": "oops, the image didn't load",
             "background": "You receive an email from 'security@yourbank.com' asking you to verify your account details by clicking a link. What should you do?",
             "question": "What should you do if you receive an email asking you to verify your account details by clicking a link?",
@@ -110,7 +110,7 @@ const events = {
         },
         {
             "topic": "Malware Infection!",
-            "image": "../assets/up_arrow.png",
+            "image": "../assets/questions/computer.png",
             "image_alt_text": "oops, the image didn't load",
             "background": "Your computer is acting strange and is running slower than normal. "
             + "Oftentimes malware, malicous software designed to harm your computer, can cause these symptoms."
@@ -125,7 +125,7 @@ const events = {
         },
         {
             "topic": "Dealing with Passwords",
-            "image": "../assets/up_arrow.png",
+            "image": "../assets/questions/password.png",
             "image_alt_text": "oops, the image didn't load",
             "background": "You have a lot of passwords and can't always remember them. You need somewhere to keep them safe. "
             + "It's important to use different and complex passwords across the internet, but this only works if you can either"
@@ -139,7 +139,7 @@ const events = {
         },
         {
             "topic": "Trojan Horse",
-            "image": "../assets/up_arrow.png",
+            "image": "../assets/questions/security.png",
             "image_alt_text": "oops, the image didn't load",
             "background": "You have installed a photo editing tool for your computer. It is working fine, but you notice that "
             + "your computer is turning on late at night, all by itself, and is running slower than usual. Unusual behavior "
@@ -157,7 +157,7 @@ const events = {
     "non_questions": [
         {
             "topic": "A site you used had a data breach!",
-            "image": "../assets/down_arrow.png",
+            "image": "../assets/questions/info.png",
             "image_alt_text": "oops, the image didn't load",
             "background": "You read in the news that Twitbook, a site you use every few days, had a data breach and that "
             + "all user passwords were lost to hacker. This means that your password may now be known by hackers around "
@@ -167,7 +167,7 @@ const events = {
         },
         {
             "topic": "Phishing Attempt Detected!",
-            "image": "../assets/down_arrow.png",
+            "image": "../assets/questions/communication.png",
             "image_alt_text": "oops, the image didn't load",
             "background": "Your company's IT department detects a phishing attempt in the email system and deletes it. Phishing attacks make "
             + "use of scare tactics and look like legitmate emails that need you to provide them with your personal information. "
@@ -177,7 +177,7 @@ const events = {
         },
         {
             "topic": "Data Backup",
-            "image": "../assets/down_arrow.png",
+            "image": "../assets/questions/database.png",
             "image_alt_text": "oops, the image didn't load",
             "background": "Your computer crashes after you accidentially download a file from a untrustworthy website "
             + "but luckily you've been regularly backing up your data and you restore it from the backup with minimal loss. "
@@ -186,7 +186,7 @@ const events = {
         },
         {
             "topic": "Software Update",
-            "image": "../assets/down_arrow.png",
+            "image": "../assets/questions/threat.png",
             "image_alt_text": "oops, the image didn't load",
             "background": "You receive a notification for a software update. You install it promptly, ensuring your "
             + "system has the latest security patches. If you had ignored to install this update, a hacker may have been "
@@ -196,7 +196,7 @@ const events = {
         },
         {
             "topic": "Security Training",
-            "image": "../assets/down_arrow.png",
+            "image": "../assets/questions/hids.png",
             "image_alt_text": "oops, the image didn't load",
             "background": "Your company conducts a cybersecurity training session. "
             + "You learn that public WiFi connections may not be secure "
