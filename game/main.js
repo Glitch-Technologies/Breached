@@ -929,6 +929,8 @@ function fillQuestion(question_index) {
     document.getElementById("image").image_alt_text = events.questions[current_event.event_index].image_alt_text;
     document.getElementById("question").innerHTML = events.questions[current_event.event_index].question;
 
+    document.getElementById("closePopup").innerHTML = "submit";
+
 
     console.log()
 
@@ -969,7 +971,7 @@ function fillNonQuestion(event_index) {
     document.getElementById("image").image_alt_text = events.non_questions[event_index].image_alt_text;
 
 
-    document.getElementById("closePopup").innerHTML = "close"
+    document.getElementById("closePopup").innerHTML = "close";
 }
 
 
