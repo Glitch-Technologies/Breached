@@ -34,6 +34,7 @@ const graphY = (canvas.height / 6);
 // Global clock controls initilization
 let now = new Date();
 now.setHours(6, 0, 0, 0);
+let totalSeconds = 0;
 let flash = false;
 let color = "white";
 let oldNow;
@@ -516,76 +517,26 @@ function initMainWindow() {
 
 
 function drawClock(color) {
-    let centerX = clockX;
-    let centerY = clockY;
-    // Get the current time
-    const hours = now.getHours();
-    const minutes = now.getMinutes();
-    const seconds = now.getSeconds();
-
-
-    // Calculate the total number of seconds since the start of the day
-    const totalSeconds = (hours * 3600) + (minutes * 60) + seconds;
-
-
-    // Calculate the angle for each hand based on the total seconds
-    const hourAngle = (totalSeconds / (12 * 60 * 60)) * (2 * Math.PI);
-    const minuteAngle = (totalSeconds / (60 * 60)) * (2 * Math.PI);
-
+    // Separate total seconds into minutes and seconds
+    const minutes = Math.max(0, 4 - Math.floor(totalSeconds / 60));
+    const seconds = Math.max(0, 59 - (totalSeconds % 60));
 
     // Draw the clock face
     ctx.beginPath();
-    ctx.arc(centerX, centerY, 80, 0, 2 * Math.PI);
     ctx.fillStyle = color;
-    ctx.fill();
+    ctx.fillRect(clockX-5, clockY-50, 125, 65);
     ctx.lineWidth = 2;
     ctx.strokeStyle = "black";
     ctx.stroke();
 
-
-    // Draw the hour numbers
-    ctx.font = "16px Arial";
+    ctx.font = "48px Courier New";
     ctx.fillStyle = "black";
-    ctx.textAlign = "center";
-    for (let i = 1; i <= 12; i++) {
-        const angle = (i / 12) * (2 * Math.PI);
-        const x = centerX + 70 * Math.sin(angle);
-        const y = centerY + 5 - 70 * Math.cos(angle);
-        ctx.fillText(i.toString(), x, y);
-    }
+    ctx.textAlign = "left";
 
+    padSeconds = seconds < 10 ? "0" + seconds : seconds.toString();
 
-    // Draw the hour hand
-    const hourHandLength = 40;
-    const hourHandX = centerX + hourHandLength * Math.sin(hourAngle);
-    const hourHandY = centerY - hourHandLength * Math.cos(hourAngle);
-    ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.lineTo(hourHandX, hourHandY);
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = "black";
-    ctx.stroke();
-
-
-    // Draw the minute hand
-    const minuteHandLength = 60;
-    const minuteHandX = centerX + minuteHandLength * Math.sin(minuteAngle);
-    const minuteHandY = centerY - minuteHandLength * Math.cos(minuteAngle);
-    ctx.beginPath();
-    ctx.moveTo(centerX, centerY);
-    ctx.lineTo(minuteHandX, minuteHandY);
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = "black";
-    ctx.stroke();
-
-
-    // Draw the center point
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, 4, 0, 2 * Math.PI);
-    ctx.fillStyle = "black";
-    ctx.fill();
+    ctx.fillText(`${minutes}:${padSeconds}`, clockX, clockY);
 }
-
 
 function drawAlert() {
     ctx.fillStyle = "black";
@@ -765,11 +716,11 @@ function asyncTasks() {
     const timeouts = [];
 
 
-    // Clock update cycle. 12 hours in 5 minutes (Roughly).
+    // Clock update cycle.
     intervals.push(setInterval(() => {
-        now.setMilliseconds(now.getMilliseconds() + 1440);
+        totalSeconds = totalSeconds + 1;
         drawClock(now);
-    }, 10));
+    }, 1000));
     // Make the clock flash red and white every second after a minute is left.
     intervals.push(setInterval(() => {
         if (flash) {
