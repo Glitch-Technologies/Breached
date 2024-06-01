@@ -477,6 +477,9 @@ function initMainWindow() {
     ctx.fillStyle = "";
     canvas.style.backgroundColor = "rgb(0, 112, 184)";
     // Draw the text "Breached!" in the top middle of the canvas
+
+    ctx.drawImage(loadedImages["backgroundRoom"], 0, 0, canvas.width, canvas.height);
+
     ctx.font = "48px Arial";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
