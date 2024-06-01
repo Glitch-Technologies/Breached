@@ -329,7 +329,7 @@ var scores = new Array(events.questions.length);
 
 
 loadedImages = {};
-remoteImages = ["player", "newcomputer", "down_arrow", "up_arrow", "backgroundRoom"];
+remoteImages = ["player", "newcomputer", "down_arrow", "up_arrow", "backgroundRoom", "home"];
 
 
 
