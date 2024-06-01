@@ -204,7 +204,7 @@ const tutorials = [
         "y2": (canvas.height / 4),
         "excludeWidth": 400,
         "excludeHeight": 400,
-        "text": "Welcome to Breached!: The Cybersecurity Incident Response Challenge.\n "
+        "text": "Welcome to Breached!: The Cybersecurity Simulation.\n "
             + "This is you. The objective of Breached is to solve as many cybersecurity problems in your "
             + "house as possible before the day is over.\n All you have to do is click on yo"
             + "ur computer and see what event happened. It could be a problem to solve or ju"
