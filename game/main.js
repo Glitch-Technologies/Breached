@@ -135,21 +135,21 @@ const events = {
         },
         {
             "topic": "Phishing Attempt Detected!",
-            "image": "../assets/down_arrow.png",
+            "image": "../assets/up_arrow.png",
             "image_alt_text": "oops, the image didn't load",
             "background": "Your company's IT department detects a phishing attempt in the email system and neutralizes it before anyone falls for it.",
             "point_value": 5
         },
         {
             "topic": "Data Backup",
-            "image": "../assets/down_arrow.png",
+            "image": "../assets/up_arrow.png",
             "image_alt_text": "oops, the image didn't load",
             "background": "Your computer crashes, but luckily you've been regularly backing up your data. You restore it from the backup with minimal loss.",
             "point_value": 5
         },
         {
             "topic": "Software Update",
-            "image": "../assets/down_arrow.png",
+            "image": "../assets/up_arrow.png",
             "image_alt_text": "oops, the image didn't load",
             "background": "You receive a notification for a software update. You install it promptly, ensuring your system has the latest security patches.",
             "point_value": 5
@@ -701,7 +701,7 @@ function updateGraph(score_delta) {
     var y = graphY;
 
 
-    ctx.drawImage(loadedImages[image], x, y)
+    ctx.drawImage(loadedImages[image], x, y, 350, 350)
 }
 
 
@@ -1036,10 +1036,10 @@ function tutorialBox(ctx, x, y, width, height, x2 = 0, y2 = 0, excludeWidth = 0,
         drawAlert();
     }
     if (tutorial_flag === 4) {
-        ctx.drawImage(loadedImages["up_arrow"], graphX, graphY);
+        ctx.drawImage(loadedImages["up_arrow"], graphX, graphY, 350, 350);
     }
     if (tutorial_flag === 9) {
-        ctx.drawImage(loadedImages["down_arrow"], graphX, graphY);
+        ctx.drawImage(loadedImages["down_arrow"], graphX, graphY, 350, 350);
     }
     drawBoxWithText(ctx, x, y, width, height, text, x2, y2, excludeWidth, excludeHeight);
 
