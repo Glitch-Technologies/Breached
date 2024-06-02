@@ -341,7 +341,9 @@ function setCurrentEvent(type, event_index) { // type such as "questions", event
     current_event.event_index = event_index;
 
     // remove current event from uncompleted events
-    uncompleted_events[type].slice(event_index, 1)
+    if (!(current_event.type === "answerExplanations")) {
+        uncompleted_events[type].slice(event_index, 1)
+    }
 }
 
 function resetUncompletedEvents() {
@@ -363,7 +365,11 @@ function resetUncompletedEvents() {
 
 function openPopup() {
     current_event.open = true;
-    questionPopup.classList.add("show");
+    if (current_event.type === "questions" || current_event.type === "non_questions") {
+        questionPopup.classList.add("show");
+    } else if (current_event.type === "answerExplanations") {
+        answerPopup.classList.add("show");
+    }
 }
 
 
@@ -380,14 +386,22 @@ closePopup.addEventListener(
         }
         console.log("current1: " + current_event.type);
         console.log("current2: " + current_event.event_index);
+        const last_event = current_event; // checkAnswer resets current_event data
+
         if (current_event.type == "questions") { // if on a question
-            checkAnswer(current_event.event_index, selected_answer)
+            checkAnswer(current_event.event_index, selected_answer); 
         } else { // if on non-question
             scoreNonQuestion(current_event.event_index);
         }
 
-
         drawSafe(); // TODO: might cause issues, overwriting unfinished questions. just sets the screen to safe when closing a prompt
+
+        // Display the answer popup
+        if (last_event.type === "questions") {
+            setCurrentEvent("answerExplanations", last_event.event_index);
+            fillCurrentEvent();
+            openPopup();
+        }
     }
 );
 /*
@@ -873,8 +887,10 @@ function showFinalScore() {
 function fillCurrentEvent() {
     if (current_event.type == "questions") {
         fillQuestion(current_event.event_index)
-    } else {
+    } else if (current_event.type == "non_questions") {
         fillNonQuestion(current_event.event_index)
+    } else if (current_event.type == "answerExplanations") {
+        fillAnswer(current_event.event_index)
     }
 }
 
@@ -894,11 +910,9 @@ function checkAnswer(question_index, answer_index) {
     // TODO: make the code belowdo something to show change in score maybe a popup
     // the thing should show the "answer_explanation"
     if (events.questions[question_index].correct_answer_indeces.includes(selected_answer)) { // if answer is correct
-
-
+        // Set the answer popup to show that it was correct
     } else {
-
-
+        // Set the answer popup to show that it was incorrect
     }
 }
 
@@ -952,6 +966,42 @@ function fillQuestion(question_index) {
             }
         );
     }
+}
+
+function fillAnswer(question_index) {
+
+    // setting element attributes (like adding text)
+    document.getElementById("topic").innerHTML = events.questions[current_event.event_index].topic;
+    document.getElementById("background").innerHTML = events.questions[current_event.event_index].background;
+    document.getElementById("image").src = events.questions[current_event.event_index].image;
+    document.getElementById("image").image_alt_text = events.questions[current_event.event_index].image_alt_text;
+    document.getElementById("answerExplanation").innerHTML = events.questions[current_event.event_index].answer_explanation;
+
+    document.getElementById("closePopup").innerHTML = "Continue";
+
+    /*
+
+    console.log()
+
+
+    // setting button attrubutes
+    var answer_id;
+    for (var answer_index = 0; answer_index < events.questions[current_event.event_index].answers.length; answer_index++) {
+        answer_id = "answer" + (answer_index + 1);
+        document.getElementById(answer_id).innerHTML = events.questions[current_event.event_index].answers[answer_index];
+        document.getElementById(answer_id).style.display = "block";
+
+
+        // adding button functionality
+        document.getElementById(answer_id).addEventListener(
+            "click",
+            function() {
+                selected_answer = parseInt(this.id.slice(6)) - 1;
+                //debug("selected_answer: " + selected_answer);
+            }
+        );
+    }
+    */
 }
 
 
