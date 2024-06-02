@@ -9,8 +9,8 @@ let ctxTop = canvas.offsetTop + ctx.clientTop
 
 
 // Make canvas fullscreen
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+//canvas.width = window.innerWidth;
+//canvas.height = window.innerHeight;
 
 
 // Global tracking for mouse position and clickable elements
@@ -465,12 +465,13 @@ window.addEventListener(
 
 
 canvas.addEventListener('mousemove', function(event) {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
+    const b = canvas.getBoundingClientRect();
+    const scale = Math.min(canvas.width / b.width, canvas.height / b.height);
+    mouseX = (event.clientX - b.left) * scale;
+    mouseY = (event.clientY - b.top) * scale;
     const position = `x: ${mouseX}, y: ${mouseY}`;
-    //debug(position);
+    debug(position);
 });
-
 
 canvas.addEventListener('click', function(event) {
     // Iterate through all elements to see if the click event was on one of them
