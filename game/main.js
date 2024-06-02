@@ -796,6 +796,12 @@ function asyncTasks() {
         for (let i = 0; i < timeouts.length - 1; i++) {
             clearTimeout(timeouts[i]);
         }
+
+        // Force close any active popup.
+        questionPopup.classList.remove(
+            "show"
+        );
+
         debug("");
         showFinalScore();
 
@@ -884,7 +890,7 @@ function fillCurrentEvent() {
 // when an answer is selected
 function checkAnswer(question_index, answer_index) {
     // updating score
-    if (tutorial_flag > tutorials.length - 1) { // if tutorial is over
+    if ((tutorial_flag > tutorials.length - 1) && (gameEnd === false)) { // if tutorial is over and game hasn't ended.
         var score_delta = scoreQuestion(question_index, answer_index);
         updateGraph(score_delta);
         scores.push(score_delta);
