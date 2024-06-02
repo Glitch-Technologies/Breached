@@ -57,7 +57,7 @@ const events = {
     "questions": [
         {
             "topic": "Staying Safe Online",
-            "image": "../assets/up_arrow.png",
+            "image": "../assets/questions/security.png",
             "image_alt_text": "oops, the image didn't load",
             "background": "Online safety is important to understand and follow. You'll need to be able to stay"
                 + " safe if you want to protect yourself from data breaches or theft. Some common cybersecurity tips"
@@ -70,95 +70,142 @@ const events = {
             "point_value": 10
         },
         {
-            "topic": "Your email has been hacked!",
-            "image": "../assets/up_arrow.png",
+            "topic": "Updating your password",
+            "image": "../assets/questions/password.png",
             "image_alt_text": "oops, the image didn't load",
-            "background": "You need to change your password. It should be stronger this time so you don't get hacked again.",
+            "background": "You need to update your password. It should be as strong as you can make it."
+            + " A good password is long, has a mix of letters, numbers, and symbols. This makes it harder for a hacker to "
+            + "guess it.",
             "question": "Which of the following is a good password",
             "answers": ["password123", "782PswdG00d)", "ralph"],
             "correct_answer_indeces": [1],
-            "answer_explanation": "'password123' and 'ralph' are too easy to guess, someone could guess those passwords too easily.",
+            "answer_explanation": "'password123' and 'ralph' are too easy to guess. 782PswdG00d is a complex and lengthy "
+            + "password, making it the best choice.",
             "point_value": 10
         },
         {
-            "topic": "Your bank account has been hacked?",
-            "image": "../assets/up_arrow.png",
+            "topic": "Suspicious emails",
+            "image": "../assets/questions/mail.png",
             "image_alt_text": "oops, the image didn't load",
-            "background": "You get a suspicious e-mail that says your bank account has been hacked. It says that its from your bank. The e-mail is full of misspellings, and ends with a link to 'steal-your-stuff.com'.",
-            "question": "Which of the following is a red flag in an email claiming your bank account has been hacked?",
-            "answers": ["A link to 'steal-your-stuff.com'", "A well-written email from your bank", "An email from an unknown sender"],
-            "correct_answer_indeces": [0],
-            "answer_explanation": "Legitimate institutions won't ask you to click on suspicious links.",
-            "point_value": 10
-        },
-        {
-            "topic": "Phishing Attack!",
-            "image": "../assets/up_arrow.png",
-            "image_alt_text": "oops, the image didn't load",
-            "background": "You receive an email from 'security@yourbank.com' asking you to verify your account details by clicking a link. What should you do?",
-            "question": "What should you do if you receive an email asking you to verify your account details by clicking a link?",
-            "answers": ["Click the link and provide your information", "Delete the email and contact your bank directly", "Ignore the email"],
+            "background": "You get an e-mail that says your bank account has been hacked. It says that its from your bank. " 
+            + "The e-mail is full of misspellings, and ends with a link to 'yourbank.steal-your-stuff.com'. You don't want to lose "
+            + "your account, but you know that your bank isn't supposed to ask you to click on a link like that.",
+            "question": "What should you do if you get an email like this?",
+            "answers": ["Click on the link.", "Call you bank to ask about the email.", "Delete the email and ignore it."],
             "correct_answer_indeces": [1],
-            "answer_explanation": "It's safer to contact your bank directly using a trusted source of contact.",
+            "answer_explanation": "While you shouldn't blindly trust or deny the email, it's a good idea to call your bank and ask about it. "
+            + "Additionally, you should avoid sharing your email with untrustworthy sites, to prevent future phishing attempts.",
+            "point_value": 10
+        },
+        {
+            "topic": "Vishing Attack!",
+            "image": "../assets/questions/bank.png",
+            "image_alt_text": "oops, the image didn't load",
+            "background": "You receive an call from someone claiming to be from your bank. They want your username and password to confirm "
+            + "that you still have control over your account. They say that they have detected unusual purchases recently and just need these "
+            + "details to confirm your identity. You have read the Terms of Service and know that your bank will never ask you for your login.",
+            "question": "Should you comply with their requests?",
+            "answers": ["No, hang up the phone.","Yes, I don't want them to freeze my account."],
+            "correct_answer_indeces": [1],
+            "answer_explanation": "You should never disclose your banking information over the phone. Your bank will ALWAYS ask for different "
+            + "proofs of identity. If the call is a hoax, they can't access your account and have no means to disable it, so your shouldn't take "
+            + "their threats seriously. Falling for them is a scare tactic they use to make you more likely to give up your personal details.",
             "point_value": 10
         },
         {
             "topic": "Malware Infection!",
-            "image": "../assets/up_arrow.png",
+            "image": "../assets/questions/computer.png",
             "image_alt_text": "oops, the image didn't load",
-            "background": "Your computer is acting strange and you suspect it might be infected with malware. What's a good course of action?",
+            "background": "Your computer is acting strange and is running slower than normal. "
+            + "Oftentimes malware, malicous software designed to harm your computer, can cause these symptoms."
+            + "Antivirus and malware detection software can help to detect and remove malware for you.",
             "question": "What's a good course of action if you suspect your computer is infected with malware?",
             "answers": ["Continue using the computer as usual", "Run a reputable antivirus scan", "Call a friend for help"],
             "correct_answer_indeces": [1],
-            "answer_explanation": "Running an antivirus scan can help detect and remove malware.",
+            "answer_explanation": "A reputable antivirus scan can often detect common malware on your computer. " 
+            + "If you continue to use an infected device, the problem will only get worse. While your friend might "
+            + "be able to help, it's best to use a professional antivirus program written by trusted experts.",
             "point_value": 10
         },
         {
-            "topic": "Data Encryption",
-            "image": "../assets/up_arrow.png",
+            "topic": "Dealing with Passwords",
+            "image": "../assets/questions/password.png",
             "image_alt_text": "oops, the image didn't load",
-            "background": "You want to securely store sensitive information on your computer. What's a good practice?",
-            "question": "What's a good practice to securely store sensitive information on your computer?",
-            "answers": ["Use encryption", "Store it in plain text files", "Share it with friends"],
-            "correct_answer_indeces": [0],
-            "answer_explanation": "Encryption protects your data from unauthorized access.",
+            "background": "You have a lot of passwords and can't always remember them. You need somewhere to keep them safe. "
+            + "It's important to use different and complex passwords across the internet, but this only works if you can either"
+            + " remember them yourself or store them in a secure location.",
+            "question": "Where should you store your passwords?",
+            "answers": ["On a sticky note next to your computer", "On a text file or word document", "Inside of a trusted password manager"],
+            "correct_answer_indeces": [2],
+            "answer_explanation": "Password managers encrypt your passwords and store them securely. Sticky notes and text files can be accessed"
+            + " by other people in your workplace or home who shouldn't have access to them",
+            "point_value": 10
+        },
+        {
+            "topic": "Trojan Horse",
+            "image": "../assets/questions/security.png",
+            "image_alt_text": "oops, the image didn't load",
+            "background": "You have installed a photo editing tool for your computer. It is working fine, but you notice that "
+            + "your computer is turning on late at night, all by itself, and is running slower than usual. Unusual behavior "
+            + "like this can often be caused by malware that disguises itself a legitimate program.",
+            "question": "What should you do to keep your computer safe?",
+            "answers": ["Continue using the program", "Uninstall the program", "Run a reputable antivirus scan"],
+            "correct_answer_indeces": [1,2],
+            "answer_explanation": "You should never continue using a program that might be harming your computer. You should "
+            + "both uninstall the program to prevent any more damage and then follow up with an antivirus scan to remove any "
+            + "other malware that the program may have tried to install. You can also take your device to an IT professional "
+            + "to make sure that it is safe to use again.",
             "point_value": 10
         }
     ],
     "non_questions": [
         {
-            "topic": "Your company had a data breach!",
-            "image": "../assets/down_arrow.png",
+            "topic": "A site you used had a data breach!",
+            "image": "../assets/questions/info.png",
             "image_alt_text": "oops, the image didn't load",
-            "background": "Breaches like this happen all the time, and once they happen there's pretty much nothing you can do. Companies pay millions a year to recover data stolen by hackers.",
-            "point_value": -10
+            "background": "You read in the news that Twitbook, a site you use every few days, had a data breach and that "
+            + "all user passwords were lost to hacker. This means that your password may now be known by hackers around "
+            + "the world. Being a good cyber citizen, you use different passwords for every site, so you don't have to worry "
+            + "about your other accounts being compromised. However, you still lose your Twitbook account. Companies pay millions a year to recover data stolen by hackers.",
+            "point_value": -5
         },
         {
             "topic": "Phishing Attempt Detected!",
-            "image": "../assets/down_arrow.png",
+            "image": "../assets/questions/communication.png",
             "image_alt_text": "oops, the image didn't load",
-            "background": "Your company's IT department detects a phishing attempt in the email system and neutralizes it before anyone falls for it.",
+            "background": "Your company's IT department detects a phishing attempt in the email system and deletes it. Phishing attacks make "
+            + "use of scare tactics and look like legitmate emails that need you to provide them with your personal information. "
+            + "Businesses with a robust IT department can protect their workers from these attacks, but may skimp on training "
+            + "their employees to detect these attacks themselves. It's important to keep you and your coworkers safe.",
             "point_value": 5
         },
         {
             "topic": "Data Backup",
-            "image": "../assets/down_arrow.png",
+            "image": "../assets/questions/database.png",
             "image_alt_text": "oops, the image didn't load",
-            "background": "Your computer crashes, but luckily you've been regularly backing up your data. You restore it from the backup with minimal loss.",
+            "background": "Your computer crashes after you accidentially download a file from a untrustworthy website "
+            + "but luckily you've been regularly backing up your data and you restore it from the backup with minimal loss. "
+            + "You should back up your sensitive data to the cloud or a hard drive anywhere from every day to every week.",
             "point_value": 5
         },
         {
             "topic": "Software Update",
-            "image": "../assets/down_arrow.png",
+            "image": "../assets/questions/threat.png",
             "image_alt_text": "oops, the image didn't load",
-            "background": "You receive a notification for a software update. You install it promptly, ensuring your system has the latest security patches.",
+            "background": "You receive a notification for a software update. You install it promptly, ensuring your "
+            + "system has the latest security patches. If you had ignored to install this update, a hacker may have been "
+            + "able to take over your computer with a newly discovered vulnerability. It's impossible for companies to "
+            + "find every bug in their code, but you can minimize this risk by always keeping your computer up to date.",
             "point_value": 5
         },
         {
             "topic": "Security Training",
-            "image": "../assets/down_arrow.png",
+            "image": "../assets/questions/hids.png",
             "image_alt_text": "oops, the image didn't load",
-            "background": "Your company conducts a cybersecurity training session, educating employees about the latest threats and how to stay safe online.",
+            "background": "Your company conducts a cybersecurity training session. "
+            + "You learn that public WiFi connections may not be secure "
+            + "and that you should avoid using them if possible. Hackers can set them up to steal data from people "
+            + "who unknowingly trust them and use them for activites like work or banking.",
             "point_value": 5
         }
     ]
@@ -755,7 +802,7 @@ function asyncTasks() {
             drawAlert();
 
 
-            if (Math.random() >= 0.10) { // 90% chance
+            if (Math.random() >= 0.50) { // 50% chance
                 current_event.type = "questions";
             } else {
                 current_event.type = "non_questions";
