@@ -65,7 +65,7 @@ const events = {
                 + "only visit safe and secure websites.",
             "question": "What's a good way to stay safe online?",
             "answers": ["Avoiding viruses", "Using strong passwords", "Using a safe antivirus", "Visiting secure websites"],
-            "correct_answer_index": [1, 2, 3, 4],
+            "correct_answer_index": [0, 1, 2, 3],
             "answer_explanation": "All of these are good ways to stay safe when using your computer.",
             "point_value": 10
         },
