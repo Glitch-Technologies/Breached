@@ -302,8 +302,8 @@ const tutorials = [
         "y2": (canvas.height / 2.1),
         "excludeWidth": 100,
         "excludeHeight": 50,
-        "text": "We won't be able to fix this threat, so it'll set us back a few points, but it's important to recognize that"
-            + " your decisions in this simulation can help combat these larger cyber attacks in the real world.\n Click the screen."
+        "text": "Some events are not questions, and are often out of your control in the real world. You can apply "
+        + "what you learn in this simulation to limit the damage of these larger threats.\n Click to continue."
     },
     {
         "x": (canvas.width / 2) - 400,
@@ -314,7 +314,19 @@ const tutorials = [
         "y2": graphY,
         "excludeWidth": 350,
         "excludeHeight": 350,
-        "text": "Great work. You're ready for the real game. Just click this box one more time and the clock will start."
+        "text": "You lost some points from that event.\n Click to continue."
+    },
+    {
+        "x": (canvas.width / 3),
+        "y": (canvas.height / 6),
+        "width": 400,
+        "height": 400,
+        "x2": graphX,
+        "y2": graphY,
+        "excludeWidth": 0,
+        "excludeHeight": 0,
+        "text": "Now that you're back to square one, you're ready for the real game. The clock will now start. "
+        + "Remember to take your time when answering questions and read carefully.\n Click to continue."
     }
 ]
 
