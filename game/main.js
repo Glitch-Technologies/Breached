@@ -11,8 +11,8 @@ let ctxTop = canvas.offsetTop + ctx.clientTop
 // Make canvas fullscreen
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-let canvasWidth = 1600;
-let canvasHeight = 1200;
+let canvasWidth = 1318;
+let canvasHeight = 647;
 
 
 // Global tracking for mouse position and clickable elements
@@ -46,16 +46,28 @@ let clockY = canvasHeight / 5
 // Tutorial controls
 let tutorial_flag = 0;
 let tutorial_skip = false;
-6
+
 function scaleCanvas() { 
+    /*
     const desiredWidth = 1600; 
     const desiredHeight = 1200; 
     const currentWidth = canvas.width; 
     const currentHeight = canvas.height; 
     const scaleX = currentWidth / desiredWidth; 
-    const scaleY = desiredHeight / currentHeight; 
+    const scaleY =  currentHeight / desiredHeight; 
     const scale = Math.min(scaleX, scaleY); 
     ctx.scale(scale, scale); 
+    */
+
+    let dpi = window.devicePixelRatio;
+    const WIDTH = 1600;
+    const HEIGHT = 647;
+    canvas.width = WIDTH*dpi;
+    canvas.height = HEIGHT*dpi;
+    canvas.style.width = `${WIDTH}px`;
+    canvas.style.height = `${HEIGHT}px`;
+    ctx.scale(dpi, dpi);
+
 }
 
 function translateX(x) {
@@ -1257,5 +1269,5 @@ function tutorial(tutorial_flag) {
 
 
 loadAssets();
-scaleCanvas();
+//scaleCanvas();
 wait(100, waitMainCallback());
