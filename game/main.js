@@ -27,8 +27,8 @@ var current_question;
 var current_non_question;
 
 
-const graphX = (canvas.width / 2.8);
-const graphY = (canvas.height / 6);
+const graphX = 400;
+const graphY = 150;
 
 
 // Global clock controls initilization
@@ -38,8 +38,8 @@ let totalSeconds = 0;
 let flash = false;
 let color = "white";
 let oldNow;
-let clockX = canvas.width / 1.15
-let clockY = canvas.height / 5
+let clockX = 770;
+let clockY = 90;
 
 
 // Tutorial controls
@@ -470,7 +470,7 @@ canvas.addEventListener('mousemove', function(event) {
     mouseX = (event.clientX - b.left) * scale;
     mouseY = (event.clientY - b.top) * scale;
     const position = `x: ${mouseX}, y: ${mouseY}`;
-    debug(position);
+    //debug(position);
 });
 
 canvas.addEventListener('click', function(event) {
@@ -479,7 +479,7 @@ canvas.addEventListener('click', function(event) {
     elements.forEach(function(element) {
         if (mouseX >= element.left && mouseX <= element.left + element.width && mouseY >= element.top && mouseY <= element.top + element.height) {
             if ((alert == true && element.type == "alert") && (tutorial_flag === 3 || tutorial_flag === 9 || tutorial_flag > tutorials.length - 1)) {
-                debug(`f: ${tutorial_flag}`);
+                //debug(`f: ${tutorial_flag}`);
                 if (tutorial_flag === 3) {
                     setCurrentEvent("questions", 0);
                     fillCurrentEvent();
@@ -538,13 +538,13 @@ function initMainWindow() {
     canvas.style.backgroundColor = "rgb(0, 112, 184)";
     // Draw the text "Breached!" in the top middle of the canvas
 
-    ctx.drawImage(loadedImages["backgroundRoom"], 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(loadedImages["home"], 0, 0, canvas.width, canvas.height);
 
     ctx.font = "48px Arial";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
-    ctx.fillText("Breached!", canvas.width / 2, canvas.height / 12);
-    ctx.drawImage(loadedImages["player"], canvas.width / 26, (canvas.height / 4), 400, 400);
+    ctx.fillText("Breached!", 150, 50);
+    //ctx.drawImage(loadedImages["player"], canvas.width / 26, (canvas.height / 4), 400, 400);
 
     // Graph Region
     ctx.fillStyle = "white";
@@ -552,8 +552,8 @@ function initMainWindow() {
     ctx.fillRect(graphX, graphY, 350, 350);
 
     // Event interface Region
-    ctx.fillStyle = "black";
-    ctx.drawImage(loadedImages["newcomputer"], (canvas.width / 1.3 - 20), (canvas.height / 2.3 + 5), 200, 200);
+    //ctx.fillStyle = "black";
+    //ctx.drawImage(loadedImages["newcomputer"], (canvas.width / 1.3 - 20), (canvas.height / 2.3 + 5), 200, 200);
 
     let alertExists = false;
     elements.forEach(function(element) {
@@ -563,10 +563,10 @@ function initMainWindow() {
     });
     if (!alertExists) {
         elements.push({
-            width: 100,
-            height: 50,
-            top: (canvas.height / 2.1),
-            left: (canvas.width / 1.3 + 30),
+            width: 245,
+            height: 85,
+            top: 300,
+            left: 900,
             type: "alert"
         });
     }
@@ -601,20 +601,20 @@ function drawClock(color) {
 // Todo: Redraw alert position to new graphics. Blocked by canvas scaling for now.
 function drawAlert() {
     ctx.fillStyle = "black";
-    ctx.fillRect((canvas.width / 1.3 + 30), (canvas.height / 2.1), 100, 50);
-    ctx.font = "28px Courier New";
+    ctx.fillRect(900, 300, 245, 85);
+    ctx.font = "60px Courier New";
     ctx.fillStyle = "red";
     ctx.textAlign = "left";
-    ctx.fillText("BREACH", (canvas.width / 1.3 + 30), (canvas.height / 1.9));
+    ctx.fillText("BREACH", 925, 350);
     alert = true;
 }
 function drawSafe() {
     ctx.fillStyle = "black";
-    ctx.fillRect((canvas.width / 1.3 + 30), (canvas.height / 2.1), 100, 50);
-    ctx.font = "28px Courier New";
+    ctx.fillRect(900, 300, 245, 85);
+    ctx.font = "60px Courier New";
     ctx.fillStyle = "lime";
     ctx.textAlign = "left";
-    ctx.fillText(" SAFE", (canvas.width / 1.3 + 30), (canvas.height / 1.9));
+    ctx.fillText("SAFE", 925, 350);
     alert = false;
 }
 
@@ -863,7 +863,7 @@ function asyncTasks() {
             "show"
         );
 
-        debug("");
+        //debug("");
         showFinalScore();
 
 
